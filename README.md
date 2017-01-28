@@ -1,8 +1,9 @@
-1. [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#install-java-on-windows)
-2. [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#install-java-on-linux)
-3. [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#download-ide)
-4. [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#java-tutorial)
-5. [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variable)
+[Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#on-windows)
+[Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#on-linux)
+[Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
+[First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
+[Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
+[Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
 
 # On Windows
 Donwload java SE and edit PATH (Computer > property > Environmental Variable)
@@ -24,8 +25,7 @@ Install java using commands
 * [NetBeans] (https://netbeans.org/downloads/)
 * [Visual Code] (https://code.visualstudio.com/download)
 
-# Java tutorial
-## First program
+# First program
 ```java
 public class FirstProgram{
 	public static void main(String[] args){
@@ -35,7 +35,7 @@ public class FirstProgram{
 }
 ```
 
-## Comment
+# Comment
 ```java
 //line comment
 /*block 
@@ -44,7 +44,7 @@ allows
 multi line*/
 ```
 
-## Variables
+# Variables
 | Var Type       | Data           | Size (Byte) | Range |
 | ------------- |:-------------:| -----:|------|
 | boolean | right-aligned | $1600 |
