@@ -179,19 +179,36 @@ n-- --n
 ```
 
 # if else
-if {} else if {} else {}
-
 ```java
-int big = (n1 > n2) ? n1 : n2; 
+if(cond1) {
+	/*code*/
+} 
+else if(cond2){
+	/*code*/
+}
+else {
+	/*code*/
+}
+```
+## similar to if else
+```java
+/* returns n1 if n1 > n2, otherwise returns n2*/
+int bigN = (n1 > n2) ? n1 : n2;
 ```
 
 # switch break
 ```java
 switch(n){
-case 1: ...
+case 1: 
+	/*code*/
+	break;
+case2:
+case3:
+	/*code*/
 	break;
 ...
-default: ...
+default: 
+	/*code*/
 	break;
 }
 
@@ -199,7 +216,9 @@ default: ...
 
 # for while do while
 ```java
-for(cond) while(cond), do~while(cond)
+for(int i = 0; i< N; i++){/*code*/}
+while(cond){/*code*/}
+do{/*code*/} while(cond)
 ```
 
 # continue break
@@ -228,7 +247,7 @@ public static int toBinary(int dec){
 }
 ```
 
-# class 
+# class
 ```java
 /*class declaration*/
 class AAA{
@@ -241,9 +260,9 @@ class AAA{
 }
 ```
 
-# constructor
+# Constructor
 
-## implement a class so that constuctor is called only once
+## Constuctor called only once
 ```java
 class AAA{
 	int num;
@@ -271,4 +290,46 @@ final int MAX_NUM = 10; // constant
 ```
 
 # class path
+
+# package
+
+# ACS
+* access control specifier 
+<table>
+	<tr>
+		<td>ACS</td>
+		<td>Class</td>
+		<td>Package</td>
+		<td>Inheritted Class</td>
+		<td>Others</td>
+	</tr>
+	<tr>
+		<td>private</td>
+		<td>&#9711;</td>
+		<td>&#10005;</td>
+		<td>&#10005;</td>
+		<td>&#10005;</td>
+	</tr>
+	<tr>
+		<td>default</td>
+		<td>&#9711;</td>
+		<td>&#9711;</td>
+		<td>&#10005;</td>
+		<td>&#10005;</td>
+	</tr>
+	<tr>
+		<td>protected</td>
+		<td>&#9711;</td>
+		<td>&#9711;</td>	
+		<td>&#9711;</td>
+		<td>&#10005;</td>
+	</tr>
+	<tr>
+		<td>public</td>
+		<td>&#9711;</td>
+		<td>&#9711;</td>
+		<td>&#9711;</td>
+		<td>&#9711;</td>
+	</tr>
+</table>
 
