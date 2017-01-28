@@ -1,8 +1,8 @@
-# java-basic
-## windows
-install jre, jdk
-add path
-## linux
+# Java Installation
+## Windows
+1.install jre, jdk
+2.add path
+## Linux
 ```
 	java -version
 	javac -version
