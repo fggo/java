@@ -10,10 +10,12 @@ Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable
 
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 2. Add PATH (C:\Program Files\Java\jdk1.x.x\bin;)
-
-> JDK = JRE + Development/debugging tools
-> JRE = JVM + Java Packages Classes(like util, math, lang, awt,swing etc)+runtime libraries.
-> JVM = Class loader system + runtime data area + Execution Engine.
+```
+JDK = JRE + Development/debugging tools
+JRE = JVM + Java Packages Classes(like util, math, lang, awt,swing etc)+runtime libraries.
+JVM = Class loader system + runtime data area + Execution Engine.
+```
+![alt tag](https://i.stack.imgur.com/AaveN.png)
 
 # Linux
 Install java using command line
@@ -213,3 +215,60 @@ while(true){
 		break; //break 'one' loop
 }
 ```
+
+# Recursion
+```java
+public static int toBinary(int dec){
+	if (dec < 0)
+		return -1;
+	else if (dec == 0)
+		return 0;
+	else
+		return dec % 2 + 10*toBinary(dec/2);
+}
+```
+
+# class 
+```java
+/*class declaration*/
+class AAA{
+/*member var*/
+	int num;
+/*constructor*/
+	public AAA(){this.num = 0;}
+/*member func*/
+	public void add(int n){num += n;}
+}
+```
+
+# constructor
+
+## implement a class so that constuctor is called only once
+```java
+class AAA{
+	int num;
+	static AAA inst = null;
+	public static AAA createInst(){
+		if (inst == null)
+			inst = new AAA();
+		return inst;
+	}
+	private AAA(){this.num = 0;}
+	public void add(int n){num += n;}
+}
+```
+
+# ref val null
+```java
+AAA a = null; //init ref variable as null
+```
+
+
+# final keyword
+```java
+final int MAX_NUM = 10; // constant
+
+```
+
+# class path
+
