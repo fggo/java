@@ -100,28 +100,23 @@ multi line*/
 
 ```java
 //UnicodeChar.java
-		char ch1 = 'A';
-		char ch2 = '한';
-		char ch3 = 0x3091;
-		char ch4 = 0x3092;
-		
-		System.out.println(ch1);
-		System.out.println(ch2);
-		System.out.println(ch3);
-		System.out.println(ch4);
+char ch1 = 'A';
+char ch2 = '한';
+char ch3 = 0x3091;
+char ch4 = 0x3092;
 ```
 
 # Type Casting
 
 ```java
 //SuffixConst.java
-		double e1 = 125;
-		float e2 = 7.125F;
-		
-		long n1 = 1000000000L;
-		long n2 = 150;
-		System.out.println(e2);
-		System.out.println(n1);
+double e1 = 125;
+float e2 = 7.125F;
+
+long n1 = 1000000000L;
+long n2 = 150;
+System.out.println(e2);
+System.out.println(n1);
 ```
 
 * Implicit Conversion
@@ -135,6 +130,7 @@ double n4 = 3.5f + 12; // ok (= 15.5f float -> double)
 ```
 
 * Explicit Conversion
+```java
 int n = (int)3.15;
 
 long n1 = 198221221L;
@@ -142,10 +138,10 @@ int n2 = (int)n1;
 
 int n3 = 99;
 long n4 = (long)n3;
+```
 
 # Operator
 ```java
-/*
 + add
 - subtract
 * multiplicate
@@ -170,7 +166,6 @@ n-- --n
 << <<< >> >>>
 2 << 3 == 16
 
-*/
 7/3 == 2
 7.0f/3.0f == 2.333...
 (float)7/3 == 2.333...
