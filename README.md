@@ -1,6 +1,10 @@
 # java-basic
 ## windows
-install jre  jdadd path
+install jre, jdk
+add path
 ## linux
-`java versiojavac -version # openjdk not installed
-sudo apt-get instadefault-jdk`
+```
+	java -version
+	javac -version
+	sudo apt-get install default-jdk
+```
