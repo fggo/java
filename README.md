@@ -1,4 +1,10 @@
-# Install Java On Windows
+1. [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#install-java-on-windows)
+2. [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#install-java-on-linux)
+3. [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#download-ide)
+4. [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#java-tutorial)
+5. [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variable)
+
+# On Windows
 Donwload java SE and edit PATH (Computer > property > Environmental Variable)
 
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -12,7 +18,7 @@ Install java using commands
 	sudo apt-get install default-jdk
 ```
 
-# Download IDE
+# IDE
 
 * [Eclipse] (https://eclipse.org/downloads/)
 * [NetBeans] (https://netbeans.org/downloads/)
