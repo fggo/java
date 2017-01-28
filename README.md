@@ -78,29 +78,24 @@ multi line*/
   </tr>
   <tr>
     <td>int</td>
-    <td>integer number</td>
+    <th rowspan="4">integer number</th>
     <td>4</td>
     <td>-2147483648 ~ 2147483647</td>
   </tr>
   <tr>
     <td>long</td>
-    <td>integer number</td>
     <td>8</td>
     <td>-9223....808 ~ 9223....807</td>
   </tr>
   <tr>
     <td>float</td>
-    <td>real number</td>
+    <th rowspan="2">real number</th>
     <td>4</td>
     <td>+-(1.40*10^-45 ~ 3.40*10^38)</td>
   </tr>
   <tr>
     <td>double</td>
-    <td>real number</td>
     <td>8</td>
     <td>+-(4.94*10^-324 ~ 1.79*10^308)</td>
-  </tr>
-  <tr>
-    <td colspan="2">Three</td>
   </tr>
 </table>
