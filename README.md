@@ -1,7 +1,8 @@
 # Java Installation
 ## Windows
-1.install jre, jdk
-2.add path
+1. download & install jre, jdk
+ * Visit [java.sun.com] (java.sun.com)
+2. add path
 ## Linux
 ```
 	java -version
