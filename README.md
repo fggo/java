@@ -1,30 +1,26 @@
-# Install
-Install Java on either OS
-
-## Windows
+# Install Java On Windows
 Donwload java SE and edit PATH (Computer > property > Environmental Variable)
 
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 2. Add PATH (C:\Program Files\Java\jdk1.x.x\bin;)
 
-## Linux
-Type the following command on terminal to install java :
+# On Linux
+Install java using commands
 ```
 	java -version
 	javac -version
 	sudo apt-get install default-jdk
 ```
 
-## IDE
-Download IDE :
+# Download IDE
 
 * [Eclipse] (https://eclipse.org/downloads/)
 * [NetBeans] (https://netbeans.org/downloads/)
 * [Visual Code] (https://code.visualstudio.com/download)
 
-# Basic Java
+# Java tutorial
+## First program
 ```java
-//FirstProgram.java
 public class FirstProgram{
 	public static void main(String[] args){
 		System.out.println("Basic Java program.");
@@ -32,3 +28,19 @@ public class FirstProgram{
 	}
 }
 ```
+
+## Comment
+```java
+//line comment
+/*block 
+comment
+allows
+multi line*/
+```
+
+## Variables
+| Type          | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
