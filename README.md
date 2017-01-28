@@ -39,8 +39,23 @@ multi line*/
 ```
 
 ## Variables
-| Type          | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| Var Type       | Data           | Size (Byte) | Range |
+| ------------- |:-------------:| -----:|------|
+| boolean | right-aligned | $1600 |
+| char      | centered      |   $12 |
+| short | are neat      |    $1 |
+| int | are neat      |    $1 |
+| long| are neat      |    $1 |
+| float | are neat      |    $1 |
+| double | are neat      |    $1 |
+
+
+<table>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td colspan="2">Three</td>
+  </tr>
+</table>
