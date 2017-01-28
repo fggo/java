@@ -6,17 +6,21 @@
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
 
 # Windows
-Donwload java SE and edit PATH (Computer > property > Environmental Variable)
+Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
 
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 2. Add PATH (C:\Program Files\Java\jdk1.x.x\bin;)
 
+> JDK = JRE + Development/debugging tools
+> JRE = JVM + Java Packages Classes(like util, math, lang, awt,swing etc)+runtime libraries.
+> JVM = Class loader system + runtime data area + Execution Engine.
+
 # Linux
-Install java using commands
+Install java using command line
 ```
-	java -version
-	javac -version
-	sudo apt-get install default-jdk
+java -version
+javac -version
+sudo apt-get install default-jdk
 ```
 
 # IDE
