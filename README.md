@@ -1,9 +1,9 @@
-[Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#on-windows)
-[Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#on-linux)
-[Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
-[First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
-[Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
-[Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
+* [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#on-windows)
+* [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#on-linux)
+* [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
+* [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
+* [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
+* [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
 
 # On Windows
 Donwload java SE and edit PATH (Computer > property > Environmental Variable)
