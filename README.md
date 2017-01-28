@@ -191,12 +191,12 @@ default: ...
 
 ```
 
-# for / while / do~while
+# for while do while
 ```java
 for(cond) while(cond), do~while(cond)
 ```
 
-# continue, break
+# continue break
 ```java
 for(;;){
 	if(cond)
