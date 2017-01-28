@@ -1,21 +1,21 @@
 # Install
-## Windows
+## Windows Java install
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 2. Add PATH
 
-## Linux
+## Linux Java install
 ```
 	java -version
 	javac -version
 	sudo apt-get install default-jdk
 ```
 
-### IDE
+## Choosing IDE
 * [Eclipse] (https://eclipse.org/downloads/)
 * [NetBeans] (https://netbeans.org/downloads/)
 * [Visual Code] (https://code.visualstudio.com/download)
 
-# Basic
+# Basic Java
 ```
 //FirstProgram.java
 public class FirstProgram{
