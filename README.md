@@ -23,7 +23,7 @@ Download IDE :
 * [Visual Code] (https://code.visualstudio.com/download)
 
 # Basic Java
-```
+```java
 //FirstProgram.java
 public class FirstProgram{
 	public static void main(String[] args){
