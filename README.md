@@ -195,7 +195,10 @@ default: ...
 
 ```
 
-# for{} while{}  do{}while(condition)
+# for / while / do~while
+```java
+for(cond) while(cond), do~while(cond)
+```
 
 # continue, break
 ```java
