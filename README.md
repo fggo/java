@@ -107,7 +107,7 @@ multi line*/
 ```java
 //UnicodeChar.java
 char ch1 = 'A';
-char ch2 = '한';
+char ch2 = '亀';
 char ch3 = 0x3091;
 char ch4 = 0x3092;
 ```
@@ -149,17 +149,31 @@ long n4 = (long)n3;
 
 # Operator
 ```java
+
+basic op
 + add
 - subtract
-* multiplicate
+* multiply
 / divide
 % modulo
-< > <= >= != ==
+
+compare
+< > 
+<= >= 
+!= ==
 && || !
-+ - int n1 = +2; int n2 = -n1;
+
+unary 
++ - 
+int n1 = +2; 
+int n2 = -n1;
+
+incr decs
 n++ ++n
 n-- --n
-1 & 1 == 1
+
+bit op
+1 & 1 == 1 
 1 & 0 == 0
 0 & 0 == 0
 1 | 1 == 1
@@ -170,9 +184,11 @@ n-- --n
 0 ^ 0 == 0
 ~0 == 1
 ~1 == 0
-<< <<< >> >>>
+<< <<< 
+>> >>>
 2 << 3 == 16
 
+type conv
 7/3 == 2
 7.0f/3.0f == 2.333...
 (float)7/3 == 2.333...
@@ -224,14 +240,15 @@ do{/*code*/} while(cond)
 # continue break
 ```java
 for(;;){
+	/*code*/
 	if(cond)
 		continue;
 }
 
 while(true){
-...
+	/*code*/
 	if(cond)
-		break; //break 'one' loop
+		break; /*break 'one' loop*/
 }
 ```
 
@@ -277,7 +294,7 @@ class AAA{
 }
 ```
 
-# ref val null
+# Ref val null
 ```java
 AAA a = null; //init ref variable as null
 ```
@@ -289,18 +306,17 @@ final int MAX_NUM = 10; // constant
 
 ```
 
-# class path
+# Class path
 
-# package
+# Package
 
-# ACS
-* access control specifier 
+# Access control specifier 
 <table>
 	<tr>
 		<td>ACS</td>
 		<td>Class</td>
 		<td>Package</td>
-		<td>Inheritted Class</td>
+		<td>Inherited Class</td>
 		<td>Others</td>
 	</tr>
 	<tr>
