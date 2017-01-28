@@ -66,13 +66,12 @@ multi line*/
   </tr>
   <tr>
     <td>byte</td>
-    <th rowspan="4">integer number</th>
+    <td rowspan="4">integer number</td>
     <td>1</td>
     <td>-128 ~ 127</td>
   </tr>
   <tr>
     <td>short</td>
-    <td>integer number</td>
     <td>2</td>
     <td>-32768 ~ 32768</td>
   </tr>
@@ -88,7 +87,7 @@ multi line*/
   </tr>
   <tr>
     <td>float</td>
-    <th rowspan="2">real number</th>
+    <td rowspan="2">real number</td>
     <td>4</td>
     <td>+-(1.40*10^-45 ~ 3.40*10^38)</td>
   </tr>
