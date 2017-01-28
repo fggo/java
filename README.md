@@ -120,9 +120,10 @@ System.out.println(n1);
 ```
 
 * Implicit Conversion
+```java
 byte - short \ int - long - float -> double
        char  /
-```java
+
 double n1 = 20; //ok (int -> double)
 int n2 = 20.5; //error due to data loss (double -> int)
 float n3 = 10; //ok (int -> float)
