@@ -66,7 +66,7 @@ multi line*/
   </tr>
   <tr>
     <td>byte</td>
-    <td>integer number</td>
+    <th rowspan="4">integer number</th>
     <td>1</td>
     <td>-128 ~ 127</td>
   </tr>
@@ -78,7 +78,6 @@ multi line*/
   </tr>
   <tr>
     <td>int</td>
-    <th rowspan="4">integer number</th>
     <td>4</td>
     <td>-2147483648 ~ 2147483647</td>
   </tr>
