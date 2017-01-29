@@ -349,7 +349,6 @@ final int MAX_NUM = 10; // constant
 	</tr>
 </table>
 
-
 # Encapsulation
 ```java
 class Budweiser{
@@ -401,11 +400,29 @@ public class Encapsulation {
    (class).var;
    (inst).var;
    func{var}
-4. init when JVM store class in memory
-   init not possible by Constructor
-   static int n = 0;
-   init only once.
- 
+4. init when JVM creates class in memory
+5. init not possible by constructor
+6. init only once. (before constructor is called)
+7. static var only accessible by static method
+```java
+static int n = 0;
+```
  
  # static method 
+```java
+class A{
+	public static void doNothin(){/*code*/}
+}
+class MainClass{
+	public static void main(String[] args){
+		A.doNothing();
+	}
+}
+```
+
+# Overloading
+
+# String class
+
+# StringBuilder StringBuffer
 
