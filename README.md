@@ -349,3 +349,63 @@ final int MAX_NUM = 10; // constant
 	</tr>
 </table>
 
+
+# Encapsulation
+```java
+class Budweiser{
+	public void take(){System.out.println("Favorite American beer.");}
+}
+
+class Sapporo{
+	public void take(){System.out.println("Japanese beer.");}
+}
+
+class Kirin{
+	public void take(){System.out.println("Favorite beer.");}
+}
+
+class BeerPack{
+	Budweiser bud;
+	Sapporo sap;
+	Kirin kir;
+	
+	public BeerPack(){
+		bud = new Budweiser();
+		sap = new Sapporo();
+		kir = new Kirin();
+	}
+	
+	public void take(){
+		bud.take();
+		sap.take();
+		kir.take();
+	}
+}
+
+class Worker{
+	public void takeBeer(BeerPack pack){ pack.take();}
+}
+
+public class Encapsulation {
+	public static void main(String[] args){
+		Worker worker = new Worker();
+		worker.takeBeer(new BeerPack());
+	}
+}
+```
+
+# static var
+1. shared by all class instances
+2. 'one' static variable can exist in memory
+3. accesible from anywhere (declared as public)
+   (class).var;
+   (inst).var;
+   func{var}
+4. init when JVM store class in memory
+   init not possible by Constructor
+   static int n = 0;
+   init only once.
+ 
+ 
+ # static method 
+
