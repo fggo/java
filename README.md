@@ -398,15 +398,20 @@ public class Encapsulation {
 1. shared by all class instances
 2. 'one' static variable can exist in memory
 3. accesible from anywhere (declared as public)
-   (class).var;
-   (inst).var;
-   func{var}
 4. init when JVM creates class in memory
 5. init not possible by constructor
 6. init only once. (before constructor is called)
 7. static var only accessible by static method
 ```java
-static int n = 0;
+class {
+	public static int var = 0;
+	func{}
+}
+main{}
+
+class.var;
+inst.var;
+func{this.var}
 ```
 
 # static method 
