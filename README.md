@@ -394,6 +394,7 @@ public class Encapsulation {
 ```
 
 # static var
+
 1. shared by all class instances
 2. 'one' static variable can exist in memory
 3. accesible from anywhere (declared as public)
@@ -407,8 +408,8 @@ public class Encapsulation {
 ```java
 static int n = 0;
 ```
- 
- # static method 
+
+# static method 
 ```java
 class A{
 	public static void doNothin(){/*code*/}
