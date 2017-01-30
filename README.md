@@ -16,7 +16,6 @@ JDK = JRE + Development/debugging tools
 JRE = JVM + Java Packages Classes(like util, math, lang, awt,swing etc)+runtime libraries.
 JVM = Class loader system + runtime data area + Execution Engine.
 ```
-![alt tag](https://i.stack.imgur.com/AaveN.png)
 
 ## Linux
 Install java using command line
