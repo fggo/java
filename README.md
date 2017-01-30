@@ -4,8 +4,7 @@
 * [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
 * [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
-
-* [Type Casting] (https://github.com/fggo/java-basic/blob/master/README.md#type-casting
+* [Type Casting] (https://github.com/fggo/java-basic/blob/master/README.md#type-casting)
 * [Operator] (https://github.com/fggo/java-basic/blob/master/README.md#operator)
 * [if else] (https://github.com/fggo/java-basic/blob/master/README.md#if-else)
 * [similar to if else] (https://github.com/fggo/java-basic/blob/master/README.md#similar-to-if-else)
