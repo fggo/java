@@ -1,3 +1,4 @@
+# java
 * [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#windows)
 * [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#linux)
 * [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
@@ -5,7 +6,7 @@
 * [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
 
-# Windows
+## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
 
 1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -17,7 +18,7 @@ JVM = Class loader system + runtime data area + Execution Engine.
 ```
 ![alt tag](https://i.stack.imgur.com/AaveN.png)
 
-# Linux
+## Linux
 Install java using command line
 ```
 java -version
@@ -25,13 +26,13 @@ javac -version
 sudo apt-get install default-jdk
 ```
 
-# IDE
+## IDE
 
 * [Eclipse] (https://eclipse.org/downloads/)
 * [NetBeans] (https://netbeans.org/downloads/)
 * [Visual Code] (https://code.visualstudio.com/download)
 
-# First program
+## First program
 ```java
 public class FirstProgram{
 	public static void main(String[] args){
@@ -41,7 +42,7 @@ public class FirstProgram{
 }
 ```
 
-# Comment
+## Comment
 ```java
 //line comment
 /*block 
@@ -50,7 +51,7 @@ allows
 multi line*/
 ```
 
-# Variables
+## Variables
 <table>
   <tr>
     <td>Data Type</td>
@@ -147,7 +148,7 @@ int n3 = 99;
 long n4 = (long)n3;
 ```
 
-# Operator
+## Operator
 ```java
 
 basic op
@@ -194,7 +195,7 @@ type conv
 (float)7/3 == 2.333...
 ```
 
-# if else
+## if else
 ```java
 if(cond1) {
 	/*code*/
@@ -206,13 +207,13 @@ else {
 	/*code*/
 }
 ```
-## similar to if else
+### similar to if else
 ```java
 /* returns n1 if n1 > n2, otherwise returns n2*/
 int bigN = (n1 > n2) ? n1 : n2;
 ```
 
-# switch break
+## switch break
 ```java
 switch(n){
 case 1: 
@@ -230,14 +231,14 @@ default:
 
 ```
 
-# for while do while
+## for while do while
 ```java
 for(int i = 0; i< N; i++){/*code*/}
 while(cond){/*code*/}
 do{/*code*/} while(cond)
 ```
 
-# continue break
+## continue break
 ```java
 for(;;){
 	/*code*/
@@ -252,7 +253,7 @@ while(true){
 }
 ```
 
-# Recursion
+## Recursion
 ```java
 public static int toBinary(int dec){
 	if (dec < 0)
@@ -264,7 +265,7 @@ public static int toBinary(int dec){
 }
 ```
 
-# class
+## class
 ```java
 /*class declaration*/
 class AAA{
@@ -277,9 +278,9 @@ class AAA{
 }
 ```
 
-# Constructor
+## Constructor
 
-## Constuctor called only once
+### Constuctor called only once
 ```java
 class AAA{
 	int num;
@@ -294,23 +295,23 @@ class AAA{
 }
 ```
 
-# Ref val null
+## Ref val null
 ```java
 AAA a = null; //init ref variable as null
 ```
 
 
-# final keyword
+## final keyword
 ```java
 final int MAX_NUM = 10; // constant
 
 ```
 
-# Class path
+## Class path
 
-# Package
+## Package
 
-# Access control specifier 
+## Access control specifier 
 <table>
 	<tr>
 		<td>ACS</td>
@@ -349,7 +350,7 @@ final int MAX_NUM = 10; // constant
 	</tr>
 </table>
 
-# Encapsulation
+## Encapsulation
 ```java
 class Budweiser{
 	public void take(){System.out.println("Favorite American beer.");}
@@ -393,8 +394,7 @@ public class Encapsulation {
 }
 ```
 
-# static var
-
+## static var
 1. shared by all class instances
 2. 'one' static variable can exist in memory
 3. accesible from anywhere (declared as public)
@@ -414,7 +414,7 @@ inst.var;
 func{this.var}
 ```
 
-# static method 
+## static method 
 ```java
 class A{
 	public static void doNothin(){/*code*/}
@@ -426,9 +426,74 @@ class MainClass{
 }
 ```
 
-# Overloading
+## Overloading
 
-# String class
+## String class
 
-# StringBuilder StringBuffer
+## StringBuilder StringBuffer
+[StringBuffer](https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuffer.html)
 
+[Difference between StringBuilder and StringBuffer](http://stackoverflow.com/questions/355089/difference-between-stringbuilder-and-stringbuffer)
+
+## Console Output
+```java
+class A{
+	public String toString(){return "class A";}
+}
+
+A inst = new A();
+System.out.println(inst);
+```
+
+## Escape Sequence
+```java
+\n new line
+\t tab
+\" quotation mark
+\\ backslash
+
+System.out.printf("integer %d, real number %f, character %c", 10, 3.1415, 'A');
+```
+<table>
+  <tr>
+    <th>formatter</th>
+    <th>print form</th>
+  </tr>
+  <tr>
+	<td>%d</td>
+    <td>decimal</td>
+  </tr>
+  <tr>
+    <td>%o</td>
+    <td>octal(8)</td>
+  </tr>
+  <tr>
+    <td>%x</td>
+    <td>hex(16)</td>
+  </tr>
+  <tr>
+    <td>%f</td>
+    <td>real number</td>
+  </tr>
+  <tr>
+    <td>%e</td>
+    <td>real number format in e notation (.31415*10e+1)</td>
+  </tr>
+  <tr>
+    <td>%g</td>
+    <td>%e or %f</td>
+  </tr>
+  <tr>
+    <td>%s</td>
+    <td>string</td>
+  </tr>
+  <tr>
+    <td>%c</td>
+    <td>character</td>
+  </tr>
+</table>
+
+```java
+System.out.printf("%g %g \n", .0001, .00001);
+[console] 0.000100000 1.00000e-05
+```
