@@ -4,37 +4,37 @@
 * [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
 * [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
-* [] (https://github.com/fggo/java-basic/blob/master/README.md#
-## Type Casting
-## Operator
-## if else
-### similar to if else
-## switch break
-## for while do while
-## continue break
-## Recursion
-## class
-## Constructor
-### Constuctor called only once
-## Ref val null
-## final keyword
-## Class path
-## Package
-## Access control specifier 
-## Encapsulation
-## static var
-## static method 
-## Overloading
-## String class
-## StringBuilder StringBuffer
-## Console Output
-### Escape Sequence
-## Console Input
-## Array
-## for each
-## Nd array
-## main method
-## Inheritance
+
+* [Type Casting] (https://github.com/fggo/java-basic/blob/master/README.md#type-casting
+* [Operator] (https://github.com/fggo/java-basic/blob/master/README.md#operator)
+* [if else] (https://github.com/fggo/java-basic/blob/master/README.md#if-else)
+* [similar to if else] (https://github.com/fggo/java-basic/blob/master/README.md#similar-to-if-else)
+* [switch break] (https://github.com/fggo/java-basic/blob/master/README.md#switch-break)
+* [for while do while] (https://github.com/fggo/java-basic/blob/master/README.md#for-while-do-while)
+* [continue break] (https://github.com/fggo/java-basic/blob/master/README.md#continue-break)
+* [Recursion] (https://github.com/fggo/java-basic/blob/master/README.md#recursion)
+* [class] (https://github.com/fggo/java-basic/blob/master/README.md#class)
+* [Constructor] (https://github.com/fggo/java-basic/blob/master/README.md#constructor)
+* [Constuctor called only once] (https://github.com/fggo/java-basic/blob/master/README.md#constructor-called-only-once)
+* [Ref val null] (https://github.com/fggo/java-basic/blob/master/README.md#ref-val-null)
+* [final keyword] (https://github.com/fggo/java-basic/blob/master/README.md#final-keyword)
+* [Class path] (https://github.com/fggo/java-basic/blob/master/README.md#class-path)
+* [Package] (https://github.com/fggo/java-basic/blob/master/README.md#package)
+* [Access control specifier ] (https://github.com/fggo/java-basic/blob/master/README.md#access-control-specifier)
+* [Encapsulation] (https://github.com/fggo/java-basic/blob/master/README.md#encapsulation)
+* [static var] (https://github.com/fggo/java-basic/blob/master/README.md#static-var)
+* [static method ] (https://github.com/fggo/java-basic/blob/master/README.md#static-method)
+* [Overloading] (https://github.com/fggo/java-basic/blob/master/README.md#overloading)
+* [String class] (https://github.com/fggo/java-basic/blob/master/README.md#string-class)
+* [StringBuilder StringBuffer] (https://github.com/fggo/java-basic/blob/master/README.md#stringbuilder-stringbuffer)
+* [Console Output] (https://github.com/fggo/java-basic/blob/master/README.md#console-output)
+* [Escape Sequence] (https://github.com/fggo/java-basic/blob/master/README.md#escape-sequence)
+* [Console Input] (https://github.com/fggo/java-basic/blob/master/README.md#console-input)
+* [Array] (https://github.com/fggo/java-basic/blob/master/README.md#array)
+* [for each] (https://github.com/fggo/java-basic/blob/master/README.md#for-each)
+* [Nd array] (https://github.com/fggo/java-basic/blob/master/README.md#nd-array)
+* [main method] (https://github.com/fggo/java-basic/blob/master/README.md#main-method)
+* [Inheritance] (https://github.com/fggo/java-basic/blob/master/README.md#inheritance)
 
 ## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
