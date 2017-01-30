@@ -444,7 +444,7 @@ A inst = new A();
 System.out.println(inst);
 ```
 
-## Escape Sequence
+### Escape Sequence
 ```java
 \n new line
 \t tab
@@ -496,3 +496,4 @@ System.out.printf("integer %d, real number %f, character %c", 10, 3.1415, 'A');
 System.out.printf("%g %g \n", .0001, .00001);
 [console] 0.000100000 1.00000e-05
 ```
+## Console Input
