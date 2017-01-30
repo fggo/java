@@ -1,10 +1,40 @@
-# Java
 * [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#windows)
 * [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#linux)
 * [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
 * [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
 * [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
+* [] (https://github.com/fggo/java-basic/blob/master/README.md#
+## Type Casting
+## Operator
+## if else
+### similar to if else
+## switch break
+## for while do while
+## continue break
+## Recursion
+## class
+## Constructor
+### Constuctor called only once
+## Ref val null
+## final keyword
+## Class path
+## Package
+## Access control specifier 
+## Encapsulation
+## static var
+## static method 
+## Overloading
+## String class
+## StringBuilder StringBuffer
+## Console Output
+### Escape Sequence
+## Console Input
+## Array
+## for each
+## Nd array
+## main method
+## Inheritance
 
 ## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
@@ -112,7 +142,7 @@ char ch3 = 0x3091;
 char ch4 = 0x3092;
 ```
 
-# Type Casting
+## Type Casting
 
 ```java
 //SuffixConst.java
