@@ -2,6 +2,7 @@
 * [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#linux)
 * [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
 * [First Program] (https://github.com/fggo/java-basic/blob/master/README.md#first-program)
+<!--
 * [Comment] (https://github.com/fggo/java-basic/blob/master/README.md#comment)
 * [Variable] (https://github.com/fggo/java-basic/blob/master/README.md#variables)
 * [Type Casting] (https://github.com/fggo/java-basic/blob/master/README.md#type-casting)
@@ -34,6 +35,7 @@
 * [Nd array] (https://github.com/fggo/java-basic/blob/master/README.md#nd-array)
 * [main method] (https://github.com/fggo/java-basic/blob/master/README.md#main-method)
 * [Inheritance] (https://github.com/fggo/java-basic/blob/master/README.md#inheritance)
+-->
 
 ## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
