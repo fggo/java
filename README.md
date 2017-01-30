@@ -497,3 +497,43 @@ System.out.printf("%g %g \n", .0001, .00001);
 [console] 0.000100000 1.00000e-05
 ```
 ## Console Input
+```java
+/*1.*/
+try{
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	String str = br.readLine();
+	int n = Integer.parseInt(str);
+}
+catch(IOException e){
+	e.printStackTrace();
+}
+/*2.java 5.0*/
+Scanner sc =new Scanner(System.in);
+
+Sytem.out.print("type integer : ");
+int n = sc.nextInt(); sc.nextLine();
+
+Sytem.out.print("type string : ");
+String s = sc.nextLine();
+```
+
+## Array
+
+## for each
+
+## Nd array
+```java
+int sum = 0;
+for(int i : new int[]{1,2,3,4,5})
+	sum += i;
+System.out.println(sum);
+```
+
+## main method
+```java
+public static void main(String[] args){}
+```
+
+## Inheritance
+
+
