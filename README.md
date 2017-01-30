@@ -1,4 +1,4 @@
-# java
+# Java
 * [Install Java On Windows] (https://github.com/fggo/java-basic/blob/master/README.md#windows)
 * [Install Java On Linux] (https://github.com/fggo/java-basic/blob/master/README.md#linux)
 * [Download IDE] (https://github.com/fggo/java-basic/blob/master/README.md#ide)
