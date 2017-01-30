@@ -520,14 +520,14 @@ String s = sc.nextLine();
 ## Array
 
 ## for each
-
-## Nd array
 ```java
 int sum = 0;
 for(int i : new int[]{1,2,3,4,5})
 	sum += i;
 System.out.println(sum);
 ```
+
+## Nd array
 
 ## main method
 ```java
