@@ -425,15 +425,16 @@ public class Encapsulation {
 ```
 
 ## static var
-1. shared by all class instances
-2. 'one' static variable can exist in memory
-3. accesible from anywhere (declared as public)
-4. init when JVM creates class in memory
-5. init not possible by constructor
-6. init only once. (before constructor is called)
-7. static var only accessible by static method
+1. shared by all class inst
+2. only 'one' static var exists in memory
+3. accesse from anywhere (when declared 'public')
+4. accesible by classname and instancename
+5. init when JVM creates class in memory
+6. init in constructor is not recommended
+7. accessible by static method (in diff package)
 ```java
 class {
+	public static final double PI =3.14;
 	public static int var = 0;
 	func{}
 }
@@ -451,7 +452,10 @@ class A{
 }
 class MainClass{
 	public static void main(String[] args){
-		A.doNothing();
+		A.doNothin();
+		
+		A a = new A();
+		a.doNothin();
 	}
 }
 ```
@@ -568,3 +572,41 @@ public static void main(String[] args){}
 ## Inheritance
 [doc](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
 
+### Inheritanc ACS
+```java
+package A;
+class A{
+	int defnum;
+	private int privnum;
+	protected int protnum;
+	static int statnum = 0;
+	
+	public int getPrivNum(){return privnum;}
+	protected void setNum(){
+		defnum = 0;
+		privnum = 0;
+		protnum = 0;
+	}
+	
+	public void setStaticNum(int n){statnum = n;}
+}
+---
+package B;
+import A.*;
+class B extends A{
+	public B(){/*super();*/}
+	public void setNum(){super.setNum();}
+	public void showNum(){
+		System.out.println("default num: " + defnum);
+		System.out.println("private num: " + getPrivNum()); 
+		System.out.println("protected num: " + protnum); /*accessible by inheritted class*/
+	}
+	public static void showStaticNum(){
+		System.out.println("static num: " + statnum);
+	}
+}
+```
+
+### ISA HASA Composite
+
+### Overriding
