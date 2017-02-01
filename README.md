@@ -427,10 +427,10 @@ public class Encapsulation {
 ## static var
 1. shared by all class inst
 2. only 'one' static var exists in memory
-3. accessible anywhere (when declared 'public')
-4. accesible by classname and instancename
+3. accessible anywhere (if declared 'public')
+4. accessible by classname and instancename
 5. init when JVM creates class in memory
-6. init in constructor is not recommended
+6. init inside constructor is not recommended
 7. accessible by static method (in diff package)
 ```java
 class {
