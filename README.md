@@ -624,4 +624,103 @@ class Police{Gun pistol;}
 ```
 
 ### Overriding
+```java
+class AAA{
+	public void ride(){System.out.println("AAA method called.");}
+	public void load(){System.out.println("void method");}
+}
+
+class BBB extends AAA{
+	public void ride(){System.out.println("BBB method called.");}
+	public void load(int n){System.out.println("int method");}
+}
+
+class CCC extends BBB{
+	public void ride(){System.out.println("CCC method called.");}
+	public void load(double n){System.out.println("double method");}
+}
+public class RideAndLoad {
+	public static void main(String[] args)
+	{
+		AAA ref1 = new CCC(); 
+		BBB ref2 = new CCC();
+		CCC ref3 = new CCC();
+		
+		/*override (hide) method of super class*/
+		ref1.ride();
+		ref2.ride();
+		ref3.ride();
+		
+		ref1.load();
+		ref2.load(2);
+		ref3.load(3.33);
+	}
+}
+```
+
+
+### instanceof
+```java
+/*instanceof*/
+class Box{
+	public void simpleWrap(){System.out.println("simple wrap");}
+	public void wrap(){simpleWrap();}
+}
+class PaperBox extends Box{
+	public void paperWrap(){System.out.println("paper wrap");}
+	public void wrap(){paperWrap();}
+}
+class GoldPaperBox extends PaperBox{ 
+	public void goldWrap(){System.out.println("gold wrap");}
+	public void wrap(){goldWrap();}
+}
+
+public class InstanceOf2 {
+	public static void wrap(Box box){
+		box.wrap();
+	}
+	
+	public static void main(String[] args){
+		Box box1 = new Box();
+		PaperBox box2 = new PaperBox();
+		GoldPaperBox box3 = new GoldPaperBox();
+		
+		wrap(box1);
+		wrap(box2);
+		wrap(box3);
+	}
+}
+
+/*not using instanceof*/
+class Box{
+	public void SimpleWrap(){System.out.println("simple wrap");}
+	public void wrap(){}
+}
+class PaperBox extends Box{
+	public void paperWrap(){System.out.println("paper wrap");}
+	public void wrap(){}
+}
+class GoldPaperBox extends PaperBox{ 
+	public void goldWrap(){System.out.println("gold wrap");}
+	public void wrap(){}
+}
+
+public class InstanceOf {
+	public static void wrap(Box box){
+		box.wrap();
+	}
+	
+	public static void main(String[] args){
+		Box box1 = new Box();
+		PaperBox box2 = new PaperBox();
+		GoldPaperBox box3 = new GoldPaperBox();
+		
+		wrap(box1);
+		wrap(box2);
+		wrap(box3);
+	}
+}
+```
+
+## Object class
 
