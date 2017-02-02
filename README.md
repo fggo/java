@@ -723,4 +723,21 @@ public class InstanceOf {
 ```
 
 ## Object class
+```java
+/*can override object method inside class*/
+
+public String toString(){/*code*/}
+public void println(Object x){/*code*/}	
+```
+
+### final
+```
+final class MyClass{} /*do not allow class inheritance*/
+final void func(param){} /*do not allow method overriding*/
+
+eg. String is a final class
+eg. Object has final method : wait() notify() notifyAll()
+```
+
+## abstract class
 
