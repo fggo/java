@@ -608,5 +608,20 @@ class B extends A{
 ```
 
 ### ISA HASA Composite
+```java
+/*ISA*/
+class Computer{}
+class Laptop extends Computer{}
+class DellXPS extends Laptop{}
+
+/*HASA*/
+class Gun{}
+class Police extends Gun{}
+
+/*Composite*/
+class Gun{}
+class Police{Gun pistol;}
+```
 
 ### Overriding
+
