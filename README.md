@@ -731,7 +731,7 @@ public void println(Object x){/*code*/}
 ```
 
 ### final
-```
+```java
 final class MyClass{} /*do not allow class inheritance*/
 final void func(param){} /*do not allow method overriding*/
 
