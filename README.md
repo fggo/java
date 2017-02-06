@@ -338,6 +338,25 @@ final int MAX_NUM = 10; // constant
 ```
 
 ## Class path
+```
+user@:~/workspace/java/src$ javac -d . *.java
+user@:~/workspace/java/src$ ls
+	FruitSalesMain3.class  package1  package4
+	FruitSalesMain3.java   package2  PackageCircle.class
+	orange                 package3  PackageCircle.java
+user@:~/workspace/java/src$ java FruitSalesMain3 
+
+user@:~/workspace/project1$ javac -d "PACKAGE DIR" "FILENAME TO COMPILE"
+This will create that directory by which it sets directory location.
+javac -d . *.java  #this will create package in current directory
+javac -d mydir *.java  #this will create package in mydir directory
+---
+user@:~/workspace/java/src$ mkdir mydir
+user@:~/workspace/java/src$ javac -d mydir *.java
+user@:~/workspace/java/src$ cd mydir
+user@:~/workspace/java/src/mydir$ ls
+	FruitSalesMain3.class  PackageCircle.class
+```
 
 ## Package
 
@@ -830,4 +849,63 @@ public interface Week{
 }
 ```
 
+# uppercase interface
+```java
+interface UpperCasePrintable{/*empty*/}
 
+class ClassPrinter
+{
+	public static void print(Object obj)
+	{
+		String str = obj.toString();
+		if(obj instanceof UpperCasePrintable)
+			str = str.toUpperCase();
+		
+		System.out.println(str);
+	}
+}
+
+class PointOne implements UpperCasePrintable
+{
+	int xPos, yPos;
+	PointOne(int x, int y)
+	{
+		xPos = x;
+		yPos = y;
+	}
+	public String toString()
+	{
+		return "(x = " + xPos + ", y = " + yPos + ")";
+	}
+}
+
+class PointTwo
+{
+	int xPos, yPos;
+	PointTwo(int x, int y)
+	{
+		xPos = x;
+		yPos = y;
+	}
+	public String toString()
+	{
+		return "(x = " + xPos + ", y = " + yPos + ")";
+	}
+}
+
+public class InterfaceMark {
+	public static void main(String[] args)
+	{
+		PointOne pos1 = new PointOne(1,1);
+		PointTwo pos2 = new PointTwo(2,2);
+		
+		ClassPrinter.print(pos1);
+		ClassPrinter.print(pos2);
+	}
+}
+```
+
+### diamond UML
+```java
+
+```
