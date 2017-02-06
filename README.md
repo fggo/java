@@ -1090,7 +1090,7 @@ public class LocalClassTest {
 similar to Local class, but without class name.
 
 ```java
-/*method 1./
+/*method 1.*/
 class OuterClass{
 	private String name;
 	
@@ -1106,7 +1106,7 @@ class OuterClass{
 	}
 }
 
-/*method 2./
+/*method 2.*/
 class OuterClass{
 	private String name;
 	
