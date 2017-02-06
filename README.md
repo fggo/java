@@ -582,7 +582,7 @@ public static void main(String[] args){}
 ```
 
 ## Inheritance
-[doc](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
+[oracle document](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
 
 ### Inheritanc ACS
 ```java
