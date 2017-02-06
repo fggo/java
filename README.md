@@ -740,4 +740,96 @@ eg. Object has final method : wait() notify() notifyAll()
 ```
 
 ## abstract class
+* for inheritance
+* not for instantiation
 
+### abstract method
+* inherited classes should define one
+```java
+abstract class AAA{
+	void method1(){/*code*/}
+	abstract void method2();
+}
+
+class BBB extends AAA{
+	void method2(){/*code*/} 
+}
+```
+
+## interface
+```java
+interface PersonalNumStorage {
+	public void addPersonalInfo(String name, String number);
+	public String searchName(String number);
+}
+
+class PersonalNumStorageImpl implements PersonalNumStorage{
+	HashSet<PersonalNumInfo> infoStorage = new HashSet<PersonalNumInfo>();
+	
+	public void addPersonalInfo(String name, String number){
+		infoStorage.add(new PersonalNumInfo(name, number));
+	}
+	
+	public String searchName(String number){
+		Iterator<PersonalNumInfo> itr = infoStorage.iterator();
+		while(itr.hasNext()){
+			PersonalNumInfo info = itr.next();
+			if(number.compareTo(info.getNumber()) == 0)
+				return info.getName();
+		}
+		return null;
+	}
+}
+
+public class PersonalNumInfo {
+	private String name;
+	private String number;
+	
+	public PersonalNumInfo(String name, String number){
+		this.name = name;
+		this.number = number;
+	}
+	public String getName(){return name;}
+	public String getNumber(){return number;}
+}
+
+public class AbstractInterface {
+	public static void main(String[] args){
+		PersonalNumStorage storage = new PersonalNumStorageImpl();
+		storage.addPersonalInfo("AAA", "000-0000");
+		System.out.println("result: "+ storage.searchName("000-0000"));
+	}
+}
+```
+
+### interface properties
+
+```java
+public interface MyInterface{
+	public void myMethod();
+}
+
+public interface YourInterface{
+	public void yourMethod();
+}
+
+class OurClass implements MyInterface, YourInterface
+	public void myMethod(){/*code*/}
+	public void yourMethod(){/*code*/}
+}
+
+public interface MySecondInterface extends MyInterface{
+	public void mySecondMethod();
+}
+```
+
+### interface for constants
+```java
+public class Week{
+	public static final int MON = 1, TUE =2, /*vars*/ SUN =7;
+}
+
+public interface Week{
+	int MON = 1, TUE =2, /*code*/ SUN = 7;
+}
+```
