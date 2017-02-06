@@ -899,6 +899,242 @@ public class InterfaceMark {
 ```
 
 ### diamond UML
+java does not support multi inheritance. there's a workaround :
+```java
+/*code1.*/
+class TV{
+	public void onTV(){System.out.println("Video Sending...");}
+}
+
+interface Computer{
+	public void dataReceive();
+}
+
+class ComputerImpl{	
+	public void dataReceive(){System.out.println("Video Receiving...");}
+}
+
+class IPTV extends TV implements Computer{
+	ComputerImpl comp=new ComputerImpl();
+	
+	public void dataReceive(){comp.dataReceive();}
+	
+	public void powerOn(){
+		dataReceive();
+		onTV();
+	}
+}
+
+/*code2.*/
+interface TV{
+	public void onTV();
+}
+
+interface Computer{
+	public void dataReceive();
+}
+
+class TVImpl{
+	public void onTV(){System.out.println("Video Sending...");}
+}
+
+class ComputerImpl{	
+	public void dataReceive(){System.out.println("Video Receiving...");}
+}
+
+class IPTV implements TV, Computer{
+	ComputerImpl comp=new ComputerImpl();
+	TVImpl tv = new TVImpl();
+	
+	public void dataReceive(){comp.dataReceive();}
+	public void onTV(){tv.onTV();}
+	
+	public void powerOn(){
+		dataReceive();
+		onTV();
+	}
+}
+
+/*main method*/
+public class MultiInheriAlternative{
+	public static void main(String[] args){
+		IPTV iptv=new IPTV();
+		iptv.powerOn();
+		
+		TV tv=iptv;
+		Computer comp=iptv;
+	}
+}
+```
+
+### Inner & Outer class
+```java
+class OuterClass{
+	public void method(){/*code*/}
+	class InnerClass{}
+}
+
+public static void main(String[] args){
+	OuterClass out1 = new OuterClass();
+	OuterClass out2 = new OuterClass();
+	out1.method();
+	out2.method();
+	
+	OuterClass.InnerClass inn1 = out1.new InnerClass();
+	OuterClass.InnerClass inn2 = out2.new InnerClass();
+	OuterClass.InnerClass inn3 = out2.new InnerClass();
+}
+```
+
+### Nested class
+'nested' or 'static inner' class
+```java
+class OuterClass{
+	static class NestedClass{}
+}
+```
+Example:
 ```java
 
+class OuterClassOne
+{
+	public OuterClassOne()
+	{
+		NestedClass nst = new NestedClass();
+		nst.simpleMethod();
+	}
+	
+	static class NestedClass
+	{
+		public void simpleMethod(){System.out.println("nested instance method One");}
+	}
+}
+
+class OuterClassTwo
+{
+	public OuterClassTwo()
+	{
+		NestedClass nst = new NestedClass();
+		nst.simpleMethod();
+	}
+	
+	private static class NestedClass
+	{
+		public void simpleMethod(){System.out.println("nested instance method Two");}
+	}
+}
+
+public class NestedClassTest {
+	public static void main(String[] args)
+	{
+		OuterClassOne one = new OuterClassOne();
+		OuterClassTwo two = new OuterClassTwo();
+		
+		OuterClassOne.NestedClass nst1 = new OuterClassOne.NestedClass();
+		nst1.simpleMethod();
+		
+		//private : error
+		/*OuterClassTwo.NestedClass nst2 = new OuterClassTwo.NestedClass();
+		nst2.simpleMethod();*/
+	}
+}
 ```
+
+### Local class
+```java
+class OuterClass{
+	public void createLocalClassInst(){
+		class LocalClass{}
+		LocalClass local = new LocalClass();
+	}
+}
+```
+Example:
+a local class can only access local variables that are declared final.
+```java
+interface Readable{
+	public void read();
+}
+
+class OuterClass{
+	private String name;
+	
+	public OuterClass(String name){this.name = name;}
+	
+	public Readable createLocalClassInst(final int instID){
+		class LocalClass implements Readable{
+			public void read(){
+				System.out.println("outer inst name: " + name);
+				System.out.println("Local inst ID: " + instID);
+			}
+		}
+		return new LocalClass();
+	}
+}
+
+public class LocalClassTest {
+	public static void main(String[] args)
+	{
+		OuterClass out1 = new OuterClass("outer class 1");
+		Readable localInst1 = out1.createLocalClassInst(111);
+		localInst1.read();
+		
+		OuterClass out2 = new OuterClass("outer class 2");
+		Readable localInst2 = out2.createLocalClassInst(222);
+		localInst2.read();
+	}
+}
+```
+
+### Anonymous class
+similar to Local class, but without class name.
+
+```java
+/*method 1./
+class OuterClass{
+	private String name;
+	
+	public OuterClass(String name){this.name = name;}
+	
+	public Readable createLocalClassInst(final int instID){
+		return new Readable(){
+			public void read(){
+				System.out.println("outer inst name: " + name);
+				System.out.println("Local inst ID: " + instID);
+			}
+		};
+	}
+}
+
+/*method 2./
+class OuterClass{
+	private String name;
+	
+	public OuterClass(String name){this.name = name;}
+	
+	public Readable createLocalClassInst(final int instID){
+		Readable read = new Readable(){
+			public void read(){
+				System.out.println("outer inst name: " + name);
+				System.out.println("Local inst ID: " + instID);
+			}
+		};
+		
+		return read;
+	}
+}
+```
+
+## Exception
+
+
+
+
+
+## Memory model
+
+## Wrapper
+
+## Generic
+
+## Collection
