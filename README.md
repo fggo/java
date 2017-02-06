@@ -758,72 +758,68 @@ class BBB extends AAA{
 
 ## interface
 ```java
-interface PersonalNumStorage {
-	public void addPersonalInfo(String name, String number);
+interface NumStorage {
+	public void addInfo(String name, String number);
 	public String searchName(String number);
 }
 
-class PersonalNumStorageImpl implements PersonalNumStorage{
-	HashSet<PersonalNumInfo> infoStorage = new HashSet<PersonalNumInfo>();
+class NumStorageImpl implements NumStorage{
+	HashSet<NumInfo> infoStorage = new HashSet<NumInfo>();
 	
-	public void addPersonalInfo(String name, String number){
-		infoStorage.add(new PersonalNumInfo(name, number));
+	public void addInfo(String name, String number){
+		infoStorage.add(new NumInfo(name, number));
 	}
 	
 	public String searchName(String number){
-		Iterator<PersonalNumInfo> itr = infoStorage.iterator();
+		Iterator<NumInfo> itr = infoStorage.iterator();
 		while(itr.hasNext()){
-			PersonalNumInfo info = itr.next();
-			if(number.compareTo(info.getNumber()) == 0)
-				return info.getName();
+			NumInfo info = itr.next();
+			if(number.compareTo(info.number) == 0)
+				return info.name;
 		}
 		return null;
 	}
 }
 
-public class PersonalNumInfo {
-	private String name;
-	private String number;
-	
-	public PersonalNumInfo(String name, String number){
+class NumInfo {
+	String name, number;
+	public NumInfo(String name, String number){
 		this.name = name;
 		this.number = number;
 	}
-	public String getName(){return name;}
-	public String getNumber(){return number;}
 }
 
 public class AbstractInterface {
 	public static void main(String[] args){
-		PersonalNumStorage storage = new PersonalNumStorageImpl();
-		storage.addPersonalInfo("AAA", "000-0000");
+		NumStorage storage = new NumStorageImpl();
+		storage.addInfo("AAA", "000-0000");
 		System.out.println("result: "+ storage.searchName("000-0000"));
 	}
 }
 ```
 
-### interface properties
-
+### class implements two interfaces
 ```java
-public interface MyInterface{
-	public void myMethod();
-}
-
-public interface YourInterface{
-	public void yourMethod();
-}
+public interface MyInterface{public void myMethod();}
+public interface YourInterface{public void yourMethod();}
 
 class OurClass implements MyInterface, YourInterface
 	public void myMethod(){/*code*/}
 	public void yourMethod(){/*code*/}
 }
+```
 
+### interface inherits another
+```java
+public interface MyInterface{
+	public void myMethod();
+}
 public interface MySecondInterface extends MyInterface{
 	public void mySecondMethod();
 }
 ```
 
-### interface for constants
+### interface for const
 ```java
 public class Week{
 	public static final int MON = 1, TUE =2, /*vars*/ SUN =7;
@@ -833,3 +829,5 @@ public interface Week{
 	int MON = 1, TUE =2, /*code*/ SUN = 7;
 }
 ```
+
+
