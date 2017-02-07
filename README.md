@@ -1380,6 +1380,81 @@ public class RuntimeExceptionCase {
 ```
 
 ## Memory model
+JVM memory:
+
+* Method: method (bytecode), static var
+* Stack: local var, param
+* Heap: inst, garbage collection
+
+### Object : finalize
+```java
+/* finalize dispose of inst */
+protected void finalize() throws Throwable
+```
+
+ObjectFinalize.java
+```java
+class MyName{
+	String objName;
+	public MyName(String objName){this.objName = objName;}
+	
+	/*override Object method*/
+	public void finalize() throws Throwable{ 
+		super.finalize();
+		System.out.println(objName + " was disposed.");
+	}
+}
+
+public class ObjectFinalize {
+	public static void main(String[] args){
+		MyName obj1 = new MyName("inst1");
+		MyName obj2 = new MyName("inst2");
+		obj1 = null;
+		obj2 = null;
+		
+		System.out.println("terminates program.");
+		
+		// instances ready for gc
+		// expect finalize to be automatically called
+		// but sometimes it has to be manually called 
+		System.gc();
+		System.runFinalization();
+	}
+}
+```
+
+### Object : equals
+```java
+public boolean equals(Object obj)
+```
+
+same impl as above plus 'equals' method override
+```java
+
+class MyName{
+	// override
+	public boolean equals(Object obj){
+		MyName cmp = (MyName)obj;
+		if(obj.objName.equals(objName))
+			return true;
+		return false;
+	}
+}
+```
+
+### Object : clone
+requires to implement Cloneable interface to call clone()
+```java
+protected Object clone() throws CloneNotSupportedException
+```
+
+### Shallow copy
+
+### Deep copy
+
+### String clone
+
+
 
 ## Wrapper
 
