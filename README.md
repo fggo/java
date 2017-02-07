@@ -1169,9 +1169,205 @@ catch(Throwable e){}
 catch(ArithmeticException e){}
 ```
 
-### Custom exception
-for instance, a programmer can define exception when int 'age' input was negative
+### throw
+Custom exception: 
+e.g. exception can be defined for negative 'age' input<br/><br/>
+* throws will pass the error to his caller to handle it
+* try catch block will handle the Exception <br/>
 
+after 'throws' there're two ways to handle
+1. caller will handled exception with try catch
+2. caller 'throws'
+```java
+/*1. caller try catch*/
+import java.util.Scanner;
+
+class AgeInputException extends Exception{
+	public AgeInputException(int age){
+		super("invalid age input!");
+	}
+}
+
+public class ProgrammerDefineException {
+
+	public static int readAge() throws AgeInputException{
+		Scanner sc = new Scanner(System.in);
+		System.out.print("age: ");
+		
+		int age = sc.nextInt(); sc.nextLine();
+		
+		if(age < 0)
+			throw new AgeInputException();
+		
+		return age;
+	}
+	
+	public static void main(String[] args){
+		try{
+			int age = readAge();
+			System.out.println(age + " years old.");
+		}
+		catch(AgeInputException e){
+			System.out.println(e.getMessage());
+		}
+	}
+}
+
+/*2. caller (main method)'throws'*/
+class AgeInputException extends Exception{
+	/*save as above*/
+}
+public class ProgrammerDefineException {
+	
+	public static int readAge() throws AgeInputException{
+		/*same as above*/
+	}
+	
+	public static void main(String[] args) throws AgeInputException{
+		int age = readAge();
+		System.out.println(age + " years old.");
+	}
+}
+```
+Then the caller of main method should handle exception. <br/>
+since JVM is the caller, JVM will <br/>
+1. call getMessage()
+2. print stack trace
+3. terminate program <br/>
+
+Example:
+```java
+import java.util.Scanner;
+
+class AgeException extends Exception{
+	public AgeException(){
+		super("invalid age input!");
+	}
+}
+
+class NameLengthException extends Exception{
+	int len;
+	
+	public NameLengthException(int len){
+		super("name is too short!");
+		this.len = len;
+	}
+}
+
+class PersonalInfo{
+	String name;
+	int age;
+	
+	public PersonalInfo(String name, int age){
+		this.name = name;
+		this.age = age;
+	}
+	
+	public void showPersonalInfo(){
+		System.out.println("name: " +name);
+		System.out.println("age: " +age);
+	}
+	
+}
+public class PrintStackTrace {
+	public static final Scanner sc = new Scanner(System.in);
+	
+	public static PersonalInfo readPersonalInfo() throws AgeException, NameLengthException{
+		
+		String name = readName();
+		if (name.length() < 2)
+			throw new NameLengthException(name.length());
+		
+		int age = readAge();
+		if(age < 0)
+			throw new AgeException();
+		
+		return new PersonalInfo(name, age);
+	}
+	
+	public static int readAge() throws AgeException{
+		System.out.print("age: ");
+		int age = sc.nextInt(); sc.nextLine();
+		
+		if(age < 0)
+			throw new AgeException();
+		
+		return age;
+	}
+	
+	public static String readName() throws NameLengthException{
+		System.out.print("age: ");
+		String name = sc.nextLine();
+		
+		if (name.length() < 2)
+			throw new NameLengthException(name.length());
+		
+		return name;
+	}
+	
+	public static void main(String[] args){
+		try{
+			PersonalInfo info = readPersonalInfo();
+			info.showPersonalInfo();
+		}
+		catch(NameLengthException e){
+			e.printStackTrace();
+		}
+		catch(AgeException e){
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+### Exception class Hierarchy
+Exception → Throwable ← Error <br/>
+e.g. VirtualMachineError <br/>
+![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
+
+### RuntimeException
+although it is a subclass of Exception, it is similar to Error subclasses
+1. no 'try~catch' or 'throws'
+2. does not handle serious problems as 'Error' would handle:<br/> errors related to environment in which application is running
+3. in order to continue program, it occasionally uses try~catch <br/>
+
+RuntimException Example:
+```java
+public class RuntimeExceptionCase {
+	public static void main(String[] args){
+		try{
+			int[] arr = {0,1};
+			arr[-2] = 1;
+		}
+		catch(ArrayIndexOutOfBoundsException e){
+			System.out.println(e.getMessage());
+		}
+		
+		try{
+			Object obj = new int[10];
+			String str = (String)obj;
+		}
+		catch(ClassCastException e){
+			System.out.println(e.getMessage());
+		}
+		
+		try{
+			int[] arr = new int[-10];
+		}
+		catch(NegativeArraySizeException e){
+			System.out.println(e.getMessage());
+		}
+		
+		try{
+			String str = null;
+			int len = str.length();
+		}
+		catch(NullPointerException e){
+			System.out.println(e.getMessage());
+		}
+	}
+}
+```
 
 ## Memory model
 
