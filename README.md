@@ -1383,7 +1383,7 @@ public class RuntimeExceptionCase {
 JVM memory:
 
 * Method: method (bytecode), static var
-* Stack: local var, param
+* Stack: local var, ref var, param
 * Heap: inst, garbage collection
 
 ### Object : finalize
