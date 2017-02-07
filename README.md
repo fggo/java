@@ -1127,8 +1127,50 @@ class OuterClass{
 
 ## Exception
 
+### try catch finally
+```java
+public static void main(String[] args){
+	Scanner sc = new Scanner(System.in);
+		
+	try{
+		System.out.print("integer n1: ");
+		int n1 = sc.nextInt(); sc.nextLine();
+		System.out.print("integer n2: ");
+		int n2 = sc.nextInt(); sc.nextLine();
+		
+		System.out.println("n1/n2 = " + n1/n2);
+		System.out.println("n1%n2 = " + n1%n2);
+		
+		int[] arr = {0,1};
+		arr[-1] = 1;
+	}
+	catch(ArithmeticException e){
+		System.out.println(e.getMessage());
+	}
+	catch(ArrayIndexOutOfBoundsException e){
+		System.out.println("invalid index : " + e.getMessage());
+	}
+	finally{
+		/*this code is always executed whether exception occurs or not*/
+	}
+}
+```
+Defined Exception classes :
+* ArrayIndexOutOfBoundsException
+* ClassCastException
+* NegativeArraySizeException
+* NullPointerException
 
+Avoid this :
+```java
+/*ArithmeticException catch area is never reached.*/
+try{/*code*/}
+catch(Throwable e){}
+catch(ArithmeticException e){}
+```
 
+### Custom exception
+for instance, a programmer can define exception when int 'age' input was negative
 
 
 ## Memory model
