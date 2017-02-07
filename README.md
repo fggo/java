@@ -1087,7 +1087,7 @@ public class LocalClassTest {
 ```
 
 ### Anonymous class
-similar to Local class, but without class name.
+similar to Local class, but without class name
 
 ```java
 /*method 1.*/
@@ -1156,10 +1156,12 @@ public static void main(String[] args){
 }
 ```
 Defined Exception classes :
+
 * ArrayIndexOutOfBoundsException
 * ClassCastException
 * NegativeArraySizeException
 * NullPointerException
+<br/>
 
 Avoid this :
 ```java
@@ -1170,14 +1172,18 @@ catch(ArithmeticException e){}
 ```
 
 ### throw
-Custom exception: 
-e.g. exception can be defined for negative 'age' input<br/><br/>
+Custom exception: <br/>
+e.g. exception can be defined for negative 'age' input
+
 * throws will pass the error to his caller to handle it
-* try catch block will handle the Exception <br/>
+* try catch block will handle the Exception
+<br/>
 
 after 'throws' there're two ways to handle
+
 1. caller will handled exception with try catch
 2. caller 'throws'
+
 ```java
 /*1. caller try catch*/
 import java.util.Scanner;
@@ -1230,10 +1236,12 @@ public class ProgrammerDefineException {
 }
 ```
 Then the caller of main method should handle exception. <br/>
-since JVM is the caller, JVM will <br/>
+since JVM is the caller, JVM will
+
 1. call getMessage()
 2. print stack trace
-3. terminate program <br/>
+3. terminate program
+<br/>
 
 Example:
 ```java
@@ -1327,9 +1335,11 @@ e.g. VirtualMachineError <br/>
 
 ### RuntimeException
 although it is a subclass of Exception, it is similar to Error subclasses
+
 1. no 'try~catch' or 'throws'
 2. does not handle serious problems as 'Error' would handle:<br/> errors related to environment in which application is running
-3. in order to continue program, it occasionally uses try~catch <br/>
+3. in order to continue program, it occasionally uses try~catch 
+<br/>
 
 RuntimException Example:
 ```java
