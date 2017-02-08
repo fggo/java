@@ -1447,16 +1447,218 @@ requires to implement Cloneable interface to call clone()
 ```java
 protected Object clone() throws CloneNotSupportedException
 ```
+Example:
+```java
+class Point implements Cloneable{
+	private int xpos, ypos;
+	
+	public Point(int x, int y){
+		xpos = x;
+		ypos = y;
+	}
+	
+	public void showPosition(){
+		System.out.printf("[%d, %d]\n", xpos, ypos);
+	}
+	
+	/*override protected to pulbic*/
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+}
 
-### Shallow copy
+public class InstanceCloning {
+	public static void main(String[] args){
+		Point org = new Point(3,5);
+		Point cpy;
+		
+		try{
+			cpy = (Point)org.clone();
+			org.showPosition();
+			cpy.showPosition();
+		}
+		catch(CloneNotSupportedException e){
+			e.printStackTrace();
+		}
+	}
+}
+```
 
-### Deep copy
+### Shallow & Deep copy
+```java
+class Point implements Cloneable{
+	private int xpos, ypos;
+	
+	public Point(int x, int y){
+		xpos = x;
+		ypos = y;
+	}
+	public void showPosition(){
+		System.out.printf("[%d, %d]\n", xpos, ypos);
+	}
+	public void changePosition(int x, int y){
+		xpos = x;
+		ypos = y;
+	}
+	
+	/*override protected to pulbic*/
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+}
+
+class Rectangle implements Cloneable{
+	Point lowerleft;
+	Point upperright;
+	
+	public Rectangle(int llx, int lly, int urx, int ury){
+		lowerleft = new Point(llx, lly);
+		upperright = new Point(urx, ury);
+	}
+	public void showPosition(){
+		System.out.print("lower left: "); lowerleft.showPosition();
+		System.out.print("upper right: "); upperright.showPosition();
+		
+	}
+	public void changePosition(int llx, int lly, int urx, int ury){
+		lowerleft.changePosition(llx, lly);
+		upperright.changePosition(urx, ury);
+	}
+	
+	/*shallow copy*/
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+	
+	/*deep copy*/
+	public Object clone() throws CloneNotSupportedException{
+		Rectangle cpy = (Rectangle)super.clone();
+		
+		cpy.lowerleft = (Point)lowerleft.clone();
+		cpy.upperright = (Point)upperright.clone();
+		
+		return cpy;
+	}
+}
+
+public class ShallowDeepCopy {
+	public static void main(String[] args){
+		Rectangle org = new Rectangle(1, 1, 9, 9);
+		Rectangle cpy;
+		
+		try{
+			cpy = (Rectangle)org.clone();
+			org.changePosition(2, 2, 7, 7);
+			
+			org.showPosition();
+			cpy.showPosition();
+		}
+		catch(CloneNotSupportedException e){
+			e.printStackTrace();
+		}
+	}
+}
+```
 
 ### String clone
-
+String does not need deep copy
 
 
 ## Wrapper
+java defines wrapper classes
+
+* Boolean
+* Character
+* Byte
+* Integer
+* Long
+* Float
+* Double
+
+```java
+/*boxing*/
+Integer ival = new Integer(10);
+Integer ival2 = 10;
+Integer ival3 = Integer.valueOf(10);
+Integer ival4 = Integer.valueOf(10);
+
+//just like String, ival3 == ival4
+
+/*unboxing*/
+ival = new Integer(ival.intValue() + 10) 
+ival++;
+ival2 += 10;
+int n = ival;
+int n2 = ival + ival2;
+```
+
+### Big N
+* BigInteger
+```java
+BigInteger bigval = new BigInteger("1000000000000000000000");
+```
+
+* BigDecimal
+precision in floating num
+```java
+BigDecimal bigval = new BigDecimal("3.1415");
+```
+<br/>
+
+Example:
+```java
+
+import java.math.BigDecimal;
+import java.util.Scanner;
+
+public class AbsoluteNumber {
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("type real num1: ");
+		BigDecimal n1 = sc.nextBigDecimal();
+		System.out.print("type real num2: ");
+		BigDecimal n2 = sc.nextBigDecimal();
+		
+		BigDecimal sub = n1.subtract(n2);
+		
+		System.out.println("absolute difference: " + sub.abs());
+		
+	}
+}
+```
+### Math
+```java
+/*Math static var & method*/
+Math.PI;
+Math.sqrt(2);
+Math.toDegrees(Math.PI);
+Math.sin(radian45);
+Math.cos(radian45);
+Math.tan(radian45);
+Math.log(25);
+Math.pow(2,4)
+```
+
+### Rand
+```java
+Random rand = new Random();
+
+public boolean nextBoolean()
+public int nextInt()
+public long nextLong()
+public int nextInt(int n)  // [0, n) int
+public float nextFloat() // [0.0, 1.0) float
+public double nextDouble() // [0.0, 1.0) double
+public double nextGaussian()
+```
+
+```java
+Math math = new Math();
+public static double random() // [0.0, 1.0) double
+```
+
+
 
 ## Generic
 
