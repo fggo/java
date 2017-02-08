@@ -1979,10 +1979,179 @@ Collection interfaces:<br/>
 * Map\<K,E\>
 
 ### ArrayList
+list size increases as data is added<br/>
+to improve performace it can ensure capacity in advance
+```java
+public class IntroArrayList {
+	public static void main(String[] args){
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.ensureCapacity(500);
+		
+		for(int i : new int[]{11,22,33})
+			list.add(i);
+		
+		list.ensureCapacity(list.size()*2);
+		
+		for(int i = 0; i < list.size(); i++)
+			System.out.println(list.get(i));
+		
+		list.remove(0);
+		for(Integer i : list) 
+			System.out.println(i);
+	}
+}
+```
 
 ### LinkedList
+```java
+class IntroLinkedList {
+	public static void main(String[] args){
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		for(int i : new int[]{11,22,33})
+			list.add(i);
+		
+		for(int i = 0; i<list.size(); i++)
+			System.out.println(list.get(i));
+		
+		list.remove(0);
+		
+		for(Integer i : list)
+			System.out.println(i);
+	}
+}
+```
 
 ### ArrayList vs LinkedList
+ArrayList
+
+* data insert : slow
+* data remove : slow
+* data reference : fast (use index)
+* useful when data size determined
+<br/>
+
+LinkedList
+
+* data insert : fast
+* data remove : fast
+* data reference : slow (use iterator)
+* useful when data size is not determined
+<br/>
+
+implementing LinkedList: 
+```java
+class Box<T>{
+	public Box<T> nextBox;
+	T item;
+	
+	public Box(){}
+	public Box(T item){this.item = item;}
+	
+	public void store(T item){this.item = item;}
+	public T pullOut(){return item;}
+}
+
+public class SimpleLinkedListImpl {
+	public static void main(String[] args){
+		Box<String> boxHead = new Box<String>();
+		boxHead.store("First String");
+		
+		boxHead.nextBox = new Box<String>("Second String");
+		
+		boxHead.nextBox.nextBox = new Box<String>("Third String");
+		
+		Box<String> tempRef;
+		tempRef = boxHead.nextBox;
+		System.out.println(tempRef.pullOut());
+		
+		tempRef = tempRef.nextBox;
+		System.out.println(tempRef.pullOut());
+	}
+}
+```
+
+Also check [leetcode] (https://github.com/fggo/leetcode/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
+
+### Iterator
+iterator is useful since it can reference data regardless of types of collection class
+```java
+LinkedList<Integer> list = new ListList<Integer>();
+for(int i : new int[]{1,2,3})
+	list.add(i);
+Iterator<Integer> itr = list.iterator();
+while(itr.hasnext()) System.out.println(itr.next());
+```
+
+* Collection\<int\> Collection\<double\> Collection\<long\> is not allowed
+
+### HashSet
+No specific order data is stored
+```java
+import java.util.HashSet;
+import java.util.Iterator;
+public class SetInterfaceFeature {
+	public static void main(String[] args){
+		HashSet<String> hset = new HashSet<String>();
+		for(String s : new String[] {"First", "First", "Second", "Third"})
+			hset.add(s);
+		
+		Iterator<String> itr = hset.iterator();
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
+### hashcode & equality
+1. search group with hashCode() val
+2. compare with equals(Object obj)
+
+override two methods to implement your own class :
+```java
+import java.util.HashSet;
+import java.util.Iterator;
+class Person{
+	String name;
+	int age;
+	public Person(String name, int age){
+		this.name = name;
+		this.age = age;
+	}
+	
+	public int hashCode(){return name.hashCode() + age%7;}
+	
+	public boolean equals(Object obj){
+		Person cmp = (Person)obj;
+		
+		if(name.equals(cmp.name) && age == cmp.age)
+			return true;
+		else
+			return false;
+	}
+	public String toString(){return name;}
+}
+
+public class HashSetEquality {
+	public static void main(String[] args){
+		HashSet<Person> hset = new HashSet<Person>();
+		for(int i : new int[]{1,2,2})
+			hset.add(new Person(new Character((char)(i+64)).toString(), i));
+		
+		System.out.println("hash set size: " + hset.size());
+		
+		Iterator<Person> itr = hset.iterator();
+		
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
+### TreeSet
+
+### TreeSet Comparable
+
+### TreeSet Comparator
 
 
 
@@ -1991,3 +2160,4 @@ Collection interfaces:<br/>
 ## File IO
 
 ## Swing
+
