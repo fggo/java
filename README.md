@@ -1822,7 +1822,7 @@ public class IntroGenericMethod {
 ### Bounded Type param
 Inside 'showInstType' method, inst1 and 2 can only be used with Object defined method<br/>
 i.e. println() can be used since toString method is defined in Object class<br/>
-To use other method it needs explicit inst type conversion: <br/>
+To use other method it needs explicit type conversion or restricts generic param type :<br/>
 ```java
 interface SimpleInterface{
 	public void showYourName();
@@ -1888,8 +1888,7 @@ param ```FruitBox<Apple>``` or ```FruitBox<Orange>```is not allowed for
 ```java
 public void method(FruitBox<Fruit> param){/*code*/}
 ```
-method.
-We can use WildCard method 
+Use WildCard method:
 ```java
 public class IntroWildCard {
 	/*extends*/
@@ -1971,6 +1970,19 @@ class MyImplement implements MyInterface<String>{
 ```
 
 ## Collection
+Collection interfaces:<br/>
+
+* Collection\<E\>
+  * Set\<E\>
+  * List\<E\>
+  * Queue\<E\>
+* Map\<K,E\>
+
+### ArrayList
+
+### LinkedList
+
+### ArrayList vs LinkedList
 
 
 
