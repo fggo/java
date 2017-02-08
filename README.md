@@ -2148,12 +2148,54 @@ public class HashSetEquality {
 ```
 
 ### TreeSet
+Integer Data is stored in ascending order. But this does not apply when Data is of type \<T\>
+```java
+import java.util.TreeSet;
+import java.util.Iterator;
+
+public class SortTreeSet {
+	public static void main(String[] args){
+		TreeSet<Integer> tree = new TreeSet<Integer>();
+		tree.add(1);
+		tree.add(2);
+		tree.add(4);
+		tree.add(3);
+		tree.add(2);
+		
+		System.out.println("tree data size: " + tree.size());
+		
+		Iterator<Integer> itr = tree.iterator();
+		
+		//tree stores data in ascending order
+		while(itr.hasNext())
+			System.out.println(itr.next());
+		
+	}
+```
 
 ### TreeSet Comparable
+Set rules for data ordering in TreeSet
+```java
+interface Comparable<T>{
+	int compareTo(T obj);
+}
+```
 
 ### TreeSet Comparator
+```java
+interface Comparator<T>{
+	int compare(T obj1, T obj2);
+	boolean equals(Object obj);
+}
+```
 
+### HashMap
+```java
+```
 
+### TreeMap
+```java
+```
 
 ## Thread
 
