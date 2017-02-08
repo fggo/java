@@ -2191,10 +2191,49 @@ interface Comparator<T>{
 
 ### HashMap
 ```java
+import java.util.HashMap;
+public class IntroHashMap {
+	public static void main(String[] args){
+		HashMap<Integer, String> hmap = new HashMap<Integer, String>();
+		hmap.put(new Integer(3), "bbobobofofofo");
+		hmap.put(new Integer(8), "frararararara");
+		hmap.put(new Integer(5), "quququzuuquz");
+		
+		System.out.println(hmap.get(3));
+		System.out.println(hmap.get(5));
+		System.out.println(hmap.get(8));
+		
+		hmap.remove(5);
+		System.out.println(hmap.get(5));
+	}
+}
 ```
 
 ### TreeMap
 ```java
+import java.util.NavigableSet;
+import java.util.TreeMap;
+public class IntroTreeMap {
+	public static void main(String[] args){
+		TreeMap<Integer, String> tmap = new TreeMap<Integer, String>();
+		tmap.put(1, "data1");
+		tmap.put(5, "data5");
+		tmap.put(2, "data2");
+		tmap.put(4, "data4");
+		tmap.put(3, "data3");
+		
+		NavigableSet<Integer> navi = tmap.navigableKeySet();
+		Iterator<Integer> itr = navi.iterator();
+		System.out.println("Ascending order...");
+		while(itr.hasNext())
+			System.out.println(tmap.get(itr.next()));
+		
+		itr = navi.descendingIterator();
+		System.out.println("Descending order...");
+		while(itr.hasNext())
+			System.out.println(tmap.get(itr.next()));
+	}
+}
 ```
 
 ## Thread
