@@ -28,6 +28,10 @@
 * [Wrapper] (https://github.com/fggo/java/blob/master/README.md#wrapper-class)
 * [Generic] (https://github.com/fggo/java/blob/master/README.md#generic)
 * [Collection] (https://github.com/fggo/java/blob/master/README.md#collection)
+* [Thread] (https://github.com/fggo/java/blob/master/README.md#thread)
+* [File IO] (https://github.com/fggo/java/blob/master/README.md#file-io)
+* [Swing] (https://github.com/fggo/java/blob/master/README.md#swing)
+
 
 ## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
@@ -1657,9 +1661,321 @@ public double nextGaussian()
 Math math = new Math();
 public static double random() // [0.0, 1.0) double
 ```
+<br/>
 
+PseudoRandom.java
+```java
+import java.util.Random;
+/*Random(long seed)
+Random rand = new Random();*/
+Random rand = new Random(System.currentTimeMillis()); //same as above
+//Random rand = new Random((long)Math.random());
+//Random rand = new Random(Double.valueOf(Math.random()).longValue());
 
+for(int i =0; i<100; i++)
+	System.out.println(rand.nextInt(1000));
+```
+<br/>
+
+RandomAtoB.java
+```java
+Random rand = new Random();
+int a =1, b =10;
+for(int i =0; i<10; i++)
+	System.out.println(Math.min(a, b) + rand.nextInt(Math.abs(a-b)));
+```
+<br/>
+
+Random0to10.java
+```java
+for(int i =0; i<5; i++)
+	System.out.println((int)(Math.random()*10));
+```
+
+### Tokenizer
+```java
+import java.util.StringTokenizer;
+public class TokenizeString2 {
+	public static void main(String[] args){
+		String phone = "TEL 1-333#333@3333";
+		String code = "num+=1";
+		
+		StringTokenizer tk1 = new StringTokenizer(phone, " -#@");
+		StringTokenizer tk2 = new StringTokenizer(code, "+=", true);
+		
+		while(tk1.hasMoreTokens())
+			System.out.println(tk1.nextToken());
+		
+		while(tk2.hasMoreTokens())
+			System.out.println(tk2.nextToken());
+	}
+}
+```
 
 ## Generic
 
+### Generic class
+```java
+class Fruit {
+	String name;
+	public Fruit(String name){this.name = name;}
+	public void showFruitInfo(){
+		System.out.println("Fruit name: " + name);
+	}
+}
+
+class Apple extends Fruit{
+	int weight;
+	public Apple(int weight){
+		super("Apple");
+		this.weight = weight;
+	}
+	public void showFruitInfo(){
+		super.showFruitInfo();
+		System.out.println("Apple weight: " + weight);
+	}
+}
+
+class Orange extends Fruit{
+	int sugar;
+	public Orange(int sugar){
+		super("Orange");
+		this.sugar = sugar;
+	}
+	public void showFruitInfo(){
+		super.showFruitInfo();
+		System.out.println("Orange sugar: " + sugar);
+	}
+}
+
+class FruitBox <T>{
+	T item;
+	public FruitBox(T item){this.item = item;}
+	public void store(T item){this.item = item;}
+	public T pullOut(){return item;}
+}
+
+class MultiFruitBox <T, U>{
+	T item1;
+	U item2;
+	
+	public MultiFruitBox(T item1, U item2){
+		this.item1 = item1;
+		this.item2 = item2;
+	}
+	
+	public void storeItem1(T item1){this.item1 = item1;}
+	public void storeItem2(U item2){this.item2 = item2;}
+	
+	/*public T pullOut(){return item;}*/
+}
+
+public class GenericBaseFruitBox {
+	public static void main(String[] args){
+		FruitBox<Orange> orgBox = new FruitBox<Orange>(new Orange(10));
+		Orange org = (Orange)orgBox.pullOut();
+		org.showFruitInfo();
+		
+		FruitBox<Apple> aplBox = new FruitBox<Apple>(new Apple(300));
+		Apple apl = (Apple)aplBox.pullOut();
+		apl.showFruitInfo();
+	}
+}
+```
+
+### Generic method
+IntroGenericMethod.java
+```java
+class AAA{
+	public String toString(){return "class AAA";}
+}
+class BBB{
+	public String toString(){return "class BBB";}
+}
+
+class InstTypeShower{
+	public <T> void showInstType(T inst){
+		System.out.println(inst);
+	}
+	
+	public <T,U> void showInstType(T inst1, U inst2){
+		System.out.println(inst1);
+		System.out.println(inst2);
+	}
+}
+
+public class IntroGenericMethod {
+	public static void main(String[] args){
+		AAA aaa = new AAA();
+		BBB bbb = new BBB();
+		
+		InstTypeShower shower = new InstTypeShower();
+		
+		shower.<AAA>showInstType(aaa); //shower.showInstType(aaa);
+		shower.<BBB>showInstType(bbb); //shower.showInstType(bbb);
+		shower.<AAA, BBB>showInstType(aaa, bbb);
+	}
+}
+```
+<br/>
+
+### Bounded Type param
+Inside 'showInstType' method, inst1 and 2 can only be used with Object defined method<br/>
+i.e. println() can be used since toString method is defined in Object class<br/>
+To use other method it needs explicit inst type conversion: <br/>
+```java
+interface SimpleInterface{
+	public void showYourName();
+}
+
+class UpperClass{
+	public void showYourAncestor() {System.out.println("Upper class");}
+}
+
+class A extends UpperClass implements SimpleInterface{
+	public void showYourName() {System.out.println("Class A");}
+}
+class B extends UpperClass implements SimpleInterface{
+	public void showYourName() {System.out.println("Class B");}
+}
+
+public class BoundedTypeParam {
+	
+	/*public static <T> void showInstAncestor(T param){
+		((SimpleInterface)param).showYourName();
+	}
+	public static <T> void showInstName(T param){
+		((UpperClass)param).showYourAncestor();
+	}*/
+	
+	public static <T extends SimpleInterface> void showInstAncestor(T param){
+		param.showYourName();
+	}
+	public static <T extends UpperClass> void showInstName(T param){
+		param.showYourAncestor();
+	}
+	
+	public static void main(String[] args){
+		A a = new A();
+		B b = new B();
+		
+		showInstAncestor(a);
+		showInstName(a);
+		
+		showInstAncestor(b);
+		showInstName(b);
+	}
+}
+```
+
+### Generic Array method
+```java
+public class IntroGenericArray {
+	public static <T> void showArrayData(T[] arr){
+		for(int i = 0; i<arr.length; i++)
+			System.out.println(arr[i]);
+	}
+	
+	public static void main(String[] args){
+		String[] arr = new String[]{"a", "b", "c"};
+		showArrayData(arr);
+	}
+}
+```
+
+### Generic Wildcard
+param ```FruitBox<Apple>``` or ```FruitBox<Orange>```is not allowed for
+```java
+public void method(FruitBox<Fruit> param){/*code*/}
+```
+method.
+We can use WildCard method 
+```java
+public class IntroWildCard {
+	/*extends*/
+	public static void openAndShowFruitBox(FruitBox<? extends Fruit> box){
+		Fruit fruit = box.pullOut();
+		fruit.showFruitInfo();
+		System.out.println();
+	}
+	
+	/*super*/
+	public static void openAndShowFruitBox2(FruitBox<? super Apple> box){
+		Fruit fruit = box.pullOut();
+		fruit.showFruitInfo();
+		System.out.println();
+	}
+	
+	public static void main(String[] args){
+		FruitBox<Fruit> box = new FruitBox<Fruit>();
+		box.store(new Fruit("Unidentified Fruit"));
+		
+		FruitBox<Apple> aplBox = new FruitBox<Apple>();
+		aplBox.store(new Apple(100));
+		
+		FruitBox<Orange> orgBox = new FruitBox<Orange>();
+		orgBox.store(new Orange(300));
+		
+		openAndShowFruitBox(box);
+		openAndShowFruitBox(aplBox);
+		openAndShowFruitBox(orgBox);
+	}
+}
+```
+
+### Generic Inheritance
+```java
+class AAA<T>{
+	T itemAAA;
+}
+class BBB<T> extends AAA<T>{
+	T itemBBB;
+}
+class CCC extends AAA<T>{
+	int itemCCC;
+}
+
+/*you can also choose T for AAA<T>*/
+class AAA<String>{
+	String itemAAA;
+}
+class BBB extends AAA<String>{
+	int itemBBB;
+}
+class BBB<T> extends AAA<String>{
+	T itemBBB;
+}
+
+```
+
+### Generic interface
+```java
+interface MyInterface<T>{
+	public T func(T item);
+}
+class MyImplement<T> implements MyInterface<T>{
+	public T func(T item){
+		return item;
+	}
+}
+
+/*choose T */
+interface MyInterface<String>{
+	public String func(String item);
+}
+class MyImplement implements MyInterface<String>{
+	public String func(String item){
+		return item;
+	}
+}
+```
+
 ## Collection
+
+
+
+## Thread
+
+## File IO
+
+## Swing
