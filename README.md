@@ -2242,7 +2242,232 @@ public class IntroTreeMap {
 
 multi-thread in one process :
 ```java
+class Sum{
+	int num;
+	public Sum(){num = 0;}
+	public void addNum(int n){num+=n;}
+	public int getNum(){return num;}
+}
+
+class AdderThread extends Sum implements Runnable{
+	int start, end;
+	
+	public AdderThread(int s, int e){
+		start = s;
+		end = e;
+	}
+	
+	public void run(){
+		for(int i =start; i<=end; i++)
+			addNum(i);
+	}
+}
+
+public class RunnableThread {
+	public static void main(String[] args) {
+		AdderThread at1 = new AdderThread(1, 50);
+		AdderThread at2 = new AdderThread(51, 100);
+		
+		Thread t1 = new Thread(at1);
+		Thread t2 = new Thread(at2);
+		t1.start();
+		t2.start();
+		
+		try{
+			t1.join();
+			t2.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		
+		System.out.println("1~100 sum: " + (at1.getNum() +at2.getNum()));
+	}
+}
 ```
+
+### Thread priority
+* [sleep] (https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
+* [join] (https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
+in the example, without join(), smaller sum will be printed <br/>
+since method thread might execute print line before t1 and t2 threads ends.
+```java
+class MessageSendingThread extends Thread{
+	String message;
+	public MessageSendingThread(String message, int newPriority){
+		this.message = message;
+		setPriority(newPriority);
+	}
+	
+	public void run(){
+		for(int i =0; i<1000000;i ++){
+			System.out.println(message + "(" + getPriority()+")");
+			
+			try{
+				//causes the current thread to suspend execution for a specified period
+				//make CPU available to lower priority threads
+				sleep(1);
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+			
+	}
+}
+
+public class PriorityTest {
+	public static void main(String[] args) {
+		MessageSendingThread t1 = new MessageSendingThread("AAA",Thread.MAX_PRIORITY);
+		MessageSendingThread t2 = new MessageSendingThread("BBB",Thread.NORM_PRIORITY);
+		MessageSendingThread t3 = new MessageSendingThread("CCC",Thread.MIN_PRIORITY);
+
+		t1.start();
+		t2.start();
+		t3.start();
+		
+		try{
+			t1.join();
+			t2.join();
+			t3.join(); //pause execution until thread ends
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+### Thread Lifecycle
+* New
+* Runnable (start)
+* Blocked (sleep, join)
+* Dead (after run)
+
+### Thread memory model
+* Method: method (bytecode), static var
+* Stack: local var, ref var, param
+* Heap: inst, gc
+Threads share 'method' and 'heap' area (inst address) in JVM memory.<br/>
+multi-thread approaching same inst var in Heap.
+```java
+class AdderThread extends Thread{
+	Sum sumInst;
+	int start, end;
+	
+	public AdderThread(Sum sumInst, int s, int e){
+		this.sumInst = sumInst;
+		start = s;
+		end = e;
+	}
+	
+	public void run(){
+		for(int i =start; i<=end; i++)
+			sumInst.addNum(i);
+	}
+}
+
+public class RunnableThread {
+	public static void main(String[] args) {
+		Sum sumInst = new Sum();
+		AdderThread t1 = new AdderThread(sumInst, 1, 50);
+		AdderThread t2 = new AdderThread(sumInst, 51, 100);
+		
+		t1.start();
+		t2.start();
+		
+		try{
+			t1.join();
+			t2.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		
+		System.out.println("1~100 sum: " + sumInst.getNum());
+	}
+}
+```
+
+### Sync prevents thread interference
+check thread-safe(sync) e.g. StringBuffer is thread-safe.
+```java
+class IHaveTwoNum{
+	int num1 = 0, num2 = 0;
+	
+	//create key. IHaveTwoNum also has a key.
+	Object key = new Object();
+	
+	public void addOneNum1(){
+		synchronized(this){
+			num1+=1;
+		}
+	}
+	public void addTwoNum1(){
+		synchronized(this){
+			num1+=2;
+		}
+	}
+	public void addOneNum2(){
+		synchronized(key){
+			num2+=1;
+		}
+	}
+	public void addTwoNum2(){
+		synchronized(key){
+			num2+=2;
+		}
+	}
+	
+	public void showAllNums(){
+		System.out.printf("[num1, num2] = [%d, %d]\n", num1, num2);
+	}
+}
+
+class AccessThread extends Thread{
+	IHaveTwoNum twoNumInst;
+	
+	public AccessThread(IHaveTwoNum twoNumInst){this.twoNumInst = twoNumInst;}
+	
+	public void run(){
+		twoNumInst.addOneNum1();
+		twoNumInst.addTwoNum1();
+		twoNumInst.addOneNum2();
+		twoNumInst.addTwoNum2();
+	}
+}
+
+public class SyncObjectKey {
+	public static void main(String[] args) {
+		IHaveTwoNum twoNumInst = new IHaveTwoNum();
+		
+		AccessThread t1 = new AccessThread(twoNumInst);
+		AccessThread t2 = new AccessThread(twoNumInst);
+		t1.start();
+		t2.start();
+		
+		try{
+			t1.join();
+			t2.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		twoNumInst.showAllNums();
+	}
+}
+```
+
+### Sync controls thread order
+
+### wait notify notifyAll
+
+### ReentrantLock
+
+### await signal signalAll
+
+
+
 
 ## File IO
 
