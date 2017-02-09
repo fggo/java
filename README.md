@@ -2570,21 +2570,267 @@ note: thread is able to execute wait() even if another thread executed wait()<br
 because wait() unlocks even sync block.<br/>
 Another Example:
 ```java
+import java.util.Scanner;
 
+class IntegerComm{
+	int num = 0;
+	boolean isNewNum = false;
+	
+	public void setNum(int num){
+		
+		synchronized(this){
+			if (isNewNum == true){
+				try{
+					wait();
+				}
+				catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+			this.num = num;
+			isNewNum = true;
+			notify();
+		}
+	}
+	
+	public int getNum(){
+		int retNum = 0;
+		synchronized (this){
+			if (isNewNum == false){
+				try{
+					wait();
+				}
+				catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+			retNum = num;
+			isNewNum = false;
+			notify();
+		}
+		return retNum;
+	}
+}
 
+class IntegerSum extends Thread{
+	IntegerComm comm = new IntegerComm();
+	int sum = 0;
+	
+	public IntegerSum(IntegerComm comm){
+		this.comm = comm;
+	}
+	
+	public void run(){
+		for(int i =0; i<5; i++)
+			sum += comm.getNum();
+		System.out.println("sum : " + sum);
+	}
+}
+
+public class SumFiveNum {
+	public static void main(String[] args) {
+		IntegerComm comm = new IntegerComm();
+		IntegerSum sum = new IntegerSum(comm);
+		
+		sum.start();
+		Scanner sc = new Scanner(System.in);
+		
+		for(int i = 0; i <5; i++){
+			System.out.print("Integer num " + (i+1) + " >> ");
+			comm.setNum(sc.nextInt());
+		}
+		
+		try{
+			sum.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
+}
 ```
 
 ### ReentrantLock
+another way to sync
+```java
+private final ReentrantLock key = new ReentrantLock();
+
+key.lock();
+try{
+	/*code*/
+}
+finally{
+	key.unlock();
+}
+```
+Example:
 ```java
 
+import java.util.concurrent.locks.ReentrantLock;
+
+class IHaveTwoNum{
+	int num1 = 0, num2 = 0;
+	
+	/* key lock and unlock prevents another thread from entering */
+	private final ReentrantLock key1 = new ReentrantLock();
+	private final ReentrantLock key2 = new ReentrantLock();
+	
+	public void addOneNum1(){
+		key1.lock();
+		try{
+			num1+=1;
+		}
+		finally{
+			key1.unlock();
+		}
+	}
+	public void addTwoNum1(){
+		key1.lock();
+		try{
+			num1+=2;
+		}
+		finally{
+			key1.unlock();
+		}
+	}
+	public void addOneNum2(){
+		key2.lock();
+		try{
+			num2+=1;
+		}
+		finally{
+			key2.unlock();
+		}
+		
+	}
+	public void addTwoNum2(){
+		key2.lock();
+		try{
+			num2+=2;
+		}
+		finally{
+			key2.unlock();
+		}
+	}
+	public void showAllNums(){
+		System.out.printf("[num1, num2] = [%d, %d]\n", num1, num2);
+	}
+}
 ```
 
 
 ### await signal signalAll
+ReentrantLock inst calls newCondition() to return Condition inst, which has following method<br/>
+await() signal() signalAll() <br/>
+They are similar to wait() notify() notifyAll() except they are for ReentrantLock impl
 ```java
+import java.util.Scanner;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+class StringComm{
+	String newString;
+	boolean isNewString = false;
+	
+	private final ReentrantLock entLock = new ReentrantLock();
+	private final Condition readCond = entLock.newCondition();
+	private final Condition writeCond = entLock.newCondition();
+	
+	public void setNewString(String newString){
+		entLock.lock();
+		try{
+			if(isNewString == true)
+				writeCond.await();
+			
+			this.newString = newString;
+			isNewString = true;
+			readCond.signal();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		finally{
+			entLock.unlock();
+		}
+	}
+	
+	public String getNewString(){
+		String retString = null;
+		
+		entLock.lock();
+		try{
+			if(isNewString == false)
+				readCond.await();
+			
+			retString = newString;
+			isNewString = false;
+			writeCond.signal();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		finally{
+			entLock.unlock();
+		}
+		
+		return retString;
+	}
+}
+
+class StringReader extends Thread{
+	StringComm comm;
+	
+	public StringReader(StringComm comm){
+		this.comm = comm;
+	}
+	
+	public void run(){
+		for(int i =0;i<5; i++)
+			System.out.println("string" + (i+1) + " = " + comm.getNewString());
+	}
+}
+
+class StringWriter extends Thread{
+	StringComm comm;
+	
+	public StringWriter(StringComm comm){
+		this.comm = comm;
+	}
+	
+	public void run(){
+		Scanner sc = new Scanner(System.in);
+		String str;
+		
+		for(int i =0;i<5; i++)
+		{
+			str = sc.nextLine();
+			comm.setNewString(str);
+		}
+	}
+}
+
+public class ConditionSyncStringReadWrite {
+	public static void main(String[] args) {
+		StringComm comm = new StringComm();
+		
+		StringWriter writer = new StringWriter(comm);
+		StringReader reader = new StringReader(comm);
+		
+		System.out.println("Input/Output Thread Start! Type 5 strings");
+		
+		reader.start();
+		writer.start();
+		
+		try{
+			reader.join();
+			writer.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
+}
 ```
-
-
 
 ## File IO
 
