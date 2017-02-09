@@ -2459,13 +2459,130 @@ public class SyncObjectKey {
 ```
 
 ### Sync controls thread order
+the result shows 'null' since reader was prior to writer<br/>
+```java
+class NewsPaper{
+	String todayNews;
+	
+	public void setTodayNews(String todayNews){
+		this.todayNews = todayNews;
+	}
+	public String getTodayNews(){
+		return todayNews;
+	}
+}
+
+class NewsWriter extends Thread{
+	NewsPaper paper;
+	
+	public NewsWriter(NewsPaper paper){
+		this.paper = paper;
+	}
+	
+	public void run(){
+		paper.setTodayNews("Introducing Java 101 series!");
+	}
+}
+
+class NewsReader extends Thread{
+	NewsPaper paper;
+	
+	public NewsReader(NewsPaper paper){
+		this.paper = paper;
+	}
+	
+	public void run(){
+		System.out.println("Today's News: \"" + paper.getTodayNews() + "\"");
+	}
+}
+
+public class NewsPaperStory {
+	public static void main(String[] args) {
+		NewsPaper paper = new NewsPaper();
+		
+		NewsWriter writer = new NewsWriter(paper);
+		NewsReader reader1 = new NewsReader(paper);
+		NewsReader reader2 = new NewsReader(paper);
+		
+		reader1.start();
+		reader2.start();
+		writer.start();
+		
+		try{
+			reader1.join();
+			reader2.join();
+			writer.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
+}
+```
+
 
 ### wait notify notifyAll
+sync can control order of threads(writer, reader) regardless of the code line order,<br/>
+using wait notify notifyAll
+```java
+public final void wait() throws InterruptedException  /*a thread wait until another thread notify*/
+public final void notify() /*wake a thread*/
+public final void notifyAll() /*wake all thread*/ 
+```
+wait() notify() notifyAll() also need sync. <br/>
+Modified Example: init of NewsPaper inst should be ordered.
+```java
+class NewsPaper{
+	String todayNews;
+	boolean isTodayNews = false;
+	
+	public void setTodayNews(String todayNews){
+		this.todayNews = todayNews;
+		isTodayNews = true;
+		
+		synchronized(this){
+			notifyAll(); 
+		}
+	}
+	public String getTodayNews(){
+		if(isTodayNews == false){
+			try{
+				synchronized(this){
+					wait();
+				}
+			}
+			catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+		return todayNews;
+	}
+}
+class NewsWriter extends Thread{ /*same as previous*/ }
+class NewsReader extends Thread{ /*same as previous*/ }
+public class NewsPaperStory {
+	public static void main(String[] args) {
+		/*same as previous*/
+	}
+}
+```
+note: thread is able to execute wait() even if another thread executed wait()<br/>
+because wait() unlocks even sync block.<br/>
+Another Example:
+```java
+
+
+```
 
 ### ReentrantLock
+```java
+
+```
+
 
 ### await signal signalAll
-
+```java
+```
 
 
 
