@@ -2237,6 +2237,13 @@ public class IntroTreeMap {
 ```
 
 ## Thread
+* start() assign memory to thread and run()
+* thread shares CPU
+
+multi-thread in one process :
+```java
+
+```
 
 ## File IO
 
