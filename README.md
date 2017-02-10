@@ -2070,7 +2070,7 @@ public class SimpleLinkedListImpl {
 }
 ```
 
-Also check [leetcode] (https://github.com/fggo/leetcode/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
+Also check [leet] (https://github.com/fggo/leet/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
 
 ### Iterator
 iterator is useful since it can reference data regardless of types of collection class
