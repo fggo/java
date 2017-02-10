@@ -2833,13 +2833,668 @@ public class ConditionSyncStringReadWrite {
 ```
 
 ## File IO
+
+### InputStream
+create Stream using InputStream inst<br/>
 ```java
+InputStream in = new FileInputStream("run.exe");
 
-
-
-
+/*read and return 1-byte data. return -1 if no data to read*/
+public abstract int read() throws IOException
+public void close() throws IOException
 ```
 
+### OutputStream
+```java
+OutputStream out = new FileOutputStream("run.exe");
+
+public abstract void write() throws IOException
+public void close() throws IOException
+```
+<br/>
+
+### Bytes File copy 
+ByteFileCopy.java
+```java
+import java.io.*;
+
+public class ByteFileCopy {
+	public static void main(String[] args) throws IOException{
+		InputStream in = new FileInputStream("org.bin");
+		OutputStream out = new FileOutputStream("cpy.bin");
+		
+		int copyByte = 0;
+		int bData;
+		
+		while(true){
+			bData = in.read();
+			
+			if (bData == -1)
+				break;
+			out.write(bData);
+			copyByte++;
+		}
+		in.close();
+		out.close();
+		System.out.print("copied byte = " + copyByte);
+	}
+}
+
+```
+<br/>
+
+BufferFileCopy.java
+```java
+import java.io.*;
+
+public class BufferFileCopy {
+	public static void main(String[] args) throws IOException{
+		InputStream in = new FileInputStream("org.bin");
+		OutputStream out = new FileOutputStream("cpy.bin");
+		
+		int copyByte = 0;
+		int readLen;
+		byte[] buf = new byte[1024];
+		
+		while(true){
+			readLen = in.read(buf);
+			if (readLen == -1)
+				break;
+			out.write(buf, 0, readLen);
+			copyByte += readLen;
+		}
+		
+		in.close();
+		out.close();
+		System.out.print("copied byte : " + copyByte);
+	}
+}
+```
+
+### FilterStream
+```java
+import java.io.*;
+
+public class DataFilterStream {
+	public static void main(String[] args) throws IOException{
+		OutputStream out = new FileOutputStream("data.bin");
+		DataOutputStream filterOut = new DataOutputStream(out);
+		filterOut.writeInt(275);
+		filterOut.writeDouble(3.1415);
+		filterOut.close();
+		
+		InputStream in = new FileInputStream("data.bin");
+		DataInputStream filterIn = new DataInputStream(in);
+		int num1 = filterIn.readInt();
+		double num2 = filterIn.readDouble();
+		filterIn.close();
+		
+		System.out.printf("%d  %f", num1, num2);
+	}
+}
+```
+
+### BufferedStream
+BufferedInputStream & BufferedOutputStream provide buffer as implemented in BufferFileCopy.java<br/>
+you can set buffer size.<br/>
+```java
+public BufferedInputStream(InputStream in, int size)
+public BufferedOutputStream(OutputStream out, int size)
+
+public int read() throws IOException
+public int read(byte[] b, int off, int len) throws IOException
+/*Reads bytes from this byte-input stream into the specified byte array, starting at offset. */
+```
+
+ByteBufferedFileCopy.java
+```java
+import java.io.*;
+
+public class ByteBufferedFileCopy {
+	public static void main(String[] args) throws IOException{
+		InputStream in = new FileInputStream("org.bin");
+		OutputStream out = new FileOutputStream("cpy.bin");
+		
+		BufferedInputStream bin = new BufferedInputStream(in);
+		BufferedOutputStream bout = new BufferedOutputStream(out);
+		
+		int copyByte = 0;
+		int bData;
+		
+		while(true){
+			bData = bin.read();
+			if (bData == -1)
+				break;
+			bout.write(bData);
+			copyByte++;
+		}
+		
+		bin.close();
+		bout.close();
+		System.out.println("copied byte : " + copyByte);
+	}
+}
+```
+
+### Buffer flush
+once buffer is full, it sends buffered data to outputstream and writes to a file
+```java
+public void flush() throws IOException
+```
+
+### Filter + Buffered Stream
+Performance test
+
+1. FileOutputStream + BufferedOutputStream + DataOutputStream
+2. FileOutputStream + DataOutputStream
+```java
+import java.io.*;
+
+public class DataBufferFilterPerformance {
+	public static void performanceTest(DataOutputStream dataOut) throws IOException{
+		long startTime = System.currentTimeMillis();
+		for(int i =0;i<5000; i++)
+			for(int j =0; j<10000; j++)
+				dataOut.writeDouble(12.345);
+		
+		dataOut.flush();
+		long endTime = System.currentTimeMillis();
+		
+		System.out.println("time lapse: " + (endTime - startTime));
+	}
+	
+	public static void main(String[] args) throws IOException{
+		OutputStream out1 = new FileOutputStream("data1.bin");
+		/*BufferedOutputStream bufFilterOut = new BufferedOutputStream(out);*/
+		DataOutputStream dataOut = new DataOutputStream(out1);
+		performanceTest(dataOut);
+		dataOut.close();
+		
+		OutputStream out2 = new FileOutputStream("data2.bin");
+		BufferedOutputStream bufFilterOut = new BufferedOutputStream(out2, 1024*10);
+		DataOutputStream dataBufOut = new DataOutputStream(bufFilterOut);
+		performanceTest(dataBufOut);
+		dataBufOut.close();
+	}
+}
+```
+
+PrintStream
+```java
+public static final PrintStream out;
+```
+Example:
+```java
+import java.io.*;
+
+class MyInfo{
+	String info;
+	public MyInfo(String info){
+		this.info = info;
+	}
+	public String toString(){return info;}
+}
+
+public class PrintStreamToFile {
+	public static void main(String[] args) throws IOException{
+		OutputStream out = new FileOutputStream("println.txt");
+		PrintStream pntOut = new PrintStream(out);
+		
+		MyInfo info = new MyInfo("I'm a student");
+		pntOut.println("let me introduce myself");
+		pntOut.println(info);
+		pntOut.printf("age: %d  weight: %d", 100, 300);
+		pntOut.close();
+	}
+}
+```
+
+### Byte vs Char Stream
+Byte Stream cannot store char.<br/>
+Encoding(char to number) differs for each OS.<br/>
+Example:
+```java
+public static void main(Strin[] args) throws IOException{
+	OutputStream out = new FileOutputStream("encoding.txt");
+	out.write(65); //'A'
+	out.write(66); //'B'
+	out.close();
+}
+```
+java provides Stream that outputs char based on OS.
+
+### FileReader FileWriter
+for character output and input<br/>
+```java
+/*FileReader method*/
+public int read() throws IOException
+public abstract int read(char[] cbuf, int off, int len) throws IOException
+
+/*FileWriter method*/
+public void write() throws IOException
+public abstract void write(char[] cbuf, int off, int len) throws IOException
+```
+
+Linux encodes character(2-byte) to 1-byte. Following example outputs 3-byte size file.
+```java
+import java.io.*;
+public class FileWriterStream {
+	public static void main(String[] args) throws IOException{
+		char ch1 = 'A';
+		char ch2 = 'B';
+		
+		Writer out = new FileWriter("encoding.txt");
+		out.write(ch1);
+		out.write(ch2);
+		out.write('\n');
+		out.close();
+	}
+}
+```
+
+Reader will returns 6 bytes of char(compare to 3 bytes by Writer)
+```java
+import java.io.*;
+
+public class FileReaderStream {
+	public static void main(String[] args) throws IOException{
+		char[] cbuf = new char[10];
+		int readCnt;
+		
+		Reader in = new FileReader("encoding.txt");
+		/*read (cbuf.legnth - off) characters and stores in char[] cbuf*/
+		readCnt = in.read(cbuf, 0, cbuf.length);
+		
+		for(int i =0;i < readCnt; i++)
+			System.out.println(cbuf[i]);
+		
+		in.close();
+	}
+}
+```
+
+
+### BufferedReader BufferedWriter
+
+```java
+/*BufferedReader*/
+public String readLine() throws IOException
+
+/*BufferedWriter*/
+public void write(String str) throws IOException
+```
+Example:
+```java
+import java.io.*;
+
+public class StringWriterReader {
+	public static void main(String[] args) throws IOException{
+		BufferedWriter out = new BufferedWriter(new FileWriter("String.txt"));
+		out.write("line number one"); out.newLine();
+		out.write("line number two"); out.newLine();
+		out.write("line number three"); out.newLine();
+		out.close();
+		
+		BufferedReader in = new BufferedReader(new FileReader("String.txt"));
+		String str;
+		while(true){
+			str = in.readLine();
+			if(str == null)
+				break;
+			System.out.println(str);
+		}
+		in.close();
+	}
+}
+```
+
+### PrintWriter PrintReader (FilterStream)
+```java
+import java.io.*;
+
+public class PrintWriterStream {
+	public static void main(String[] args) throws IOException{
+		PrintWriter out = new PrintWriter(new FileWriter("printf.txt"));
+		out.printf("age : %d years old", 100);
+		out.println();
+		
+		out.print("learn Input Output stream\n");
+		out.close();
+	}
+}
+```
+
+Example with BufferedWriter
+```java
+import java.io.*;
+
+public class BufferedPrintWriter {
+	public static void main(String[] args) throws IOException{
+		/*write*/
+		FileWriter fout = new FileWriter("printf.txt");
+		PrintWriter out = new PrintWriter(new BufferedWriter(fout));
+		
+		out.printf("age : %d years old", 100);
+		out.println();
+		
+		out.print("learn Input Output stream\n");
+		out.close();
+		
+		/*read*/
+		BufferedReader in = new BufferedReader(new FileReader("printf.txt"));
+		String str;
+		
+		while(true){
+			str = in.readLine();
+			if(str == null)
+				break;
+			System.out.println(str);
+		}
+		in.close();
+	}
+}
+```
+
+### ObjectStream
+
+### Serializable
+To use the following method, a class has to implement java.io.Serializable<br/>
+Serializable does not have class method.
+```java
+public final void writeObject(Object obj) throws IOException
+public final Object readObject() throws IOException, ClassNotFoundException
+```
+
+Example:
+```java
+import java.io.*;
+
+class Point implements Serializable{
+	int xpos, ypos;
+	
+	public Point(int x, int y){
+		xpos = x;
+		ypos = y;
+	}
+}
+class Circle implements Serializable{
+	Point center;
+	double radius;
+	
+	public Circle(int x, int y, double r){
+		center = new Point(x, y);
+		radius = r;
+	}
+	
+	public void showCircleInfo(){
+		System.out.printf("[%d, %d]\n", center.xpos, center.ypos);
+		System.out.printf("radius = %f\n", radius);
+	}
+}
+
+public class ObjectSerializable {
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Object.ser"));
+		
+		out.writeObject(new Circle(1, 1, 3.4));
+		out.writeObject(new Circle(2, 2, 5.5));
+		out.writeObject(new String("String class implements Serializable!"));
+		out.close();
+		
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Object.ser"));
+		Circle c1 = (Circle)in.readObject();
+		Circle c2 = (Circle)in.readObject();
+		String message = (String)in.readObject();
+		in.close();
+		
+		c1.showCircleInfo();
+		c2.showCircleInfo();
+		System.out.print(message);
+	}
+}
+```
+
+
+### transient
+no serialization!
+```java
+import java.io.*;
+
+class PersonalInfo implements Serializable{
+	String name;
+	transient String secretInfo;
+	int age;
+	transient int secretNum;
+	
+	public PersonalInfo(String name, String sInfo, int age, int sNum){
+		this.name = name;
+		secretInfo = sInfo;
+		this.age = age;
+		secretNum = sNum;
+	}
+	public void showPersonalInfo(){
+		System.out.println("name: " + name);
+		System.out.println("secret info: " + secretInfo);
+		System.out.println("age: " + age);
+		System.out.println("secret num: " + secretNum);
+		System.out.println();
+	}
+}
+
+public class TransientMembers {
+	public static void main(String[] args) throws IOException, ClassNotFoundException{
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Personal.ser"));
+		PersonalInfo info = new PersonalInfo("John", "Doe", 7, 666);
+		info.showPersonalInfo();
+		out.writeObject(info);
+		out.close();
+		
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("Personal.ser"));
+		PersonalInfo recovInfo = (PersonalInfo)in.readObject();
+		in.close();
+		
+		recovInfo.showPersonalInfo();
+	}
+}
+```
+
+### RandomAccessFile
+* IO at the same time
+* IO location changeable
+* File only Stream
+```java
+/*in*/
+public int read() throws IOException
+public int read(byte[] b, int off, int len) throws IOException
+public final int readInt() throws IOException
+public final double readDouble() throws IOException
+
+/*out*/
+public void write(int b) throws IOException
+public void write(byte[] b, int off, int len) throws IOException
+public final void writeInt(int v) throws IOException
+public final void writeDouble(double v) throws IOException
+
+/*change loc*/
+public long getFilePointer() throws IOException
+public void seek(long pos) throws IOException
+
+/*constructor*/
+public RandomAccessFile(String name, String mode) throws FileNotFoundException
+
+mode:
+"r" read
+"rw" read and write
+```
+
+Example:
+```java
+import java.io.*;
+
+public class RandomFileReadWrite {
+	public static void main(String[] args) throws IOException{
+		RandomAccessFile raf = new RandomAccessFile("data.bin", "rw");
+		System.out.println("Write.....");
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		
+		raf.writeInt(200);
+		raf.writeInt(500);
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		
+		raf.writeDouble(33.2323);
+		raf.writeDouble(3.1415);
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		
+		
+		System.out.println("Read.....");
+		raf.seek(0); //to front
+		/*raf.seek(raf.length() - 8);*/ // to end
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		
+		System.out.println(raf.readInt());
+		System.out.println(raf.readInt());
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		
+		System.out.println(raf.readDouble());
+		System.out.println(raf.readDouble());
+		System.out.printf("current IO loc : %d byte\n", raf.getFilePointer());
+		raf.close();
+	}
+}
+```
+
+
+### File
+* create and remove dir
+* remove file
+* print file name in dir
+
+```java
+public boolean mkdir()
+public boolean mkdirs()
+public boolean renameTo(File dest)
+
+	/*make dir*/
+	File myDir = new File("/home/username/JavaDirOne/JavaDirTwo");
+	myDir.mkdirs(); 
+	
+	/*move a file*/
+	File myFile = new File("/home/username/JavaOne/my.bin");
+	File reFile = new File("/home/username/JavaTwo/my.bin");
+	myFile.renameTo(reFile); 
+```
+
+File Seperator : OS independent
+```java
+String path = File.seperator + "home" + File.seperator + "username" + File.seperator; 
+```
+
+### Relative Path
+Move file using relative path:
+```java
+import java.io.*;
+
+public class FileMove {
+	public static void main(String[] args) throws IOException{
+		File myFile = new File("MyJava/my.bin");
+		
+		if(myFile.exists() == false){
+			System.out.println("Non existent file!");
+			return;
+		}
+		
+		/*relative path*/
+		File reDir = new File("YourJava"); 
+		reDir.mkdir();
+		File reFile = new File(reDir, "my.bin");
+		myFile.renameTo(reFile);
+		
+		if(reFile.exists() == true)
+			System.out.println("Moving File Success!");
+		else
+			System.out.println("Moving File Failure!");
+			
+		/*absolute path*/
+		System.out.println(myFile.getAbsolutePath());
+		System.out.println(reFile.getAbsolutePath());
+	}
+}
+```
+
+List files:
+```java
+import java.io.*;
+
+public class ListFileDirectory {
+	public static void main(String[] args) throws IOException{
+		File myDir = new File("MyJava");
+		File[] list = myDir.listFiles();
+		
+		for(int i =0; i<list.length; i++){
+			System.out.print(list[i].getName());
+			if(list[i].isDirectory())
+				System.out.println("\t\t DIR");
+			else
+				System.out.println("\t\t FILE");
+		}
+	}
+}
+```
+
+System.getProperty(key)
+```java
+key: 
+	os.name
+	java.home /*java installed dir*/
+	user.dir /*current dir*/
+	java.version /*JRE ver*/
+```
+
+Parent Dir:
+```java
+import java.io.*;
+
+public class CurrentUpperDir {
+	public static void showDirList(File[] list){
+		for(int i =0; i<list.length; i++){
+			System.out.print(list[i].getName());
+			if(list[i].isDirectory())
+				System.out.println("\t\t DIR");
+			else
+				System.out.println("\t\t FILE");
+		}
+	}
+	public static void main(String[] args) throws IOException{
+		String workingDir = System.getProperty("user.dir");
+		File currentDir = new File(workingDir);
+		System.out.println("current dir full path: " + workingDir);
+		System.out.println("current dir name: " + currentDir.getName());
+		showDirList(currentDir.listFiles());
+		
+		File upperDir = currentDir.getParentFile();
+		System.out.println("\n\nupper dir name: " + upperDir.getName());
+		showDirList(upperDir.listFiles());
+		
+	}
+}
+```
+
+File Validation :
+```java
+public FileInputStream(File file) throws FileNotFoundException
+public FileOutputStream(File file) throws FileNotFoundException
+public FileReader(File file) throws FileNotFoundException
+public FileWriter(File file) throws IOException
+
+
+Example:
+File = inFile = new File("data.bin");
+if (inFile.exists() == false){
+	/*handling*/
+}
+InputStream in = new FileInputStream(inFile);
+
+```
 
 ## Swing
 
