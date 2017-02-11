@@ -134,7 +134,7 @@ multi line*/
 ```java
 //UnicodeChar.java
 char ch1 = 'A';
-char ch2 = '亀';
+char ch2 = '�썒占�';
 char ch3 = 0x3091;
 char ch4 = 0x3092;
 ```
@@ -1333,7 +1333,7 @@ public class PrintStackTrace {
 ```
 
 ### Exception class Hierarchy
-Exception → Throwable ← Error <br/>
+Exception 占쎈꼥 Throwable 占쎈� Error <br/>
 e.g. VirtualMachineError <br/>
 ![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
 
@@ -3497,4 +3497,31 @@ InputStream in = new FileInputStream(inFile);
 ```
 
 ## Swing
+* AWT
+* Swing
+* SWT
+* Flex
 
+[The Swing Tutorial](http://java.sun.com/docs/books/tutorial/uiswing)
+
+```java
+import java.awt.*;
+import javax.swing.*;
+
+public class FirstSwing {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("First Swing");
+		frm.setBounds(120, 120, 400, 100);
+		frm.setLayout(new FlowLayout());
+		
+		JButton btn1 = new JButton("My Button");
+		JButton btn2 = new JButton("Your Button");
+		JButton btn3 = new JButton("Our Button");
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
