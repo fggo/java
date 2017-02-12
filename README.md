@@ -134,7 +134,7 @@ multi line*/
 ```java
 //UnicodeChar.java
 char ch1 = 'A';
-char ch2 = '�썒占�';
+char ch2 = '丼';
 char ch3 = 0x3091;
 char ch4 = 0x3092;
 ```
@@ -3525,3 +3525,95 @@ public class FirstSwing {
 	}
 }
 ```
+
+### AWT
+```java
+import java.awt.*;
+import java.awt.event.*;
+
+public class FirstAWTExitEvent {
+	public static void main(String[] args) {
+		Frame frm = new Frame("First Swing");
+		frm.setBounds(120, 120, 400,400);
+		frm.setLayout(new FlowLayout());
+		
+		WindowListener listener = new WindowAdapter(){
+			public void windowClosing(WindowEvent ev){
+				System.exit(0);
+			}
+		};
+		frm.addWindowListener(listener);
+		
+		Button btn1 = new Button("My Button");
+		Button btn2 = new Button("Your Button");
+		Button btn3 = new Button("Our Button");
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
+
+### Exit value
+```java
+import java.io.IOException;
+
+public class RunningProcess {
+	public static void main(String[] args) throws IOException, InterruptedException{
+		Process proc = Runtime.getRuntime().exec("java FirstAWTExitEvent");
+		proc.waitFor();
+		
+		if (proc.exitValue() == 0)
+			System.out.println("Terminated Normally");
+		else
+			System.out.println("Problem occurred during termination!");
+	}
+}
+```
+
+### EventHandler
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+class MouseEventHandler implements MouseListener{
+
+	public void mouseClicked(MouseEvent e) {
+		JButton btn = (JButton)e.getComponent();
+		btn.setText("Clicked");
+		System.out.println("Clicked Button" + e.getButton());
+		System.out.println("Mouse clicked and released");
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}	
+}
+
+public class EventHandler {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("First Swing");
+		frm.setBounds(120,120,400,100);
+		frm.setLayout(new FlowLayout());
+		
+		JButton btn1 = new JButton("My Button");
+		MouseListener listener = new MouseEventHandler();
+		btn1.addMouseListener(listener);
+		
+		JButton btn2 = new JButton("Your Button");
+		btn2.addMouseListener(listener);
+		
+		JButton btn3 = new JButton("Our Button");
+		btn3.addMouseListener(listener);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
+
