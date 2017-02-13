@@ -63,7 +63,6 @@ sudo apt-get install default-jdk
 public class FirstProgram{
 	public static void main(String[] args){
 		System.out.println("Basic Java program.");
-		System.out.println("Learning Java.");
 	}
 }
 ```
@@ -71,10 +70,8 @@ public class FirstProgram{
 ## Comment
 ```java
 //line comment
-/*block 
-comment
-allows
-multi line*/
+/*block comment
+  multiple lines*/
 ```
 
 ## Variables
@@ -134,29 +131,24 @@ multi line*/
 ```java
 //UnicodeChar.java
 char ch1 = 'A';
-char ch2 = '丼';
+char ch2 = '訝';
 char ch3 = 0x3091;
 char ch4 = 0x3092;
 ```
 
 ## Type Casting
-
+SuffixConst.java
 ```java
-//SuffixConst.java
 double e1 = 125;
 float e2 = 7.125F;
-
 long n1 = 1000000000L;
 long n2 = 150;
-System.out.println(e2);
-System.out.println(n1);
 ```
 
 * Implicit Conversion
-```java
-byte - short \ int - long - float -> double
+byte - short \ int - long - float -> double<br/>
        char  /
-
+```java
 double n1 = 20; //ok (int -> double)
 int n2 = 20.5; //error due to data loss (double -> int)
 float n3 = 10; //ok (int -> float)
@@ -176,30 +168,29 @@ long n4 = (long)n3;
 
 ## Operator
 ```java
-
-basic op
+Basic
 + add
 - subtract
 * multiply
 / divide
 % modulo
 
-compare
+Compare
 < > 
 <= >= 
 != ==
 && || !
 
-unary 
+Unary 
 + - 
 int n1 = +2; 
 int n2 = -n1;
 
-incr decs
+Incr Decr
 n++ ++n
 n-- --n
 
-bit op
+Bit
 1 & 1 == 1 
 1 & 0 == 0
 0 & 0 == 0
@@ -215,11 +206,12 @@ bit op
 >> >>>
 2 << 3 == 16
 
-type conv
+Type conv
 7/3 == 2
 7.0f/3.0f == 2.333...
 (float)7/3 == 2.333...
 ```
+
 ## Condition
 
 ## if else
@@ -267,13 +259,11 @@ do{/*code*/} while(cond)
 
 ## continue break
 ```java
-for(;;){
+for(int i=0; i<N; i++){
 	/*code*/
-	if(cond)
-		continue;
 }
 
-while(true){
+while(boolean){
 	/*code*/
 	if(cond)
 		break; /*break 'one' loop*/
@@ -292,7 +282,7 @@ public static int toBinary(int dec){
 }
 ```
 
-## class
+## Class
 ```java
 /*class declaration*/
 class AAA{
@@ -326,7 +316,6 @@ class AAA{
 ```java
 AAA a = null; //init ref variable as null
 ```
-
 
 ## final keyword
 ```java
@@ -1333,7 +1322,7 @@ public class PrintStackTrace {
 ```
 
 ### Exception class Hierarchy
-Exception 占쎈꼥 Throwable 占쎈� Error <br/>
+Exception �뜝�럥瑗� Throwable �뜝�럥占� Error <br/>
 e.g. VirtualMachineError <br/>
 ![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
 
@@ -3599,8 +3588,9 @@ public class EventHandler {
 		frm.setBounds(120,120,400,100);
 		frm.setLayout(new FlowLayout());
 		
-		JButton btn1 = new JButton("My Button");
 		MouseListener listener = new MouseEventHandler();
+		
+		JButton btn1 = new JButton("My Button");
 		btn1.addMouseListener(listener);
 		
 		JButton btn2 = new JButton("Your Button");
@@ -3616,4 +3606,517 @@ public class EventHandler {
 	}
 }
 ```
+
+### EventHandlerAns1
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import chapter25.FrameMouseEventHandler.FrameMouseEventHandler;
+import chapter25.MouseEventHandler.MouseEventHandler;
+
+public class MouseEventHandler implements MouseListener{
+	public void mouseClicked(MouseEvent e) {
+		JButton btn = (JButton)e.getComponent();
+		btn.setText("Clicked");
+		System.out.println("Clicked Button" + e.getButton());
+		System.out.println("Mouse clicked and released");
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}	
+}
+
+public class FrameMouseEventHandler implements MouseListener{
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Mouse on JFrame clicked and released");
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}	
+}
+
+public class EventHandlerAns1 {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("First Swing");
+		frm.setBounds(120,120,400,100);
+		frm.setLayout(new FlowLayout());
+		frm.addMouseListener(new FrameMouseEventHandler());
+		
+		MouseListener listener = new MouseEventHandler();
+		
+		JButton btn1 = new JButton("My Button");
+		btn1.addMouseListener(listener);
+		
+		JButton btn2 = new JButton("Your Button");
+		btn2.addMouseListener(listener);
+		
+		JButton btn3 = new JButton("Our Button");
+		btn3.addMouseListener(listener);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
+
+### EventHandlerAns2
+```java
+class MyJFrame extends JFrame{
+	public MyJFrame(String title){
+		super(title);
+		setBounds(120,120,400,100);
+		setLayout(new FlowLayout());
+		addMouseListener(new FrameMouseEventHandler());
+	}
+}
+public class EventHandlerAns2 {
+	public static void main(String[] args) {
+		JFrame frm = new MyJFrame("First Swing");
+		
+		MouseListener listener = new MouseEventHandler();
+		
+		JButton btn1 = new JButton("My Button");
+		btn1.addMouseListener(listener);
+		
+		JButton btn2 = new JButton("Your Button");
+		btn2.addMouseListener(listener);
+		
+		JButton btn3 = new JButton("Our Button");
+		btn3.addMouseListener(listener);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
+
+### EventHandlerAns3
+```java
+class MaJFrame extends JFrame implements MouseListener{
+	public MaJFrame(String title){
+		super(title);
+		setBounds(120,120,400,100);
+		setLayout(new FlowLayout());
+		addMouseListener(this);
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Mouse on JFrame clicked and released");
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}	
+}
+public class EventHandlerAns3 {
+	public static void main(String[] args) {
+		JFrame frm = new MaJFrame("First Swing");
+		
+		MouseListener listener = new MouseEventHandler();
+		
+		JButton btn1 = new JButton("My Button");
+		btn1.addMouseListener(listener);
+		
+		JButton btn2 = new JButton("Your Button");
+		btn2.addMouseListener(listener);
+		
+		JButton btn3 = new JButton("Our Button");
+		btn3.addMouseListener(listener);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
+
+### EventHandlerAns4
+```java
+class MJFrame extends JFrame implements MouseListener{
+	JButton btn1;
+	JButton btn2;
+	JButton btn3;
+	
+	public MJFrame(String title){
+		super(title);
+		setBounds(120,120,400,100);
+		setLayout(new FlowLayout());
+		addMouseListener(this);
+		
+		btn1 = new JButton("My Button");
+		btn2 = new JButton("Your Button");
+		btn3 = new JButton("Our Button");
+		
+		MouseListener listener = new MouseEventHandler();		
+		btn1.addMouseListener(listener);
+		btn2.addMouseListener(listener);
+		btn3.addMouseListener(listener);
+		
+		add(btn1);
+		add(btn2);
+		add(btn3);
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Mouse on JFrame clicked and released");
+	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}	
+}
+public class EventHandlerAns4 {
+	public static void main(String[] args) {
+		JFrame frm = new MJFrame("First Swing");
+		frm.setVisible(true);
+	}
+}
+```
+
+### FlowLayout Manager
+* L to R
+* centered
+* newline for long components
+
+```java
+import java.awt.*;
+import javax.swing.*;
+class LargeButton extends JButton{
+	public LargeButton(String str){super(str);}
+	
+	public Dimension getPreferredSize(){
+		Dimension largeBtmSz = new Dimension(
+				super.getPreferredSize().width +30,
+				super.getPreferredSize().height+15
+				);
+		return largeBtmSz;
+	}
+}
+
+public class FlowLayoutManager {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("FlowLayout Test");
+		frm.setBounds(120,120,400,200);
+		frm.setLayout(new FlowLayout());
+		
+		frm.add(new JButton("Hi!"));
+		frm.add(new JButton("HiHi!"));
+		frm.add(new JButton("HiHiHi!"));
+		
+		frm.add(new LargeButton("Hi!"));
+		frm.add(new LargeButton("HiHi!"));
+		frm.add(new LargeButton("HiHiHi!"));
+		frm.setVisible(true);
+	}
+}
+```
+
+### BorderLayout Manager
+```java
+public class BorderLayoutManager {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("BorderLayout Test");
+		frm.setBounds(120,120,300,200);
+		frm.setLayout(new BorderLayout());
+		
+		frm.add(new JButton("EAST"), BorderLayout.EAST);
+		frm.add(new JButton("WEST"), BorderLayout.WEST);
+		frm.add(new JButton("SOUTH"), BorderLayout.SOUTH);
+		frm.add(new JButton("NORTH"), BorderLayout.NORTH);
+		frm.add(new JButton("CENTER"), BorderLayout.CENTER);
+		
+		frm.setVisible(true);
+	}
+}
+```
+
+### GridLayout Manager
+```java
+public class GridLayoutManager {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("FlowLayout Test");
+		frm.setBounds(120,120,400,200);
+		frm.setLayout(new GridLayout(3,2, 2,2));
+		/*public GridLayout(int rows,
+                  int cols,
+                  int hgap,
+                  int vgap)*/
+		frm.add(new JButton("1-1")); frm.add(new JButton("1-2"));
+		frm.add(new JButton("2-1")); frm.add(new JButton("2-2"));
+		frm.add(new JButton("3-1")); frm.add(new JButton("3-2"));
+		
+		frm.setVisible(true);
+	}
+}
+```
+
+### MultiLayout Manager
+JFrame[<br/>
+	JPanel1[],<br/> 
+	JPanel2[]<br/>
+]
+
+* JFrame: BorderLayout
+* JPanel1: FlowLayout, BorderLayout.NORTH
+* JPanel2: GridLayout, BorderLayout.CENTER 
+
+```java
+import java.awt.*;
+import javax.swing.*;
+
+public class MultiLayoutManager {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Multi Layout Test");
+		frm.setBounds(120,120, 250,150);
+		frm.setLayout(new BorderLayout()); //border
+		
+		JButton btn1 = new JButton("B1"); JButton btn2 = new JButton("B2");
+		JButton btn3 = new JButton("B3"); JButton btn4 = new JButton("B4");
+		JButton btn5 = new JButton("B5"); JButton btn6 = new JButton("B6");
+		JButton btn7 = new JButton("B7"); JButton btn8 = new JButton("B8");
+		JButton btn9 = new JButton("B9"); JButton btn10 = new JButton("B10");
+		
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new FlowLayout()); //flow
+		panel1.add(btn1); panel1.add(btn2); panel1.add(btn3); panel1.add(btn4);
+		
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridLayout(2,3,2,2)); //grid
+		panel2.add(btn5); panel2.add(btn6); panel2.add(btn7);
+		panel2.add(btn8); panel2.add(btn9); panel2.add(btn10);
+		
+		frm.add(panel1, BorderLayout.NORTH);
+		frm.add(panel2, BorderLayout.CENTER);
+		
+		frm.setVisible(true);
+	}
+}
+```
+
+### EventListener
+(Event, EventListener)
+* MouseEvent MouseListener
+* MouseEvent MouseMotionListener
+* TextEvent TextListener
+* ItemEvent ItemListener
+* AdjustmentEvent AdjustmentListener
+* WindowEvent WindowListener
+* ActionEvent ActionListener
+<br/>
+
+### MouseEvent
+```java
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import chapter25.MouseEventHandler.MouseEventHandler;
+
+public class JButtonMouseEvent {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("JButton Disable");
+		frm.setBounds(120,120, 250,150);
+		frm.setLayout(new FlowLayout());
+		
+		JButton btn1 = new JButton("Button One");
+		JButton btn2 = new JButton("Button Two");
+		
+		MouseListener mouseHandler = new MouseEventHandler();
+		btn1.addMouseListener(mouseHandler);
+		btn2.addMouseListener(mouseHandler);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		
+		btn1.setEnabled(false);
+		
+		frm.setVisible(true);
+	}
+}
+```
+
+### ActionEvent
+```java
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+/*spacebar does not make mouse event! -> needs action event def*/
+class ActionEventHandler implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getActionCommand());
+	}
+}
+
+public class JButtonActionEvent {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("JButton Disable");
+		frm.setBounds(120,120, 250,150);
+		frm.setLayout(new FlowLayout());
+		
+		JButton btn1 = new JButton("Button One");
+		JButton btn2 = new JButton("Button Two");
+		
+		ActionListener actionHandler = new ActionEventHandler();
+		btn1.addActionListener(actionHandler);
+		btn2.addActionListener(actionHandler);
+		
+		frm.add(btn1);
+		frm.add(btn2);
+		
+		btn1.setEnabled(false);
+		
+		frm.setVisible(true);
+	}
+}
+```
+
+### WindowEvent
+* dispose()
+```java
+import java.awt.event.*;
+import javax.swing.*;
+
+class WindowEventHandler implements WindowListener{
+	String frameInfo;
+	public WindowEventHandler(String info){
+		frameInfo = info;
+	}
+	public void windowActivated(WindowEvent e) {
+		System.out.println(frameInfo + "window activated");
+	}
+	public void windowClosed(WindowEvent e) {
+		System.out.println(frameInfo + "window closed");
+	}
+	public void windowClosing(WindowEvent e) {
+		JFrame frm = (JFrame)e.getWindow();
+		frm.dispose();
+		System.out.println(frameInfo + "window closing");
+	}
+	public void windowDeactivated(WindowEvent e) {
+		System.out.println(frameInfo + "window deactivated");
+	}
+	public void windowDeiconified(WindowEvent e) {
+		System.out.println(frameInfo + "window deiconified");
+	}
+	public void windowIconified(WindowEvent e) {
+		System.out.println(frameInfo + "window iconified");
+	}
+	public void windowOpened(WindowEvent e) {
+		System.out.println(frameInfo + "window opened");
+	}
+}
+public class JFrameWindowEvent {
+	public static void main(String[] args) {
+		JFrame frmOne = new JFrame("Frame One");
+		JFrame frmTwo = new JFrame("Frame Two");
+		
+		frmOne.setBounds(120,120,250,150);
+		frmTwo.setBounds(380,120,250,150);
+		
+		frmOne.addWindowListener(new WindowEventHandler("Frame One"));
+		frmTwo.addWindowListener(new WindowEventHandler("Frame Two"));
+		
+		frmOne.add(new JButton("Button One"));
+		frmTwo.add(new JButton("Button Two"));
+		
+		frmOne.setVisible(true);
+		frmTwo.setVisible(true);
+	}
+}
+```
+<br/>
+
+* System > exit(status)
+* JFrame > setDefaultCloseOperation(WindowsConstants.DISPOSE_ON_CLOSE)
+* JFrame > setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+```java
+import javax.swing.*;
+
+public class SetDefaultCloseOperation {
+	public static void main(String[] args) {
+		JFrame frmOne = new JFrame("Frame One");
+		JFrame frmTwo = new JFrame("Frame Two");
+		
+		frmOne.setBounds(120,120,250,150);
+		frmTwo.setBounds(380,120,250,150);
+		
+		/*frmOne.addWindowListener(new WindowEventHandler("Frame One"));
+		frmTwo.addWindowListener(new WindowEventHandler("Frame Two"));*/
+		frmOne.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frmTwo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
+		frmOne.add(new JButton("Button One"));
+		frmTwo.add(new JButton("Button Two"));
+		
+		frmOne.setVisible(true);
+		frmTwo.setVisible(true);
+	}
+}
+```
+
+### MouseListener MouseMotionListener
+```java
+import java.awt.event.*;
+import javax.swing.*;
+
+class MouseMotionHandler implements MouseMotionListener{
+	public void mouseDragged(MouseEvent e) {
+		System.out.printf("Drag [%d, %d]\n", e.getX(), e.getY());
+	}
+	public void mouseMoved(MouseEvent e) {
+		System.out.printf("Move [%d, %d]\n", e.getX(), e.getY());
+	}
+}
+public class MouseMotionEvent {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Mouse Motion");
+		frm.setBounds(120,120,250,150);
+		frm.addMouseMotionListener(new MouseMotionHandler());
+		
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### Adapter Class
+empty implementation allowed
+```java
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MouseEventHandler implements MouseAdapter{
+	public void mouseClicked(MouseEvent e) {
+		System.out.println("Mouse clicked and released");
+	}	
+}
+
+public class AdapterEventHandling {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Mouse Motion");
+		frm.setBounds(120,120,250,150);
+		frm.addMouseListener(new MouseEventHandler());
+		
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+Adapter Classes:
+
+* MouseListener MouseAdapter
+* MouseMotionListener MouseMotionAdapter
+* TextListener NO ADAPTER
+* ItemListener NO ADAPTER
+* AdjustmentListener NO ADAPTER
+* WindowListener WindowAdapter
+* ActionListener NO ADAPTER
 
