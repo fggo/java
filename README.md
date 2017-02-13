@@ -3859,14 +3859,10 @@ public class GridLayoutManager {
 ```
 
 ### MultiLayout Manager
-JFrame[<br/>
-	JPanel1[],<br/> 
-	JPanel2[]<br/>
+JFrame[     : BorderLayout<br/>
+	JPanel1[],     : FlowLayout, BorderLayout.NORTH<br/> 
+	JPanel2[]     : GridLayout, BorderLayout.CENTER<br/>
 ]
-
-* JFrame: BorderLayout
-* JPanel1: FlowLayout, BorderLayout.NORTH
-* JPanel2: GridLayout, BorderLayout.CENTER 
 
 ```java
 import java.awt.*;
@@ -4110,6 +4106,7 @@ public class AdapterEventHandling {
 	}
 }
 ```
+
 Adapter Classes:
 
 * MouseListener MouseAdapter
@@ -4120,3 +4117,360 @@ Adapter Classes:
 * WindowListener WindowAdapter
 * ActionListener NO ADAPTER
 
+### Anonymous Adapter Class
+```java
+import java.awt.event.*;
+import javax.swing.*;
+
+public class AdapterEventHandling2 {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Mouse Motion");
+		frm.setBounds(120,120,250,150);
+		frm.addMouseListener(
+			new MouseAdapter(){
+				public void mouseClicked(MouseEvent e){
+					System.out.println("Mouse clicked and released");
+				}
+			}
+		);
+		
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### Other Swing Components
+
+### JLabel JTextField
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+class PWHandler implements ActionListener{
+	JTextField id;
+	JPasswordField pw;
+	
+	public PWHandler(JTextField id, JPasswordField pw){
+		this.id = id;
+		this.pw = pw;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("ID : " + id.getText());
+		System.out.println("Password : " + new String(pw.getPassword()));
+		id.setText("");
+		pw.setText("");
+	}
+}
+
+public class JLabelAndTextField {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("JLabel & JTextField");
+		frm.setBounds(120,120,180,80);
+		frm.setLayout(new GridLayout(2,2));
+		
+		JLabel idLabel = new JLabel("ID ", SwingConstants.RIGHT);
+		JTextField idText = new JTextField(10);
+		
+		JLabel pwLabel = new JLabel("Password ", SwingConstants.RIGHT);
+		JPasswordField pwText = new JPasswordField(10);
+		pwText.setEchoChar('*');
+		
+		pwText.addActionListener(new PWHandler(idText, pwText));
+		
+		frm.add(idLabel); frm.add(idText);
+		frm.add(pwLabel); frm.add(pwText);
+		
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### JTextArea JScrollPane
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+class ButtonTextHandler implements ActionListener{
+	JTextArea textArea;
+	
+	public ButtonTextHandler(JTextArea area){
+		textArea = area;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		textArea.setText("deleted all\n");
+		textArea.append("write anything you want\n");
+	}
+}
+
+public class JTextAreaScrollAdded {
+	public static void main(String[] args){
+		JFrame frm = new JFrame("JTextArea");
+		frm.setBounds(120, 120, 250, 270);
+		frm.setLayout(new FlowLayout());
+		
+		JTextArea textArea = new JTextArea(10, 20);
+		textArea.append("write anything you want\n");
+		textArea.setCaretPosition(textArea.getText().length());
+		
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		
+		JButton btn = new JButton("Clear");
+		btn.addActionListener(new ButtonTextHandler(textArea));
+		/*frm.add(textArea);*/
+		
+		/*JScrollPane simpleScroll = new JScrollPane(textArea);*/ //no scroll initially
+		JScrollPane simpleScroll = new JScrollPane(textArea,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scroll initially
+		frm.add(simpleScroll);
+		frm.add(btn);
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### JCheckBox JRadioButton
+```java
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class CheckBoxHandler implements ItemListener{
+	JRadioButton btn1;
+	JRadioButton btn2;
+	JRadioButton btn3;
+	
+	public CheckBoxHandler(JRadioButton b1, JRadioButton b2, JRadioButton b3){
+		btn1 = b1;
+		btn2 = b2;
+		btn3 = b3;
+	}
+	
+	public void itemStateChanged(ItemEvent e) {
+		
+	}
+}
+
+public class JCheckBoxAndJRadioButton {
+	public static void main(String[] args){
+		JFrame frm = new JFrame("Choice Component");
+		frm.setBounds(120,120, 200,200);
+		frm.setLayout(new GridLayout(0, 1)); //width 1, any height
+		
+		JCheckBox checkBox = new JCheckBox("Are you a programmer?");
+		
+		JRadioButton rbtn1 = new JRadioButton("I like C");
+		JRadioButton rbtn2 = new JRadioButton("I like C++");
+		JRadioButton rbtn3 = new JRadioButton("I like Java", true);
+		ButtonGroup bGroup = new ButtonGroup();
+		bGroup.add(rbtn1); bGroup.add(rbtn2); bGroup.add(rbtn3);
+		
+		checkBox.addItemListener(new CheckBoxHandler(rbtn1, rbtn2, rbtn3));
+		frm.add(checkBox);
+		frm.add(rbtn1); frm.add(rbtn2); frm.add(rbtn3);
+		
+		rbtn1.setEnabled(false);
+		rbtn2.setEnabled(false);
+		rbtn3.setEnabled(false);
+		
+		rbtn1.addItemListener(
+			new ItemListener(){
+				public void itemStateChanged(ItemEvent e){
+					if (e.getStateChange() == ItemEvent.SELECTED)
+						System.out.println("I like C too");
+				}
+			}
+		);
+		
+		rbtn2.addItemListener(
+			new ItemListener(){
+				public void itemStateChanged(ItemEvent e){
+					if (e.getStateChange() == ItemEvent.SELECTED)
+						System.out.println("I like C++ too");
+				}
+			}
+		);
+		
+		rbtn3.addItemListener(
+			new ItemListener(){
+				public void itemStateChanged(ItemEvent e){
+					if (e.getStateChange() == ItemEvent.SELECTED)
+						System.out.println("I like Java too");
+				}
+			}
+		);
+
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### Border
+```java
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.event.*;
+
+/*class CheckBoxHandler implements ItemListener{}*/
+
+public class JRadioButtonBorder {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Border");
+		frm.setBounds(120,120, 200,180);
+		frm.setLayout(new FlowLayout());
+		
+		JCheckBox checkBox = new JCheckBox("Are you a programmer?");
+		
+		JRadioButton rbtn1 = new JRadioButton("I like C");
+		JRadioButton rbtn2 = new JRadioButton("I like C++");
+		JRadioButton rbtn3 = new JRadioButton("I like Java", true);
+		ButtonGroup bGroup = new ButtonGroup();
+		bGroup.add(rbtn1); bGroup.add(rbtn2); bGroup.add(rbtn3);
+		
+		//border
+		Border rbtnBorder = BorderFactory.createEtchedBorder();
+		rbtnBorder = BorderFactory.createTitledBorder(rbtnBorder, "Language");
+		
+		JPanel rbtnBorderPanel = new JPanel();
+		rbtnBorderPanel.setLayout(new GridLayout(0,1));
+		rbtnBorderPanel.setBorder(rbtnBorder);
+		rbtnBorderPanel.add(rbtn1);
+		rbtnBorderPanel.add(rbtn2);
+		rbtnBorderPanel.add(rbtn3);
+		
+		checkBox.addItemListener(new CheckBoxHandler(rbtn1, rbtn2, rbtn3));
+		frm.add(checkBox);
+		frm.add(rbtnBorderPanel);
+		//frm.add(rbtn1); frm.add(rbtn2); frm.add(rbtn3);
+		
+		rbtn1.setEnabled(false);
+		rbtn2.setEnabled(false);
+		rbtn3.setEnabled(false);
+		
+		rbtn1.addItemListener(/*same as before*/);
+		rbtn2.addItemListener(/*same as before*/);
+		rbtn3.addItemListener(/*same as before*/);
+
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### JComboBox
+```java
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.Vector;
+
+class MyFriend{
+	String name;
+	int age;
+	public MyFriend(String name, int age){
+		this.name = name;
+		this.age = age;
+	}
+	public String toString(){return name;}
+	public void ShowFriendInfo(){
+		System.out.println("name: " + name);
+		System.out.println("age: " + age);
+	}
+}
+
+class ChoiceHandler implements ItemListener{
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED){
+			System.out.println("Selected...");
+			((MyFriend)e.getItem()).ShowFriendInfo();
+		}
+		else{
+			System.out.println("Deselected...");
+			((MyFriend)e.getItem()).ShowFriendInfo();
+		}
+	}
+}
+class TextChangedHandler implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		if((e.getActionCommand()).compareTo("comboBoxEdited") == 0)
+			System.out.println("ComboBox Edited");
+		else //"comboBoxChanged"
+			System.out.println("ComboBox Changed");
+	}
+}
+
+public class JComboBoxModel {
+	public static void main(String[] args) {
+		JFrame frm = new JFrame("Choice Component");
+		frm.setBounds(120,120,250,120);
+		frm.setLayout(new GridLayout(0,2));
+		
+		Vector<MyFriend> friend = new Vector<MyFriend>();
+		friend.add(new MyFriend("foo", 21));
+		friend.add(new MyFriend("bar", 22));
+		friend.add(new MyFriend("quz", 23));
+		friend.add(new MyFriend("doe", 24));
+		
+		JLabel label1 = new JLabel(" ComboBox");
+		JComboBox cmbBox1 = new JComboBox(friend);
+		cmbBox1.setMaximumRowCount(3);
+		cmbBox1.addItemListener(new ChoiceHandler());
+		
+		JLabel label2 = new JLabel(" Editable ComboBox");
+		JComboBox cmbBox2 = new JComboBox(friend);
+		cmbBox2.setEditable(true);
+		cmbBox2.addActionListener(new TextChangedHandler());
+		
+		frm.add(label1); frm.add(cmbBox1);
+		frm.add(label2); frm.add(cmbBox2);
+		
+		frm.setVisible(true);
+		frm.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	}
+}
+```
+
+### Look And Feel
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import chapter25.MouseEventHandler.MouseEventHandler;
+
+public class LookAndFeelEventHandler {
+	public static void main(String[] args) {
+		try{
+			/*UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");*/
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		JFrame frm = new JFrame("Look And Feel");
+		frm.setBounds(120,120,400,100);
+		frm.setLayout(new FlowLayout());
+		
+		JButton btn1 = new JButton("My Button");
+		JButton btn2 = new JButton("Your Button");
+		JButton btn3 = new JButton("Our Button");
+		
+		MouseListener listener = new MouseEventHandler();
+		btn1.addMouseListener(listener);
+		btn2.addMouseListener(listener);
+		btn3.addMouseListener(listener);
+		
+		frm.add(btn1); frm.add(btn2); frm.add(btn3);
+		frm.setVisible(true);
+	}
+}
+```
