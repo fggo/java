@@ -35,7 +35,7 @@
 ## Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
 
-1. [Java SE] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+1. [Java SE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 2. Add PATH (C:\Program Files\Java\jdk1.x.x\bin;)
 ```
 JDK = JRE + Development/debugging tools
@@ -53,9 +53,9 @@ sudo apt-get install default-jdk
 
 ## IDE
 
-* [Eclipse] (https://eclipse.org/downloads/)
-* [NetBeans] (https://netbeans.org/downloads/)
-* [Visual Code] (https://code.visualstudio.com/download)
+* [Eclipse](https://eclipse.org/downloads/)
+* [NetBeans](https://netbeans.org/downloads/)
+* [Visual Code](https://code.visualstudio.com/download)
 
 ## First program
 ```java
