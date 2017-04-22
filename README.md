@@ -1,18 +1,18 @@
-* [Java On Windows](#windows)
-* [Java On Linux](#linux)
+* [Windows](#windows)
+* [Linux](#linux)
 * [IDE](#ide)
-* [First Program](#first-program)
-* [Variable](#variables)
+* [Variable](#variable)
 * [Type Casting](#type-casting)
 * [Operator](#operator)
-* [Conditional Statement](#condition)
+* [Control Flow](#control-flow)
 * [Recursion](#recursion)
 * [Class](#class)
 * [Class path](#class-path)
+* [Package](#package)
 * [ACS](#access-control-specifier)
-* [static](#static-var)
-* [Overload](#overloading)
-* [String](#string-class)
+* [static](#static)
+* [Overloading](#overloading)
+* [String](#string)
 * [StringBuilder StringBuffer](#stringbuilder-stringbuffer)
 * [Console Input](#console-input)
 * [Array](#array)
@@ -25,7 +25,7 @@
 * [interface](#interface)
 * [Exception](#exception)
 * [Memory model](#memory-model)
-* [Wrapper](#wrapper-class)
+* [Wrapper](#wrapper)
 * [Generic](#generic)
 * [Collection](#collection)
 * [Thread](#thread)
@@ -52,170 +52,168 @@ sudo apt-get install default-jdk
 ```
 
 ## IDE
-
 * [Eclipse](https://eclipse.org/downloads/)
 * [NetBeans](https://netbeans.org/downloads/)
-* [Visual Code](https://code.visualstudio.com/download)
+* [Sublime Text](https://www.sublimetext.com/3)
+* [Visual Studio Code](https://code.visualstudio.com/download) 
 
-## First program
-```java
-public class FirstProgram{
-	public static void main(String[] args){
-		System.out.println("Basic Java program.");
-	}
-}
-```
-
-## Comment
-```java
-//line comment
-/*block comment
-  multiple lines*/
-```
-
-## Variables
+## Variable
 <table>
   <tr>
-    <td>Data Type</td>
-    <td>Data</td>
-    <td>Size(byte)</td>
-    <td>Range</td>
+		<th>Data Type</th>
+		<th>Data</th>
+		<th>Size(byte)</th>
+		<th>Range</th>
   </tr>
   <tr>
-    <td>boolean</td>
-    <td>true or false</td>
-    <td>1</td>
-    <td>true, false</td>
+		<td>boolean</td>
+		<td>true or false</td>
+		<td>1</td>
+		<td>true, false</td>
   </tr>
   <tr>
-    <td>char</td>
-    <td>characters</td>
-    <td>2</td>
-    <td>unicode characters</td>
+		<td>char</td>
+		<td>characters</td>
+		<td>2</td>
+		<td>unicode characters</td>
   </tr>
   <tr>
-    <td>byte</td>
-    <td rowspan="4">integer number</td>
-    <td>1</td>
-    <td>-128 ~ 127</td>
+		<td>byte</td>
+		<td rowspan="4">integer number</td>
+		<td>1</td>
+		<td>-128 ~ 127</td>
+	 </tr>
+  <tr>
+		<td>short</td>
+		<td>2</td>
+		<td>-32768 ~ 32768</td>
   </tr>
   <tr>
-    <td>short</td>
-    <td>2</td>
-    <td>-32768 ~ 32768</td>
+		<td>int</td>
+		<td>4</td>
+		<td>-2147483648 ~ 2147483647</td>
   </tr>
   <tr>
-    <td>int</td>
-    <td>4</td>
-    <td>-2147483648 ~ 2147483647</td>
+		<td>long</td>
+		<td>8</td>
+		<td>-9223....808 ~ 9223....807</td>
   </tr>
   <tr>
-    <td>long</td>
-    <td>8</td>
-    <td>-9223....808 ~ 9223....807</td>
+		<td>float</td>
+		<td rowspan="2">real number</td>
+		<td>4</td>
+		<td>±(1.40e-45 ~ 3.40e38)</td>
   </tr>
   <tr>
-    <td>float</td>
-    <td rowspan="2">real number</td>
-    <td>4</td>
-    <td>+-(1.40e-45 ~ 3.40e38)</td>
-  </tr>
-  <tr>
-    <td>double</td>
-    <td>8</td>
-    <td>+-(4.94e-324 ~ 1.79e308)</td>
+		<td>double</td>
+		<td>8</td>
+		<td>±(4.94e-324 ~ 1.79e308)</td>
   </tr>
 </table>
 
 ```java
-//UnicodeChar.java
-char ch1 = 'A';
-char ch2 = '訝';
-char ch3 = 0x3091;
-char ch4 = 0x3092;
+//line comment
+
+/*block comment
+	multiple lines*/
+
+public class PrintVariable{
+	public static void main(String[] args){
+		char ch1 = 'A';
+		char ch2 = '訝';
+		char ch3 = 0x3091;
+		char ch4 = 0x3092;
+		System.out.println(ch1);
+		System.out.println(ch2);
+		System.out.println(ch3);
+		System.out.println(ch4);
+	}
+}
 ```
 
 ## Type Casting
-SuffixConst.java
 ```java
-double e1 = 125;
-float e2 = 7.125F;
-long n1 = 1000000000L;
-long n2 = 150;
+public static void main(String[] args){
+	double e1 = 125;
+	float e2 = 7.125F;
+	long n1 = 1000000000L;
+	long n2 = 150;
+}
 ```
 
 * Implicit Conversion
-byte - short \ int - long - float -> double<br/>
-       char  /
+[byte]→[short]→[int]→[long]→[float]→[double]<br>
+				[char]→<br>
 ```java
-double n1 = 20; //ok (int -> double)
-int n2 = 20.5; //error due to data loss (double -> int)
-float n3 = 10; //ok (int -> float)
-double n4 = 3.5f + 12; // ok (= 15.5f float -> double)
+public static void main(String[] args){
+	double n1 = 20; //ok (int -> double)
+	int n2 = 20.5; //error due to data loss (double -> int)
+	float n3 = 10; //ok (int -> float)
+	double n4 = 3.5f + 12; // ok (= 15.5f float -> double)
+}
 ```
 
 * Explicit Conversion
 ```java
-int n = (int)3.15;
-
-long n1 = 198221221L;
-int n2 = (int)n1;
-
-int n3 = 99;
-long n4 = (long)n3;
+public static void main(String[] args){
+	int n = (int)3.15;
+	long n1 = 198221221L;
+	int n2 = (int)n1;
+	int n3 = 99;
+	long n4 = (long)n3;
+}
 ```
 
 ## Operator
 ```java
-Basic
-+ add
-- subtract
-* multiply
-/ divide
-% modulo
+/*Basic*/
+	+ add
+	- subtract
+	* multiply
+	/ divide
+	% modulo
 
-Compare
-< > 
-<= >= 
-!= ==
-&& || !
+/*Compare*/
+	< >
+	<= >=
+	!= ==
+	&&
+	||
+	!
 
-Unary 
-+ - 
-int n1 = +2; 
-int n2 = -n1;
+/*Unary*/
+	int n1 = +2;
+	int n2 = -n1;
 
-Incr Decr
-n++ ++n
-n-- --n
+/*Incr Decr*/
+	n++ ++n
+	n-- --n
 
-Bit
-1 & 1 == 1 
-1 & 0 == 0
-0 & 0 == 0
-1 | 1 == 1
-1 | 0 == 1
-0 | 0 == 0
-1 ^ 1 == 0
-1 ^ 0 == 1
-0 ^ 0 == 0
-~0 == 1
-~1 == 0
-<< <<< 
->> >>>
-2 << 3 == 16
+/*Bit*/
+	1 & 1 == 1
+	1 & 0 == 0
+	0 & 0 == 0
+	1 | 1 == 1
+	1 | 0 == 1
+	0 | 0 == 0
+	1 ^ 1 == 0
+	1 ^ 0 == 1
+	0 ^ 0 == 0
+	~0 == 1
+	~1 == 0
+	<< <<< 
+	>> >>>
 
-Type conv
-7/3 == 2
-7.0f/3.0f == 2.333...
-(float)7/3 == 2.333...
+/*Type conversion*/
+	7/3 == 2
+	7.0f/3.0f == 2.333...
+	(float)7/3 == 2.333...
 ```
 
-## Condition
-
-## if else
+## Control flow
 ```java
-if(cond1) {
+/*1. if else*/
+if(cond1){
 	/*code*/
 } 
 else if(cond2){
@@ -224,15 +222,14 @@ else if(cond2){
 else {
 	/*code*/
 }
-```
-### similar to if else
-```java
-/* returns n1 if n1 > n2, otherwise returns n2*/
-int bigN = (n1 > n2) ? n1 : n2;
-```
 
-## switch break
-```java
+
+/*2. similar to if else*/
+int bigN = (n1 > n2) ? n1 : n2;
+//returns n1 if n1 > n2, otherwise n2
+
+
+/*3. switch break*/
 switch(n){
 case 1: 
 	/*code*/
@@ -247,25 +244,23 @@ default:
 	break;
 }
 
-```
-
-## for while do while
-```java
+/*4. loop*/
 for(int i = 0; i< N; i++){/*code*/}
-while(cond){/*code*/}
-do{/*code*/} while(cond)
-```
 
-## continue break
-```java
-for(int i=0; i<N; i++){
+while(cond){/*code*/}
+
+do{
 	/*code*/
 }
+while(cond)
 
+/*5. continue break*/
 while(boolean){
 	/*code*/
 	if(cond)
 		break; /*break 'one' loop*/
+	else
+		continue;
 }
 ```
 
@@ -287,17 +282,17 @@ public static int toBinary(int dec){
 class AAA{
 /*member var*/
 	int num;
+
 /*constructor*/
 	public AAA(){this.num = 0;}
+
 /*member func*/
 	public void add(int n){num += n;}
 }
 ```
 
-## Constructor
-
-### Constuctor called only once
 ```java
+Q: define a class that has a constuctor which is called only once after instance creation
 class AAA{
 	int num;
 	static AAA inst = null;
@@ -308,15 +303,16 @@ class AAA{
 	}
 	private AAA(){this.num = 0;}
 	public void add(int n){num += n;}
-}
+}var
 ```
 
-## Ref val null
+### initialize reference variable
 ```java
-AAA a = null; //init ref variable as null
+// initialized as a null
+AAA a = null;
 ```
 
-## final keyword
+### final keyword
 ```java
 final int MAX_NUM = 10; // constant
 
@@ -348,35 +344,35 @@ user@:~/workspace/java/src/mydir$ ls
 ## Access control specifier 
 <table>
 	<tr>
-		<td>ACS</td>
-		<td>Class</td>
-		<td>Package</td>
-		<td>Inherited Class</td>
-		<td>Others</td>
+		<th>ACS</th>
+		<th>Class</th>
+		<th>Package</th>
+		<th>Inherited Class</th>
+		<th>Others</th>
 	</tr>
 	<tr>
-		<td>private</td>
+		<th>private</th>
 		<td>&#9711;</td>
 		<td>&#10005;</td>
 		<td>&#10005;</td>
 		<td>&#10005;</td>
 	</tr>
 	<tr>
-		<td>default</td>
+		<th>default</th>
 		<td>&#9711;</td>
 		<td>&#9711;</td>
 		<td>&#10005;</td>
 		<td>&#10005;</td>
 	</tr>
 	<tr>
-		<td>protected</td>
+		<th>protected</th>
 		<td>&#9711;</td>
 		<td>&#9711;</td>	
 		<td>&#9711;</td>
 		<td>&#10005;</td>
 	</tr>
 	<tr>
-		<td>public</td>
+		<th>public</th>
 		<td>&#9711;</td>
 		<td>&#9711;</td>
 		<td>&#9711;</td>
@@ -387,15 +383,15 @@ user@:~/workspace/java/src/mydir$ ls
 ## Encapsulation
 ```java
 class Budweiser{
-	public void take(){System.out.println("Favorite American beer.");}
+	public void take(){System.out.println("My favorite American beer.");}
 }
 
 class Sapporo{
-	public void take(){System.out.println("Japanese beer.");}
+	public void take(){System.out.println("Japanese beer is great.");}
 }
 
 class Kirin{
-	public void take(){System.out.println("Favorite beer.");}
+	public void take(){System.out.println("Kirin beer is nice.");}
 }
 
 class BeerPack{
@@ -417,25 +413,26 @@ class BeerPack{
 }
 
 class Worker{
-	public void takeBeer(BeerPack pack){ pack.take();}
+	public void drinkBeer(BeerPack pack){ pack.take();}
 }
 
 public class Encapsulation {
 	public static void main(String[] args){
 		Worker worker = new Worker();
-		worker.takeBeer(new BeerPack());
+		worker.drinkBeer(new BeerPack());
 	}
 }
 ```
 
-## static var
-1. shared by all class inst
-2. only 'one' static var exists in memory
+## static
+1. shared by all class instance
+2. only one static variable can exist in memory
 3. accessible anywhere (if declared 'public')
-4. accessible by classname and instancename
-5. init when JVM creates class in memory
-6. init inside constructor is not recommended
-7. accessible by static method (in diff package)
+4. accessible by class and instance name
+5. initialized when JVM creates class in memory
+6. initializing inside constructor is not recommended
+7. accessible by static method (from different package)
+
 ```java
 class {
 	public static final double PI =3.14;
@@ -466,7 +463,7 @@ class MainClass{
 
 ## Overloading
 
-## String class
+## String
 
 ## StringBuilder StringBuffer
 [StringBuffer](https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuffer.html)
@@ -494,46 +491,46 @@ System.out.printf("integer %d, real number %f, character %c", 10, 3.1415, 'A');
 ```
 <table>
   <tr>
-    <th>formatter</th>
-    <th>print form</th>
+	<th>formatter</th>
+	<th>print form</th>
   </tr>
   <tr>
 	<td>%d</td>
-    <td>decimal</td>
+	<td>decimal</td>
   </tr>
   <tr>
-    <td>%o</td>
-    <td>octal(8)</td>
+	<td>%o</td>
+	<td>octal(8)</td>
   </tr>
   <tr>
-    <td>%x</td>
-    <td>hex(16)</td>
+	<td>%x</td>
+	<td>hex(16)</td>
   </tr>
   <tr>
-    <td>%f</td>
-    <td>real number</td>
+	<td>%f</td>
+	<td>real number</td>
   </tr>
   <tr>
-    <td>%e</td>
-    <td>real number format in e notation (.31415*10e+1)</td>
+	<td>%e</td>
+	<td>real number format in e notation (.31415*10e+1)</td>
   </tr>
   <tr>
-    <td>%g</td>
-    <td>%e or %f</td>
+	<td>%g</td>
+	<td>%e or %f</td>
   </tr>
   <tr>
-    <td>%s</td>
-    <td>string</td>
+	<td>%s</td>
+	<td>string</td>
   </tr>
   <tr>
-    <td>%c</td>
-    <td>character</td>
+	<td>%c</td>
+	<td>character</td>
   </tr>
 </table>
 
 ```java
 System.out.printf("%g %g \n", .0001, .00001);
-[console] 0.000100000 1.00000e-05
+// [console] 0.000100000 1.00000e-05
 ```
 ## Console Input
 ```java
@@ -546,7 +543,7 @@ try{
 catch(IOException e){
 	e.printStackTrace();
 }
-/*2.java 5.0*/
+/*2.old code (java 5.0)*/
 Scanner sc =new Scanner(System.in);
 
 Sytem.out.print("type integer : ");
@@ -576,7 +573,7 @@ public static void main(String[] args){}
 ## Inheritance
 [oracle document](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
 
-### Inheritanc ACS
+### Inheritance ACS
 ```java
 package A;
 class A{
@@ -591,10 +588,11 @@ class A{
 		privnum = 0;
 		protnum = 0;
 	}
-	
 	public void setStaticNum(int n){statnum = n;}
 }
----
+```
+
+```java
 package B;
 import A.*;
 class B extends A{
@@ -661,7 +659,6 @@ public class RideAndLoad {
 	}
 }
 ```
-
 
 ### instanceof
 ```java
@@ -3845,9 +3842,9 @@ public class GridLayoutManager {
 		frm.setBounds(120,120,400,200);
 		frm.setLayout(new GridLayout(3,2, 2,2));
 		/*public GridLayout(int rows,
-                  int cols,
-                  int hgap,
-                  int vgap)*/
+				  int cols,
+				  int hgap,
+				  int vgap)*/
 		frm.add(new JButton("1-1")); frm.add(new JButton("1-2"));
 		frm.add(new JButton("2-1")); frm.add(new JButton("2-2"));
 		frm.add(new JButton("3-1")); frm.add(new JButton("3-2"));
