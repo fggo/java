@@ -44,7 +44,6 @@ JVM = Class loader system + runtime data area + Execution Engine.
 ```
 
 ## Linux
-Install java using command line
 ```
 java -version
 javac -version
@@ -113,9 +112,8 @@ sudo apt-get install default-jdk
 
 ```java
 //line comment
-
 /*block comment
-	multiple lines*/
+multiple lines*/
 
 public class PrintVariable{
 	public static void main(String[] args){
@@ -123,6 +121,7 @@ public class PrintVariable{
 		char ch2 = '訝';
 		char ch3 = 0x3091;
 		char ch4 = 0x3092;
+		
 		System.out.println(ch1);
 		System.out.println(ch2);
 		System.out.println(ch3);
@@ -132,24 +131,31 @@ public class PrintVariable{
 ```
 
 ## Type Casting
+
+* suffix for primitive data types
 ```java
 public static void main(String[] args){
 	double e1 = 125;
 	float e2 = 7.125F;
 	long n1 = 1000000000L;
 	long n2 = 150;
+	
+	float num1 = 5.5 //by default double while float n1 = 5.5f makes it float
+	long num2 = 55 //literal 55 is by default int type but long n2 = 55l makes it long type.
+	double num3 = 5.5 //double n3 = 5.5d, d suffix is optional
 }
 ```
 
 * Implicit Conversion
+
 [byte]→[short]→[int]→[long]→[float]→[double]<br>
-				[char]→<br>
+				[char]→[int]<br>
 ```java
 public static void main(String[] args){
-	double n1 = 20; //ok (int -> double)
-	int n2 = 20.5; //error due to data loss (double -> int)
-	float n3 = 10; //ok (int -> float)
-	double n4 = 3.5f + 12; // ok (= 15.5f float -> double)
+	double n1 = 20; //int -> double
+	int n2 = 20.5; //Error due to data loss; double -> int
+	float n3 = 10; //int -> float
+	double n4 = 3.5f + 12; // == 15.5f; float -> double
 }
 ```
 
@@ -213,21 +219,13 @@ public static void main(String[] args){
 ## Control flow
 ```java
 /*1. if else*/
-if(cond1){
-	/*code*/
-} 
-else if(cond2){
-	/*code*/
-}
-else {
-	/*code*/
-}
-
+if(cond1){/*code*/} 
+else if(cond2){/*code*/}
+else {/*code*/}
 
 /*2. similar to if else*/
 int bigN = (n1 > n2) ? n1 : n2;
 //returns n1 if n1 > n2, otherwise n2
-
 
 /*3. switch break*/
 switch(n){
@@ -249,14 +247,11 @@ for(int i = 0; i< N; i++){/*code*/}
 
 while(cond){/*code*/}
 
-do{
-	/*code*/
-}
+do{/*code*/}
 while(cond)
 
 /*5. continue break*/
 while(boolean){
-	/*code*/
 	if(cond)
 		break; /*break 'one' loop*/
 	else
@@ -273,6 +268,15 @@ public static int toBinary(int dec){
 		return 0;
 	else
 		return dec % 2 + 10*toBinary(dec/2);
+}
+
+public static String toBinary(int n){
+	if (n<= 0)
+		return "";
+	else if (n==1)
+		return "1";
+	else
+		return toBinary(n/2)+ n%2;
 }
 ```
 
@@ -303,16 +307,16 @@ class AAA{
 	}
 	private AAA(){this.num = 0;}
 	public void add(int n){num += n;}
-}var
+}
 ```
 
-### initialize reference variable
+### initialize reference var
 ```java
 // initialized as a null
 AAA a = null;
 ```
 
-### final keyword
+### final
 ```java
 final int MAX_NUM = 10; // constant
 
@@ -434,14 +438,13 @@ public class Encapsulation {
 7. accessible by static method (from different package)
 
 ```java
-class {
+class Class{
 	public static final double PI =3.14;
 	public static int var = 0;
 	func{}
 }
-main{}
 
-class.var;
+Class.var;
 inst.var;
 func{this.var}
 ```
@@ -532,9 +535,10 @@ System.out.printf("integer %d, real number %f, character %c", 10, 3.1415, 'A');
 System.out.printf("%g %g \n", .0001, .00001);
 // [console] 0.000100000 1.00000e-05
 ```
+
 ## Console Input
 ```java
-/*1.*/
+/*1. old code*/
 try{
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	String str = br.readLine();
@@ -543,8 +547,9 @@ try{
 catch(IOException e){
 	e.printStackTrace();
 }
-/*2.old code (java 5.0)*/
-Scanner sc =new Scanner(System.in);
+
+/*2. after java 5.0*/
+Scanner sc = new Scanner(System.in);
 
 Sytem.out.print("type integer : ");
 int n = sc.nextInt(); sc.nextLine();
