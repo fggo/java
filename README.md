@@ -309,13 +309,13 @@ class AAA{
 }
 ```
 
-### initialize reference var
+## initialize reference var
 ```java
 // initialized as a null
 AAA a = null;
 ```
 
-### final
+## final
 ```java
 final int MAX_NUM = 10; // constant
 
@@ -342,9 +342,9 @@ user@:~/workspace/java/src/mydir$ ls
 	FruitSalesMain3.class  PackageCircle.class
 ```
 
-## Package
+# Package
 
-## Access control specifier 
+# Access control specifier 
 <table>
 	<tr>
 		<th>ACS</th>
@@ -448,7 +448,7 @@ inst.var;
 func{this.var}
 ```
 
-# static method 
+## static method 
 ```java
 class A{
 	public static void doNothin(){/*code*/}
