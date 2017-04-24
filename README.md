@@ -18,7 +18,6 @@
 * [Array](#array)
 * [for each](#for-each)
 * [N array](#nd-array)
-* [main](#main-method)
 * [Inheritance](#inheritance)
 * [Object](#object-class)
 * [abstract](#abstract-class)
@@ -32,7 +31,7 @@
 * [File IO](#file-io)
 * [Swing](#swing)
 
-## Windows
+# Windows
 Donwload java SE JDK and edit PATH (Computer - property - Environmental Variable)
 
 1. [Java SE](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -43,20 +42,20 @@ JRE = JVM + Java Packages Classes(like util, math, lang, awt,swing etc)+runtime 
 JVM = Class loader system + runtime data area + Execution Engine.
 ```
 
-## Linux
+# Linux
 ```
 java -version
 javac -version
 sudo apt-get install default-jdk
 ```
 
-## IDE
+# IDE
 * [Eclipse](https://eclipse.org/downloads/)
 * [NetBeans](https://netbeans.org/downloads/)
 * [Sublime Text](https://www.sublimetext.com/3)
 * [Visual Studio Code](https://code.visualstudio.com/download) 
 
-## Variable
+# Variable
 <table>
   <tr>
 		<th>Data Type</th>
@@ -130,7 +129,7 @@ public class PrintVariable{
 }
 ```
 
-## Type Casting
+# Type Casting
 
 * suffix for primitive data types
 ```java
@@ -170,7 +169,7 @@ public static void main(String[] args){
 }
 ```
 
-## Operator
+# Operator
 ```java
 /*Basic*/
 	+ add
@@ -216,7 +215,7 @@ public static void main(String[] args){
 	(float)7/3 == 2.333...
 ```
 
-## Control flow
+# Control flow
 ```java
 /*1. if else*/
 if(cond1){/*code*/} 
@@ -280,7 +279,7 @@ public static String toBinary(int n){
 }
 ```
 
-## Class
+# Class
 ```java
 /*class declaration*/
 class AAA{
@@ -322,7 +321,7 @@ final int MAX_NUM = 10; // constant
 
 ```
 
-## Class path
+# Class path
 ```
 user@:~/workspace/java/src$ javac -d . *.java
 user@:~/workspace/java/src$ ls
@@ -384,7 +383,7 @@ user@:~/workspace/java/src/mydir$ ls
 	</tr>
 </table>
 
-## Encapsulation
+# Encapsulation
 ```java
 class Budweiser{
 	public void take(){System.out.println("My favorite American beer.");}
@@ -428,7 +427,7 @@ public class Encapsulation {
 }
 ```
 
-## static
+# static
 1. shared by all class instance
 2. only one static variable can exist in memory
 3. accessible anywhere (if declared 'public')
@@ -449,7 +448,7 @@ inst.var;
 func{this.var}
 ```
 
-## static method 
+# static method 
 ```java
 class A{
 	public static void doNothin(){/*code*/}
@@ -464,16 +463,73 @@ class MainClass{
 }
 ```
 
-## Overloading
+## main
+```java
+class Employer{
+	private int myMoney;
+	public Employer(int myMoney){
+		this.myMoney = myMoney;
+	}
+	public void payForWork(Employee emp, int money){
+		if(myMoney<money)
+			return;
+		emp.earnMoney(money);
+		myMoney -= money;
+	}
+	public void showMyMoney(){
+		System.out.println(myMoney);
+	}
+}
+class Employee{
+	private int myMoney;
+	public Employee(int myMoney){
+		this.myMoney = myMoney;
+	}
+	public void earnMoney(int money){
+		myMoney +=money;
+	}
+	public void showMyMoney(){
+		System.out.println(myMoney);
+	}
+}
+/*public class NoMainClass {}
 
-## String
+when main method is inside either Employer or Employee class
+user@9550:~/workspace/java/src$ java Employer
+user@9550:~/workspace/java/src$ java Employee
 
-## StringBuilder StringBuffer
+2. class instance can be created in member functions - including main method
+*/
+```
+
+# Overloading
+```java
+class A{
+	private int a, b;
+	
+	public A(int a){
+		this.a = a;
+	}
+	public A(int a, int b){
+		this(a);
+		this.b= b;
+	}
+	public void func(int n){}
+	public void func(int n1, int n2){}
+	public void func(String s){}
+}
+
+```
+
+# String
+[String API](https://docs.oracle.com/javase/7/docs/api/java/lang/String.html)
+
+# StringBuilder StringBuffer
 [StringBuffer](https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuffer.html)
 
 [Difference between StringBuilder and StringBuffer](http://stackoverflow.com/questions/355089/difference-between-stringbuilder-and-stringbuffer)
 
-## Console Output
+# Console Output
 ```java
 class A{
 	public String toString(){return "class A";}
@@ -483,7 +539,7 @@ A inst = new A();
 System.out.println(inst);
 ```
 
-### Escape Sequence
+## Escape Sequence
 ```java
 \n new line
 \t tab
@@ -536,7 +592,7 @@ System.out.printf("%g %g \n", .0001, .00001);
 // [console] 0.000100000 1.00000e-05
 ```
 
-## Console Input
+# Console Input
 ```java
 /*1. old code*/
 try{
@@ -558,12 +614,31 @@ Sytem.out.print("type string : ");
 String s = sc.nextLine();
 ```
 
-## Array
+# Array
+```java
+/*initialize*/
+int[] arr = new int[3];
+int[] arr = new int[3]{1,2,3};
+int[] arr = new int[]{1,2,3};
+int[] arr = {1,2,3};
+
+
+int[] arr = new int[2];
+arr[0]=10; arr[1] = 20;
+
+String[] arr = new String[3];
+arr[0]=new String("a");
+arr[1]=new String("b");
+arr[2]=new String("c");
+```
 
 ## for each
 ```java
+int arr[] = {1,2,3,4,5};
 int sum = 0;
-for(int i : new int[]{1,2,3,4,5})
+//for(int i : new int[]{1,2,3,4,5})
+
+for(int i : arr)
 	sum += i;
 System.out.println(sum);
 ```
@@ -572,13 +647,24 @@ System.out.println(sum);
 
 ## main method
 ```java
-public static void main(String[] args){}
+public class MainParam {
+	public static void main(String[] args) {
+		for(String e: args)
+			System.out.println(e);
+	}
+}
+/*
+user@9550:~/workspace/java/src$ java MainParam AAA BBB CCC
+[console]
+AAA
+BBB
+CCC*/
 ```
 
-## Inheritance
+# Inheritance
 [oracle document](https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html)
 
-### Inheritance ACS
+## Inheritance ACS
 ```java
 package A;
 class A{
@@ -614,7 +700,7 @@ class B extends A{
 }
 ```
 
-### ISA HASA Composite
+## ISA HASA Composite
 ```java
 /*ISA*/
 class Computer{}
@@ -630,7 +716,7 @@ class Gun{}
 class Police{Gun pistol;}
 ```
 
-### Overriding
+## Overriding
 ```java
 class AAA{
 	public void ride(){System.out.println("AAA method called.");}
@@ -665,7 +751,7 @@ public class RideAndLoad {
 }
 ```
 
-### instanceof
+## instanceof
 ```java
 /*instanceof*/
 class Box{
@@ -728,7 +814,7 @@ public class InstanceOf {
 }
 ```
 
-## Object class
+# Object class
 ```java
 /*can override object method inside class*/
 
@@ -736,7 +822,7 @@ public String toString(){/*code*/}
 public void println(Object x){/*code*/}	
 ```
 
-### final
+## final
 ```java
 final class MyClass{} /*do not allow class inheritance*/
 final void func(param){} /*do not allow method overriding*/
@@ -745,11 +831,11 @@ eg. String is a final class
 eg. Object has final method : wait() notify() notifyAll()
 ```
 
-## abstract class
+# abstract class
 * for inheritance
 * not for instantiation
 
-### abstract method
+## abstract method
 * inherited classes should define one
 ```java
 abstract class AAA{
@@ -762,7 +848,7 @@ class BBB extends AAA{
 }
 ```
 
-## interface
+# interface
 ```java
 interface NumStorage {
 	public void addInfo(String name, String number);
@@ -804,7 +890,7 @@ public class AbstractInterface {
 }
 ```
 
-### class implements two interfaces
+## class implements two interfaces
 ```java
 public interface MyInterface{public void myMethod();}
 public interface YourInterface{public void yourMethod();}
@@ -815,7 +901,7 @@ class OurClass implements MyInterface, YourInterface
 }
 ```
 
-### interface inherits another
+## interface inherits another
 ```java
 public interface MyInterface{
 	public void myMethod();
@@ -825,7 +911,7 @@ public interface MySecondInterface extends MyInterface{
 }
 ```
 
-### interface for const
+## interface for const
 ```java
 public class Week{
 	public static final int MON = 1, TUE =2, /*vars*/ SUN =7;
@@ -836,7 +922,7 @@ public interface Week{
 }
 ```
 
-### uppercase interface
+## uppercase interface
 ```java
 interface UpperCasePrintable{/*empty*/}
 
@@ -892,8 +978,8 @@ public class InterfaceMark {
 }
 ```
 
-### diamond UML
-java does not support multi inheritance. there's a workaround :
+## diamond UML
+java does not support multi inheritance. workaround :
 ```java
 /*code1.*/
 class TV{
@@ -961,7 +1047,7 @@ public class MultiInheriAlternative{
 }
 ```
 
-### Inner & Outer class
+## Inner & Outer class
 ```java
 class OuterClass{
 	public void method(){/*code*/}
@@ -980,7 +1066,7 @@ public static void main(String[] args){
 }
 ```
 
-### Nested class
+# Nested class
 'nested' or 'static inner' class
 ```java
 class OuterClass{
@@ -1034,7 +1120,7 @@ public class NestedClassTest {
 }
 ```
 
-### Local class
+## Local class
 ```java
 class OuterClass{
 	public void createLocalClassInst(){
@@ -1080,7 +1166,7 @@ public class LocalClassTest {
 }
 ```
 
-### Anonymous class
+## Anonymous class
 similar to Local class, but without class name
 
 ```java
@@ -1119,9 +1205,9 @@ class OuterClass{
 }
 ```
 
-## Exception
+# Exception
 
-### try catch finally
+## try catch finally
 ```java
 public static void main(String[] args){
 	Scanner sc = new Scanner(System.in);
@@ -1165,7 +1251,7 @@ catch(Throwable e){}
 catch(ArithmeticException e){}
 ```
 
-### throw
+## throw
 Custom exception: <br/>
 e.g. exception can be defined for negative 'age' input
 
@@ -1173,7 +1259,7 @@ e.g. exception can be defined for negative 'age' input
 * try catch block will handle the Exception
 <br/>
 
-after 'throws' there're two ways to handle
+two ways to handle after throws:
 
 1. caller will handled exception with try catch
 2. caller 'throws'
@@ -1322,12 +1408,12 @@ public class PrintStackTrace {
 }
 ```
 
-### Exception class Hierarchy
+## Exception class Hierarchy
 Exception �뜝�럥瑗� Throwable �뜝�럥占� Error <br/>
 e.g. VirtualMachineError <br/>
 ![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
 
-### RuntimeException
+## RuntimeException
 although it is a subclass of Exception, it is similar to Error subclasses
 
 1. no 'try~catch' or 'throws'
@@ -1373,14 +1459,14 @@ public class RuntimeExceptionCase {
 }
 ```
 
-## Memory model
+# Memory model
 JVM memory:
 
 * Method: method (bytecode), static var
 * Stack: local var, ref var, param
 * Heap: inst, garbage collection
 
-### Object : finalize
+## Object : finalize
 ```java
 /* finalize dispose of inst */
 protected void finalize() throws Throwable
@@ -1417,7 +1503,7 @@ public class ObjectFinalize {
 }
 ```
 
-### Object : equals
+## Object : equals
 ```java
 public boolean equals(Object obj)
 ```
@@ -1436,7 +1522,7 @@ class MyName{
 }
 ```
 
-### Object : clone
+## Object : clone
 requires to implement Cloneable interface to call clone()
 ```java
 protected Object clone() throws CloneNotSupportedException
@@ -1478,7 +1564,7 @@ public class InstanceCloning {
 }
 ```
 
-### Shallow & Deep copy
+## Shallow & Deep copy
 ```java
 class Point implements Cloneable{
 	private int xpos, ypos;
@@ -1554,11 +1640,11 @@ public class ShallowDeepCopy {
 }
 ```
 
-### String clone
+## String clone
 String does not need deep copy
 
 
-## Wrapper
+# Wrapper
 java defines wrapper classes
 
 * Boolean
@@ -1586,7 +1672,7 @@ int n = ival;
 int n2 = ival + ival2;
 ```
 
-### Big N
+## Big N
 * BigInteger
 ```java
 BigInteger bigval = new BigInteger("1000000000000000000000");
@@ -1621,7 +1707,7 @@ public class AbsoluteNumber {
 	}
 }
 ```
-### Math
+## Math
 ```java
 /*Math static var & method*/
 Math.PI;
@@ -1634,7 +1720,7 @@ Math.log(25);
 Math.pow(2,4)
 ```
 
-### Rand
+## Rand
 ```java
 Random rand = new Random();
 
@@ -1682,7 +1768,7 @@ for(int i =0; i<5; i++)
 	System.out.println((int)(Math.random()*10));
 ```
 
-### Tokenizer
+## Tokenizer
 ```java
 import java.util.StringTokenizer;
 public class TokenizeString2 {
@@ -1702,9 +1788,9 @@ public class TokenizeString2 {
 }
 ```
 
-## Generic
+# Generic
 
-### Generic class
+## Generic class
 ```java
 class Fruit {
 	String name;
@@ -1773,7 +1859,7 @@ public class GenericBaseFruitBox {
 }
 ```
 
-### Generic method
+## Generic method
 IntroGenericMethod.java
 ```java
 class AAA{
@@ -1809,7 +1895,7 @@ public class IntroGenericMethod {
 ```
 <br/>
 
-### Bounded Type param
+## Bounded Type param
 Inside 'showInstType' method, inst1 and 2 can only be used with Object defined method<br/>
 i.e. println() can be used since toString method is defined in Object class<br/>
 To use other method it needs explicit type conversion or restricts generic param type :<br/>
@@ -1858,7 +1944,7 @@ public class BoundedTypeParam {
 }
 ```
 
-### Generic Array method
+## Generic Array method
 ```java
 public class IntroGenericArray {
 	public static <T> void showArrayData(T[] arr){
@@ -1873,7 +1959,7 @@ public class IntroGenericArray {
 }
 ```
 
-### Generic Wildcard
+## Generic Wildcard
 param ```FruitBox<Apple>``` or ```FruitBox<Orange>```is not allowed for
 ```java
 public void method(FruitBox<Fruit> param){/*code*/}
@@ -1912,7 +1998,7 @@ public class IntroWildCard {
 }
 ```
 
-### Generic Inheritance
+## Generic Inheritance
 ```java
 class AAA<T>{
 	T itemAAA;
@@ -1937,7 +2023,7 @@ class BBB<T> extends AAA<String>{
 
 ```
 
-### Generic interface
+## Generic interface
 ```java
 interface MyInterface<T>{
 	public T func(T item);
@@ -1959,7 +2045,7 @@ class MyImplement implements MyInterface<String>{
 }
 ```
 
-## Collection
+# Collection
 Collection interfaces:<br/>
 
 * Collection\<E\>
@@ -1968,7 +2054,7 @@ Collection interfaces:<br/>
   * Queue\<E\>
 * Map\<K,E\>
 
-### ArrayList
+## ArrayList
 list size increases as data is added<br/>
 to improve performace it can ensure capacity in advance
 ```java
@@ -1992,7 +2078,7 @@ public class IntroArrayList {
 }
 ```
 
-### LinkedList
+## LinkedList
 ```java
 class IntroLinkedList {
 	public static void main(String[] args){
@@ -2011,7 +2097,7 @@ class IntroLinkedList {
 }
 ```
 
-### ArrayList vs LinkedList
+## ArrayList vs LinkedList
 ArrayList
 
 * data insert : slow
@@ -2062,7 +2148,7 @@ public class SimpleLinkedListImpl {
 
 Also check [leet] (https://github.com/fggo/leet/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
 
-### Iterator
+## Iterator
 iterator is useful since it can reference data regardless of types of collection class
 ```java
 LinkedList<Integer> list = new ListList<Integer>();
@@ -2074,7 +2160,7 @@ while(itr.hasnext()) System.out.println(itr.next());
 
 * Collection\<int\> Collection\<double\> Collection\<long\> is not allowed
 
-### HashSet
+## HashSet
 No specific order data is stored
 ```java
 import java.util.HashSet;
@@ -2092,7 +2178,7 @@ public class SetInterfaceFeature {
 }
 ```
 
-### hashcode & equality
+## hashcode & equality
 1. search group with hashCode() val
 2. compare with equals(Object obj)
 
@@ -2137,7 +2223,7 @@ public class HashSetEquality {
 }
 ```
 
-### TreeSet
+## TreeSet
 Integer Data is stored in ascending order. But this does not apply when Data is of type \<T\>
 ```java
 import java.util.TreeSet;
@@ -2163,7 +2249,7 @@ public class SortTreeSet {
 	}
 ```
 
-### TreeSet Comparable
+## TreeSet Comparable
 Set rules for data ordering in TreeSet
 ```java
 interface Comparable<T>{
@@ -2171,7 +2257,7 @@ interface Comparable<T>{
 }
 ```
 
-### TreeSet Comparator
+## TreeSet Comparator
 ```java
 interface Comparator<T>{
 	int compare(T obj1, T obj2);
@@ -2179,7 +2265,7 @@ interface Comparator<T>{
 }
 ```
 
-### HashMap
+## HashMap
 ```java
 import java.util.HashMap;
 public class IntroHashMap {
@@ -2199,7 +2285,7 @@ public class IntroHashMap {
 }
 ```
 
-### TreeMap
+## TreeMap
 ```java
 import java.util.NavigableSet;
 import java.util.TreeMap;
@@ -2226,7 +2312,7 @@ public class IntroTreeMap {
 }
 ```
 
-## Thread
+# Thread
 * start() assign memory to thread and run()
 * thread shares CPU
 
@@ -2276,7 +2362,7 @@ public class RunnableThread {
 }
 ```
 
-### Thread priority
+## Thread priority
 * [sleep] (https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
 * [join] (https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
 in the example, without join(), smaller sum will be printed <br/>
@@ -2328,13 +2414,13 @@ public class PriorityTest {
 }
 ```
 
-### Thread Lifecycle
+## Thread Lifecycle
 * New
 * Runnable (start)
 * Blocked (sleep, join)
 * Dead (after run)
 
-### Thread memory model
+## Thread memory model
 * Method: method (bytecode), static var
 * Stack: local var, ref var, param
 * Heap: inst, gc
@@ -2379,7 +2465,7 @@ public class RunnableThread {
 }
 ```
 
-### Sync prevents thread interference
+## Sync prevents thread interference
 check thread-safe(sync) e.g. StringBuffer is thread-safe.
 ```java
 class IHaveTwoNum{
@@ -2448,7 +2534,7 @@ public class SyncObjectKey {
 }
 ```
 
-### Sync controls thread order
+## Sync controls thread order
 the result shows 'null' since reader was prior to writer<br/>
 ```java
 class NewsPaper{
@@ -2511,7 +2597,7 @@ public class NewsPaperStory {
 ```
 
 
-### wait notify notifyAll
+## wait notify notifyAll
 sync can control order of threads(writer, reader) regardless of the code line order,<br/>
 using wait notify notifyAll
 ```java
@@ -2640,7 +2726,7 @@ public class SumFiveNum {
 }
 ```
 
-### ReentrantLock
+## ReentrantLock
 another way to sync
 ```java
 private final ReentrantLock key = new ReentrantLock();
@@ -2709,7 +2795,7 @@ class IHaveTwoNum{
 ```
 
 
-### await signal signalAll
+## await signal signalAll
 ReentrantLock inst calls newCondition() to return Condition inst, which has following method<br/>
 await() signal() signalAll() <br/>
 They are similar to wait() notify() notifyAll() except they are for ReentrantLock impl
@@ -2822,9 +2908,9 @@ public class ConditionSyncStringReadWrite {
 }
 ```
 
-## File IO
+# File IO
 
-### InputStream
+## InputStream
 create Stream using InputStream inst<br/>
 ```java
 InputStream in = new FileInputStream("run.exe");
@@ -2834,7 +2920,7 @@ public abstract int read() throws IOException
 public void close() throws IOException
 ```
 
-### OutputStream
+## OutputStream
 ```java
 OutputStream out = new FileOutputStream("run.exe");
 
@@ -2843,7 +2929,7 @@ public void close() throws IOException
 ```
 <br/>
 
-### Bytes File copy 
+## Bytes File copy 
 ByteFileCopy.java
 ```java
 import java.io.*;
@@ -2901,7 +2987,7 @@ public class BufferFileCopy {
 }
 ```
 
-### FilterStream
+## FilterStream
 ```java
 import java.io.*;
 
@@ -2924,7 +3010,7 @@ public class DataFilterStream {
 }
 ```
 
-### BufferedStream
+## BufferedStream
 BufferedInputStream & BufferedOutputStream provide buffer as implemented in BufferFileCopy.java<br/>
 you can set buffer size.<br/>
 ```java
@@ -2966,13 +3052,13 @@ public class ByteBufferedFileCopy {
 }
 ```
 
-### Buffer flush
+## Buffer flush
 once buffer is full, it sends buffered data to outputstream and writes to a file
 ```java
 public void flush() throws IOException
 ```
 
-### Filter + Buffered Stream
+## Filter + Buffered Stream
 Performance test
 
 1. FileOutputStream + BufferedOutputStream + DataOutputStream
@@ -3039,7 +3125,7 @@ public class PrintStreamToFile {
 }
 ```
 
-### Byte vs Char Stream
+## Byte vs Char Stream
 Byte Stream cannot store char.<br/>
 Encoding(char to number) differs for each OS.<br/>
 Example:
@@ -3053,7 +3139,7 @@ public static void main(Strin[] args) throws IOException{
 ```
 java provides Stream that outputs char based on OS.
 
-### FileReader FileWriter
+## FileReader FileWriter
 for character output and input<br/>
 ```java
 /*FileReader method*/
@@ -3104,7 +3190,7 @@ public class FileReaderStream {
 ```
 
 
-### BufferedReader BufferedWriter
+## BufferedReader BufferedWriter
 
 ```java
 /*BufferedReader*/
@@ -3138,7 +3224,7 @@ public class StringWriterReader {
 }
 ```
 
-### PrintWriter PrintReader (FilterStream)
+## PrintWriter PrintReader (FilterStream)
 ```java
 import java.io.*;
 
@@ -3185,9 +3271,9 @@ public class BufferedPrintWriter {
 }
 ```
 
-### ObjectStream
+## ObjectStream
 
-### Serializable
+## Serializable
 To use the following method, a class has to implement java.io.Serializable<br/>
 Serializable does not have class method.
 ```java
@@ -3245,7 +3331,7 @@ public class ObjectSerializable {
 ```
 
 
-### transient
+## transient
 no serialization!
 ```java
 import java.io.*;
@@ -3288,7 +3374,7 @@ public class TransientMembers {
 }
 ```
 
-### RandomAccessFile
+## RandomAccessFile
 * IO at the same time
 * IO location changeable
 * File only Stream
@@ -3354,7 +3440,7 @@ public class RandomFileReadWrite {
 ```
 
 
-### File
+## File
 * create and remove dir
 * remove file
 * print file name in dir
@@ -3379,7 +3465,7 @@ File Seperator : OS independent
 String path = File.seperator + "home" + File.seperator + "username" + File.seperator; 
 ```
 
-### Relative Path
+## Relative Path
 Move file using relative path:
 ```java
 import java.io.*;
@@ -3486,7 +3572,7 @@ InputStream in = new FileInputStream(inFile);
 
 ```
 
-## Swing
+# Swing
 * AWT
 * Swing
 * SWT
@@ -3516,7 +3602,7 @@ public class FirstSwing {
 }
 ```
 
-### AWT
+## AWT
 ```java
 import java.awt.*;
 import java.awt.event.*;
@@ -3546,7 +3632,7 @@ public class FirstAWTExitEvent {
 }
 ```
 
-### Exit value
+## Exit value
 ```java
 import java.io.IOException;
 
@@ -3563,7 +3649,7 @@ public class RunningProcess {
 }
 ```
 
-### EventHandler
+## EventHandler
 ```java
 import java.awt.*;
 import java.awt.event.*;
@@ -3608,7 +3694,7 @@ public class EventHandler {
 }
 ```
 
-### EventHandlerAns1
+## EventHandlerAns1
 ```java
 import java.awt.*;
 import java.awt.event.*;
@@ -3665,7 +3751,7 @@ public class EventHandlerAns1 {
 }
 ```
 
-### EventHandlerAns2
+## EventHandlerAns2
 ```java
 class MyJFrame extends JFrame{
 	public MyJFrame(String title){
@@ -3698,7 +3784,7 @@ public class EventHandlerAns2 {
 }
 ```
 
-### EventHandlerAns3
+## EventHandlerAns3
 ```java
 class MaJFrame extends JFrame implements MouseListener{
 	public MaJFrame(String title){
@@ -3739,7 +3825,7 @@ public class EventHandlerAns3 {
 }
 ```
 
-### EventHandlerAns4
+## EventHandlerAns4
 ```java
 class MJFrame extends JFrame implements MouseListener{
 	JButton btn1;
@@ -3782,7 +3868,7 @@ public class EventHandlerAns4 {
 }
 ```
 
-### FlowLayout Manager
+## FlowLayout Manager
 * L to R
 * centered
 * newline for long components
@@ -3820,7 +3906,7 @@ public class FlowLayoutManager {
 }
 ```
 
-### BorderLayout Manager
+## BorderLayout Manager
 ```java
 public class BorderLayoutManager {
 	public static void main(String[] args) {
@@ -3839,7 +3925,7 @@ public class BorderLayoutManager {
 }
 ```
 
-### GridLayout Manager
+## GridLayout Manager
 ```java
 public class GridLayoutManager {
 	public static void main(String[] args) {
@@ -3859,7 +3945,7 @@ public class GridLayoutManager {
 }
 ```
 
-### MultiLayout Manager
+## MultiLayout Manager
 JFrame[     : BorderLayout<br/>
 	JPanel1[],     : FlowLayout, BorderLayout.NORTH<br/> 
 	JPanel2[]     : GridLayout, BorderLayout.CENTER<br/>
@@ -3898,7 +3984,7 @@ public class MultiLayoutManager {
 }
 ```
 
-### EventListener
+## EventListener
 (Event, EventListener)
 * MouseEvent MouseListener
 * MouseEvent MouseMotionListener
@@ -3909,7 +3995,7 @@ public class MultiLayoutManager {
 * ActionEvent ActionListener
 <br/>
 
-### MouseEvent
+## MouseEvent
 ```java
 import java.awt.*;
 import javax.swing.*;
@@ -3939,7 +4025,7 @@ public class JButtonMouseEvent {
 }
 ```
 
-### ActionEvent
+## ActionEvent
 ```java
 import java.awt.*;
 import javax.swing.*;
@@ -3975,7 +4061,7 @@ public class JButtonActionEvent {
 }
 ```
 
-### WindowEvent
+## WindowEvent
 * dispose()
 ```java
 import java.awt.event.*;
@@ -4059,7 +4145,7 @@ public class SetDefaultCloseOperation {
 }
 ```
 
-### MouseListener MouseMotionListener
+## MouseListener MouseMotionListener
 ```java
 import java.awt.event.*;
 import javax.swing.*;
@@ -4084,7 +4170,7 @@ public class MouseMotionEvent {
 }
 ```
 
-### Adapter Class
+## Adapter Class
 empty implementation allowed
 ```java
 import java.awt.event.*;
@@ -4118,7 +4204,7 @@ Adapter Classes:
 * WindowListener WindowAdapter
 * ActionListener NO ADAPTER
 
-### Anonymous Adapter Class
+## Anonymous Adapter Class
 ```java
 import java.awt.event.*;
 import javax.swing.*;
@@ -4141,9 +4227,9 @@ public class AdapterEventHandling2 {
 }
 ```
 
-### Other Swing Components
+## Other Swing Components
 
-### JLabel JTextField
+## JLabel JTextField
 ```java
 import java.awt.*;
 import java.awt.event.*;
@@ -4190,7 +4276,7 @@ public class JLabelAndTextField {
 }
 ```
 
-### JTextArea JScrollPane
+## JTextArea JScrollPane
 ```java
 import java.awt.*;
 import java.awt.event.*;
@@ -4238,7 +4324,7 @@ public class JTextAreaScrollAdded {
 }
 ```
 
-### JCheckBox JRadioButton
+## JCheckBox JRadioButton
 ```java
 import java.awt.*;
 import javax.swing.*;
@@ -4315,7 +4401,7 @@ public class JCheckBoxAndJRadioButton {
 }
 ```
 
-### Border
+## Border
 ```java
 import java.awt.*;
 import javax.swing.*;
@@ -4368,7 +4454,7 @@ public class JRadioButtonBorder {
 }
 ```
 
-### JComboBox
+## JComboBox
 ```java
 import java.awt.*;
 import javax.swing.*;
@@ -4441,7 +4527,7 @@ public class JComboBoxModel {
 }
 ```
 
-### Look And Feel
+## Look And Feel
 ```java
 import java.awt.*;
 import java.awt.event.*;
