@@ -20,7 +20,7 @@
 * [N array](#nd-array)
 * [Inheritance](#inheritance)
 * [Object](#object-class)
-* [abstract](#abstract-class)
+* [abstract](#abstract)
 * [interface](#interface)
 * [Exception](#exception)
 * [Memory model](#memory-model)
@@ -476,9 +476,6 @@ class Employer{
 		emp.earnMoney(money);
 		myMoney -= money;
 	}
-	public void showMyMoney(){
-		System.out.println(myMoney);
-	}
 }
 class Employee{
 	private int myMoney;
@@ -488,18 +485,12 @@ class Employee{
 	public void earnMoney(int money){
 		myMoney +=money;
 	}
-	public void showMyMoney(){
-		System.out.println(myMoney);
-	}
 }
-/*public class NoMainClass {}
-
-when main method is inside either Employer or Employee class
+/* when main method is inside either Employer or Employee class
 user@9550:~/workspace/java/src$ java Employer
 user@9550:~/workspace/java/src$ java Employee
 
-2. class instance can be created in member functions - including main method
-*/
+2. class instance can be created in member functions - main method can be inside any classes */
 ```
 
 # Overloading
@@ -653,12 +644,10 @@ public class MainParam {
 			System.out.println(e);
 	}
 }
-/*
-user@9550:~/workspace/java/src$ java MainParam AAA BBB CCC
-[console]
-AAA
+/ * user@9550:~/workspace/java/src$ java MainParam AAA BBB CCC
+[console]AAA
 BBB
-CCC*/
+CCC */
 ```
 
 # Inheritance
@@ -668,18 +657,18 @@ CCC*/
 ```java
 package A;
 class A{
-	int defnum;
-	private int privnum;
-	protected int protnum;
-	static int statnum = 0;
+	int defNum;
+	private int privNum;
+	protected int protNum;
+	static int statNum = 0;
 	
-	public int getPrivNum(){return privnum;}
+	public int getPrivNum(){return privNum;}
 	protected void setNum(){
-		defnum = 0;
-		privnum = 0;
-		protnum = 0;
+		defNum = 0;
+		privNum = 0;
+		protNum = 0;
 	}
-	public void setStaticNum(int n){statnum = n;}
+	public void setStaticNum(int n){statNum = n;}
 }
 ```
 
@@ -690,12 +679,12 @@ class B extends A{
 	public B(){/*super();*/}
 	public void setNum(){super.setNum();}
 	public void showNum(){
-		System.out.println("default num: " + defnum);
+		System.out.println("default num: " + defNum);
 		System.out.println("private num: " + getPrivNum()); 
-		System.out.println("protected num: " + protnum); /*accessible by inheritted class*/
+		System.out.println("protected num: " + protNum); /*accessible by inherited class*/
 	}
 	public static void showStaticNum(){
-		System.out.println("static num: " + statnum);
+		System.out.println("static Num: " + statNum);
 	}
 }
 ```
@@ -705,7 +694,7 @@ class B extends A{
 /*ISA*/
 class Computer{}
 class Laptop extends Computer{}
-class DellXPS extends Laptop{}
+class HPPavilion extends Laptop{}
 
 /*HASA*/
 class Gun{}
@@ -756,30 +745,31 @@ public class RideAndLoad {
 /*instanceof*/
 class Box{
 	public void simpleWrap(){System.out.println("simple wrap");}
-	public void wrap(){simpleWrap();}
 }
 class PaperBox extends Box{
 	public void paperWrap(){System.out.println("paper wrap");}
-	public void wrap(){paperWrap();}
 }
-class GoldPaperBox extends PaperBox{ 
-	public void goldWrap(){System.out.println("gold wrap");}
-	public void wrap(){goldWrap();}
+class GoldenPaperBox extends PaperBox{
+	public void goldenPaperWrap(){System.out.println("golden paper wrap");}
 }
 
-public class InstanceOf2 {
-	public static void wrap(Box box){
-		box.wrap();
+public class InstanceOf {
+	public static void wrapBox(Box box){
+		if (box instanceof GoldenPaperBox)
+			((GoldenPaperBox) box).goldenPaperWrap();
+		else if (box instanceof PaperBox)
+			((PaperBox) box).paperWrap();
+		else
+			box.simpleWrap();
 	}
-	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		Box box1 = new Box();
 		PaperBox box2 = new PaperBox();
-		GoldPaperBox box3 = new GoldPaperBox();
+		GoldenPaperBox box3 = new GoldenPaperBox();
 		
-		wrap(box1);
-		wrap(box2);
-		wrap(box3);
+		wrapBox(box1);
+		wrapBox(box2);
+		wrapBox(box3);
 	}
 }
 
@@ -819,7 +809,7 @@ public class InstanceOf {
 /*can override object method inside class*/
 
 public String toString(){/*code*/}
-public void println(Object x){/*code*/}	
+public void println(Object obj){/*code*/}	
 ```
 
 ## final
@@ -831,11 +821,11 @@ eg. String is a final class
 eg. Object has final method : wait() notify() notifyAll()
 ```
 
-# abstract class
+# abstract
 * for inheritance
 * not for instantiation
 
-## abstract method
+## abstract class & method
 * inherited classes should define one
 ```java
 abstract class AAA{
@@ -890,7 +880,7 @@ public class AbstractInterface {
 }
 ```
 
-## class implements two interfaces
+## class1 implements interface1, interface2
 ```java
 public interface MyInterface{public void myMethod();}
 public interface YourInterface{public void yourMethod();}
@@ -901,13 +891,84 @@ class OurClass implements MyInterface, YourInterface
 }
 ```
 
-## interface inherits another
+## interface1 extends interface2
 ```java
 public interface MyInterface{
 	public void myMethod();
 }
 public interface MySecondInterface extends MyInterface{
 	public void mySecondMethod();
+}
+```
+
+## Example
+```java
+/*
+draft/PersonalInfoStorage.java
+companyA/PersonalInfo.java
+companyA/PersonalInfoStorageImpl.java */
+
+
+/*PersonalInfoStorage.java*/
+package hmproject.draft;
+
+public interface PersonalInfoStorage {
+	public void addPersonalInfo(String name, String perNum);
+	public String searchName(String perNum);
+}
+
+
+/*PersonalInfo.java*/
+package hmproject.companyA;
+
+public class PersonalInfo {
+	private String name;
+	private String perNum;
+	public PersonalInfo(String name, String perNum){
+		this.setName(name);
+		this.setPerNum(perNum);
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPerNum() {
+		return perNum;
+	}
+	public void setPerNum(String perNum) {
+		this.perNum = perNum;
+	}
+}
+
+
+/*PersonalInfoStorageImpl.java*/
+package hmproject.companyA;
+
+import java.util.HashSet;
+import java.util.Iterator;
+
+import hmproject.draft.PersonalInfoStorage;
+
+public class PersonalInfoStorageImpl implements PersonalInfoStorage{
+	HashSet<PersonalInfo> infoStorage = new HashSet<PersonalInfo>();
+	
+	public PersonalInfoStorageImpl(){
+		
+	}
+	public void addPersonalInfo(String name, String perNum) {
+		infoStorage.add(new PersonalInfo(name, perNum));
+	}
+	public String searchName(String perNum) {
+		Iterator<PersonalInfo> itr = infoStorage.iterator();
+		while(itr.hasNext()){
+			PersonalInfo compInfo = itr.next();
+			if (compInfo.getPerNum().compareTo(perNum) == 0)
+				return compInfo.getName();
+		}
+		return null;
+	}
 }
 ```
 
@@ -922,7 +983,9 @@ public interface Week{
 }
 ```
 
-## uppercase interface
+## interface to distinguish classes
+
+## Example
 ```java
 interface UpperCasePrintable{/*empty*/}
 
@@ -979,19 +1042,37 @@ public class InterfaceMark {
 ```
 
 ## diamond UML
-java does not support multi inheritance. workaround :
+java does not support multi-inheritance, Workaround :
 ```java
-/*code1.*/
+/*ERROR CODE*/
 class TV{
-	public void onTV(){System.out.println("Video Sending...");}
+	public void onTV(){ System.out.println("Video Sending...");}
+}
+
+class Computer{
+	public void dataReceive(){
+		public void dataReceive(){ System.out.println("Video Receiving...");}
+	}
+}
+
+class IPTV extends TV, Computer{ //ERROR!
+	public void powerOn(){
+		dataReceive();
+		onTV();
+	}
+}
+
+
+/*SOLUTION 1.*/
+class TV{
+	public void onTV(){ System.out.println("Video Sending...");}
 }
 
 interface Computer{
 	public void dataReceive();
 }
-
 class ComputerImpl{	
-	public void dataReceive(){System.out.println("Video Receiving...");}
+	public void dataReceive(){ System.out.println("Video Receiving...");}
 }
 
 class IPTV extends TV implements Computer{
@@ -1005,7 +1086,8 @@ class IPTV extends TV implements Computer{
 	}
 }
 
-/*code2.*/
+
+/*SOLUTION 2.*/
 interface TV{
 	public void onTV();
 }
@@ -1015,11 +1097,11 @@ interface Computer{
 }
 
 class TVImpl{
-	public void onTV(){System.out.println("Video Sending...");}
+	public void onTV(){ System.out.println("Video Sending...");}
 }
 
 class ComputerImpl{	
-	public void dataReceive(){System.out.println("Video Receiving...");}
+	public void dataReceive(){ System.out.println("Video Receiving...");}
 }
 
 class IPTV implements TV, Computer{
@@ -1035,7 +1117,8 @@ class IPTV implements TV, Computer{
 	}
 }
 
-/*main method*/
+
+/*MAIN METHOD*/
 public class MultiInheriAlternative{
 	public static void main(String[] args){
 		IPTV iptv=new IPTV();
@@ -1050,15 +1133,12 @@ public class MultiInheriAlternative{
 ## Inner & Outer class
 ```java
 class OuterClass{
-	public void method(){/*code*/}
 	class InnerClass{}
 }
 
 public static void main(String[] args){
 	OuterClass out1 = new OuterClass();
 	OuterClass out2 = new OuterClass();
-	out1.method();
-	out2.method();
 	
 	OuterClass.InnerClass inn1 = out1.new InnerClass();
 	OuterClass.InnerClass inn2 = out2.new InnerClass();
@@ -1067,53 +1147,48 @@ public static void main(String[] args){
 ```
 
 # Nested class
-'nested' or 'static inner' class
+nested class (or static inner class) :
 ```java
 class OuterClass{
 	static class NestedClass{}
 }
 ```
-Example:
-```java
 
-class OuterClassOne
-{
-	public OuterClassOne()
-	{
+```java
+class OuterClassOne{
+	public OuterClassOne(){
 		NestedClass nst = new NestedClass();
 		nst.simpleMethod();
 	}
-	
-	static class NestedClass
-	{
-		public void simpleMethod(){System.out.println("nested instance method One");}
+	static class NestedClass{
+		public void simpleMethod(){
+			System.out.println("nested instance method One");
+		}
 	}
 }
 
-class OuterClassTwo
-{
-	public OuterClassTwo()
-	{
+class OuterClassTwo{
+	public OuterClassTwo(){
 		NestedClass nst = new NestedClass();
 		nst.simpleMethod();
 	}
 	
-	private static class NestedClass
-	{
-		public void simpleMethod(){System.out.println("nested instance method Two");}
+	private static class NestedClass{
+		public void simpleMethod(){
+			System.out.println("nested instance method Two");
+		}
 	}
 }
 
 public class NestedClassTest {
-	public static void main(String[] args)
-	{
+	public static void main(String[] args){
 		OuterClassOne one = new OuterClassOne();
 		OuterClassTwo two = new OuterClassTwo();
 		
 		OuterClassOne.NestedClass nst1 = new OuterClassOne.NestedClass();
 		nst1.simpleMethod();
 		
-		//private : error
+		//private : Error
 		/*OuterClassTwo.NestedClass nst2 = new OuterClassTwo.NestedClass();
 		nst2.simpleMethod();*/
 	}
@@ -1129,8 +1204,8 @@ class OuterClass{
 	}
 }
 ```
-Example:
-a local class can only access local variables that are declared final.
+
+A local class can only access local variables that are declared final :
 ```java
 interface Readable{
 	public void read();
@@ -1138,7 +1213,6 @@ interface Readable{
 
 class OuterClass{
 	private String name;
-	
 	public OuterClass(String name){this.name = name;}
 	
 	public Readable createLocalClassInst(final int instID){
@@ -1148,6 +1222,7 @@ class OuterClass{
 				System.out.println("Local inst ID: " + instID);
 			}
 		}
+		
 		return new LocalClass();
 	}
 }
@@ -1209,199 +1284,170 @@ class OuterClass{
 
 ## try catch finally
 ```java
-public static void main(String[] args){
-	Scanner sc = new Scanner(System.in);
-		
 	try{
-		System.out.print("integer n1: ");
-		int n1 = sc.nextInt(); sc.nextLine();
-		System.out.print("integer n2: ");
-		int n2 = sc.nextInt(); sc.nextLine();
-		
-		System.out.println("n1/n2 = " + n1/n2);
-		System.out.println("n1%n2 = " + n1%n2);
-		
-		int[] arr = {0,1};
-		arr[-1] = 1;
+		/*code in which exception occurs*/
 	}
-	catch(ArithmeticException e){
+	catch(Exception e){
 		System.out.println(e.getMessage());
 	}
-	catch(ArrayIndexOutOfBoundsException e){
-		System.out.println("invalid index : " + e.getMessage());
-	}
-	finally{
-		/*this code is always executed whether exception occurs or not*/
-	}
-}
+	finally{/*always executed regardless of the exceptions*/}
 ```
-Defined Exception classes :
 
 * ArrayIndexOutOfBoundsException
 * ClassCastException
 * NegativeArraySizeException
 * NullPointerException
-<br/>
 
-Avoid this :
 ```java
-/*ArithmeticException catch area is never reached.*/
-try{/*code*/}
+/*ArithmeticException catch area is never reached. Avoid this : */
+try{}
 catch(Throwable e){}
 catch(ArithmeticException e){}
 ```
 
-## throw
-Custom exception: <br/>
-e.g. exception can be defined for negative 'age' input
-
-* throws will pass the error to his caller to handle it
-* try catch block will handle the Exception
-<br/>
-
-two ways to handle after throws:
-
-1. caller will handled exception with try catch
-2. caller 'throws'
-
 ```java
-/*1. caller try catch*/
-import java.util.Scanner;
-
-class AgeInputException extends Exception{
-	public AgeInputException(int age){
-		super("invalid age input!");
-	}
+try {
+	int n1 = 1, n2 = 0;
+	System.out.println("n1/n2 = " + n1 / n2);
+} catch (ArithmeticException e) {
+	System.out.println(e.getMessage());
 }
 
-public class ProgrammerDefineException {
+try {
+	int[] arr = new int[3];
+	arr[-1] = 0;
+} catch (ArrayIndexOutOfBoundsException e) {
+	System.out.println(e.getMessage());
+}
 
-	public static int readAge() throws AgeInputException{
+try {
+	Object obj = new int[10];
+	String str = (String) obj;
+} catch (ClassCastException e) {
+	System.out.println(e.getMessage());
+}
+
+try {
+	int[] arr = new int[-10];
+} catch (NegativeArraySizeException e) {
+	System.out.println(e.getMessage());
+}
+
+try {
+	String str = null;
+	int len = str.length();
+} catch (NullPointerException e) {
+	System.out.println(e.getMessage());
+}
+```
+
+## throw
+'throws' will pass the error to his caller, which will handle the Exception in try~catch block
+
+```java
+/*throws an error to his caller*/
+class AgeException extends Exception{
+	public AgeException(){super("invalid age input");}
+}
+
+public class CustomException {
+	public static int readAge() throws AgeException{
 		Scanner sc = new Scanner(System.in);
-		System.out.print("age: ");
-		
 		int age = sc.nextInt(); sc.nextLine();
 		
-		if(age < 0)
-			throw new AgeInputException();
-		
+		if (age < 0) throw new AgeException();
 		return age;
 	}
-	
-	public static void main(String[] args){
+	public static void main(String[] args) {
+		System.out.print("type your age >>");
+		
 		try{
 			int age = readAge();
-			System.out.println(age + " years old.");
 		}
-		catch(AgeInputException e){
+		catch(AgeException e){
 			System.out.println(e.getMessage());
 		}
 	}
 }
 
-/*2. caller (main method)'throws'*/
+/*main method throws. Then the caller of main method should handle exception.
+Since JVM is the caller, JVM will
+	1. call getMessage()
+	2. print stack trace
+	3. terminate program */
 class AgeInputException extends Exception{
-	/*save as above*/
+	public AgeException(){super("invalid age input");}
 }
-public class ProgrammerDefineException {
-	
-	public static int readAge() throws AgeInputException{
-		/*same as above*/
+public class CustomException {
+	public static int readAge() throws AgeException{
+		Scanner sc = new Scanner(System.in);
+		int age = sc.nextInt(); sc.nextLine();
+		
+		if (age < 0) throw new AgeException();
+		return age;
 	}
-	
 	public static void main(String[] args) throws AgeInputException{
 		int age = readAge();
 		System.out.println(age + " years old.");
 	}
 }
 ```
-Then the caller of main method should handle exception. <br/>
-since JVM is the caller, JVM will
 
-1. call getMessage()
-2. print stack trace
-3. terminate program
-<br/>
-
-Example:
 ```java
 import java.util.Scanner;
 
-class AgeException extends Exception{
-	public AgeException(){
-		super("invalid age input!");
-	}
+class AgeInputException extends Exception{
+	public AgeInputException(){super("invalid age input.");}
 }
-
 class NameLengthException extends Exception{
-	int len;
-	
-	public NameLengthException(int len){
-		super("name is too short!");
-		this.len = len;
+	String wrongName;
+	public NameLengthException(String wrongName){
+		super("invalid name input");
+		this.wrongName = wrongName;
+	}
+	public void showWrongName(){
+		System.out.println("invalid name input: " + this.wrongName);
 	}
 }
-
 class PersonalInfo{
 	String name;
 	int age;
-	
 	public PersonalInfo(String name, int age){
 		this.name = name;
 		this.age = age;
 	}
-	
 	public void showPersonalInfo(){
 		System.out.println("name: " +name);
 		System.out.println("age: " +age);
 	}
-	
 }
 public class PrintStackTrace {
 	public static final Scanner sc = new Scanner(System.in);
 	
-	public static PersonalInfo readPersonalInfo() throws AgeException, NameLengthException{
-		
+	public static PersonalInfo readPersonalInfo() throws NameLengthException, AgeInputException{
 		String name = readName();
-		if (name.length() < 2)
-			throw new NameLengthException(name.length());
-		
 		int age = readAge();
-		if(age < 0)
-			throw new AgeException();
-		
 		return new PersonalInfo(name, age);
 	}
-	
-	public static int readAge() throws AgeException{
-		System.out.print("age: ");
-		int age = sc.nextInt(); sc.nextLine();
-		
-		if(age < 0)
-			throw new AgeException();
-		
-		return age;
-	}
-	
 	public static String readName() throws NameLengthException{
-		System.out.print("age: ");
-		String name = sc.nextLine();
-		
-		if (name.length() < 2)
-			throw new NameLengthException(name.length());
-		
+		System.out.print("name >>"); String name = sc.nextLine();
+		if(name.length() < 2)
+			throw new NameLengthException(name);
 		return name;
 	}
-	
-	public static void main(String[] args){
+	public static int readAge() throws AgeInputException{
+		System.out.print("age >>"); int age = sc.nextInt(); sc.nextLine();
+		if (age < 0)
+			throw new AgeInputException();
+		return age;
+	}
+	public static void main(String[] args) {
 		try{
 			PersonalInfo info = readPersonalInfo();
-			info.showPersonalInfo();
-		}
-		catch(NameLengthException e){
+		} catch(NameLengthException e){
+			e.showWrongName();
 			e.printStackTrace();
-		}
-		catch(AgeException e){
+		} catch(AgeInputException e){
 			e.printStackTrace();
 		}
 	}
@@ -1409,50 +1455,42 @@ public class PrintStackTrace {
 ```
 
 ## Exception class Hierarchy
-Exception �뜝�럥瑗� Throwable �뜝�럥占� Error <br/>
-e.g. VirtualMachineError <br/>
+Exception → Throwable ← Error (e.g. VirtualMachineError)<br>
+
 ![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
 
 ## RuntimeException
 although it is a subclass of Exception, it is similar to Error subclasses
 
 1. no 'try~catch' or 'throws'
-2. does not handle serious problems as 'Error' would handle:<br/> errors related to environment in which application is running
-3. in order to continue program, it occasionally uses try~catch 
-<br/>
+2. does not handle serious problems as 'Error' would handle: errors related to environment in which application is running
+3. therefore it occasionally uses 'try~catch' in order to continue program execution
 
-RuntimException Example:
 ```java
+/*RuntimException Example*/
 public class RuntimeExceptionCase {
 	public static void main(String[] args){
 		try{
 			int[] arr = {0,1};
 			arr[-2] = 1;
-		}
-		catch(ArrayIndexOutOfBoundsException e){
+		} catch(ArrayIndexOutOfBoundsException e){
 			System.out.println(e.getMessage());
 		}
-		
 		try{
 			Object obj = new int[10];
 			String str = (String)obj;
-		}
-		catch(ClassCastException e){
+		} catch(ClassCastException e){
 			System.out.println(e.getMessage());
 		}
-		
 		try{
 			int[] arr = new int[-10];
-		}
-		catch(NegativeArraySizeException e){
+		} catch(NegativeArraySizeException e){
 			System.out.println(e.getMessage());
 		}
-		
 		try{
 			String str = null;
 			int len = str.length();
-		}
-		catch(NullPointerException e){
+		} catch(NullPointerException e){
 			System.out.println(e.getMessage());
 		}
 	}
@@ -1462,9 +1500,20 @@ public class RuntimeExceptionCase {
 # Memory model
 JVM memory:
 
-* Method: method (bytecode), static var
-* Stack: local var, ref var, param
-* Heap: inst, garbage collection
+* METHOD: method bytecode, static variable
+* STACK: local, reference variable, parameter
+* HEAP: instance, garbage collection
+
+## JVM removes instances from heap memory
+```java
+public static void func(){
+	String s1 = new String("inst1");
+	String s2 = new String("inst2");
+	s1=null;
+	s2=null;
+	//garbage-collection is executed by JVM follwing an algorithm
+}
+```
 
 ## Object : finalize
 ```java
@@ -1472,13 +1521,13 @@ JVM memory:
 protected void finalize() throws Throwable
 ```
 
-ObjectFinalize.java
 ```java
+/*ObjectFinalize.java*/
 class MyName{
 	String objName;
 	public MyName(String objName){this.objName = objName;}
 	
-	/*override Object method*/
+	/*override method to execute necessary steps defined in Object class*/
 	public void finalize() throws Throwable{ 
 		super.finalize();
 		System.out.println(objName + " was disposed.");
@@ -1494,9 +1543,8 @@ public class ObjectFinalize {
 		
 		System.out.println("terminates program.");
 		
-		// instances ready for gc
-		// expect finalize to be automatically called
-		// but sometimes it has to be manually called 
+		//instances are ready for garbage-collection
+		//finalize is expected to be called automatically, but it was called manually
 		System.gc();
 		System.runFinalization();
 	}
@@ -1508,9 +1556,8 @@ public class ObjectFinalize {
 public boolean equals(Object obj)
 ```
 
-same impl as above plus 'equals' method override
+Override 'equals' method of the Object class
 ```java
-
 class MyName{
 	// override
 	public boolean equals(Object obj){
