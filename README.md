@@ -1570,25 +1570,22 @@ class MyName{
 ```
 
 ## Object : clone
-requires to implement Cloneable interface to call clone()
+instance cloning requires implementing 'Cloneable' interface in order to call clone()
 ```java
 protected Object clone() throws CloneNotSupportedException
 ```
-Example:
+
 ```java
 class Point implements Cloneable{
-	private int xpos, ypos;
-	
+	private int x, y;
 	public Point(int x, int y){
-		xpos = x;
-		ypos = y;
+		this.x = x;
+		this.y = y;
 	}
-	
 	public void showPosition(){
-		System.out.printf("[%d, %d]\n", xpos, ypos);
+		System.out.printf("[%d, %d]\n", x, y);
 	}
-	
-	/*override protected to pulbic*/
+	/*override protected to public*/
 	public Object clone() throws CloneNotSupportedException{
 		return super.clone();
 	}
@@ -1598,14 +1595,12 @@ public class InstanceCloning {
 	public static void main(String[] args){
 		Point org = new Point(3,5);
 		Point cpy;
-		
 		try{
 			cpy = (Point)org.clone();
 			org.showPosition();
 			cpy.showPosition();
-		}
-		catch(CloneNotSupportedException e){
-			e.printStackTrace();
+		} catch(CloneNotSupportedException e){
+			System.out.println(e.getMessage());
 		}
 	}
 }
@@ -1614,69 +1609,56 @@ public class InstanceCloning {
 ## Shallow & Deep copy
 ```java
 class Point implements Cloneable{
-	private int xpos, ypos;
-	
+	private int x, y;
 	public Point(int x, int y){
-		xpos = x;
-		ypos = y;
+		this.x=x;
+		this.y=y;
 	}
 	public void showPosition(){
-		System.out.printf("[%d, %d]\n", xpos, ypos);
+		System.out.printf("[%d, %d]\n", x, y);
 	}
-	public void changePosition(int x, int y){
-		xpos = x;
-		ypos = y;
+	public void changePosition(int newX, int newY){
+		x = newX;
+		y = newY;
 	}
-	
-	/*override protected to pulbic*/
-	public Object clone() throws CloneNotSupportedException{
+	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
 }
-
 class Rectangle implements Cloneable{
-	Point lowerleft;
-	Point upperright;
-	
-	public Rectangle(int llx, int lly, int urx, int ury){
-		lowerleft = new Point(llx, lly);
-		upperright = new Point(urx, ury);
+	Point upperLeft, lowerRight;
+	public Rectangle(int ulx, int uly, int lrx, int lry){
+		upperLeft = new Point(ulx, uly);
+		lowerRight = new Point(lrx, lry);
 	}
 	public void showPosition(){
-		System.out.print("lower left: "); lowerleft.showPosition();
-		System.out.print("upper right: "); upperright.showPosition();
-		
+		System.out.print("upper left:");  upperLeft.showPosition();
+		System.out.print("lower right:");  lowerRight.showPosition();
+		System.out.println();
 	}
-	public void changePosition(int llx, int lly, int urx, int ury){
-		lowerleft.changePosition(llx, lly);
-		upperright.changePosition(urx, ury);
+	public void changePosition(int x1, int y1, int x2, int y2){
+		upperLeft.changePosition(x1, x2);
+		lowerRight.changePosition(x2, y2);
 	}
-	
-	/*shallow copy*/
+	/*shallow copy
 	public Object clone() throws CloneNotSupportedException{
 		return super.clone();
-	}
-	
+	}*/
 	/*deep copy*/
 	public Object clone() throws CloneNotSupportedException{
 		Rectangle cpy = (Rectangle)super.clone();
-		
 		cpy.lowerleft = (Point)lowerleft.clone();
 		cpy.upperright = (Point)upperright.clone();
-		
 		return cpy;
 	}
 }
-
 public class ShallowDeepCopy {
 	public static void main(String[] args){
 		Rectangle org = new Rectangle(1, 1, 9, 9);
 		Rectangle cpy;
-		
 		try{
 			cpy = (Rectangle)org.clone();
 			org.changePosition(2, 2, 7, 7);
-			
 			org.showPosition();
 			cpy.showPosition();
 		}
@@ -1689,7 +1671,6 @@ public class ShallowDeepCopy {
 
 ## String clone
 String does not need deep copy
-
 
 # Wrapper
 java defines wrapper classes
@@ -1708,8 +1689,7 @@ Integer ival = new Integer(10);
 Integer ival2 = 10;
 Integer ival3 = Integer.valueOf(10);
 Integer ival4 = Integer.valueOf(10);
-
-//just like String, ival3 == ival4
+boolean cond = ival3 == ival4; //true; just like new String("a") == new String("a")
 
 /*unboxing*/
 ival = new Integer(ival.intValue() + 10) 
@@ -1718,23 +1698,36 @@ ival2 += 10;
 int n = ival;
 int n2 = ival + ival2;
 ```
+Wrapper class instance value cannot be changed just like String class. New instances can be created and referenced.
+
+## Wrapper instance creation
+```java
+/*1. new Wrapper(data)*/
+Integer n1 = new Integer(10);
+Integer n2 = new Integer(10);
+boolean b = n1==n2; //false;
+
+/*2. static method*/
+Integer n1 = Integer.valueOf(10);
+Integer n2 = Integer.valueOf(10);
+boolean b = n1==n2; //true;
+```
 
 ## Big N
-* BigInteger
+BigInteger and BigDecimal are immutable, arbitrary-precision numbers.
+
 ```java
-BigInteger bigval = new BigInteger("1000000000000000000000");
+BigInteger bigval1 = new BigInteger("1000000000000000000000");
+BigDecimal bigval2 = new BigDecimal("3.1415"); 
+
+BigDecimal e1 = new BigDecimal("1.6");
+BigDecimal e2 = new BigDecimal(".1");
+System.out.println(e1.add(e2)); //1.7
+System.out.println(e1.multiply(e2)); //.16
+/*without quotes it will have round-off errors*/
 ```
 
-* BigDecimal
-precision in floating num
 ```java
-BigDecimal bigval = new BigDecimal("3.1415");
-```
-<br/>
-
-Example:
-```java
-
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -1748,12 +1741,11 @@ public class AbsoluteNumber {
 		BigDecimal n2 = sc.nextBigDecimal();
 		
 		BigDecimal sub = n1.subtract(n2);
-		
 		System.out.println("absolute difference: " + sub.abs());
-		
 	}
 }
 ```
+
 ## Math
 ```java
 /*Math static var & method*/
