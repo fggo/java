@@ -1683,33 +1683,34 @@ java defines wrapper classes
 * Float
 * Double
 
+## Wrapper Boxing & Unboxing
 ```java
-/*boxing*/
+/*Boxing*/
 Integer ival = new Integer(10);
 Integer ival2 = 10;
-Integer ival3 = Integer.valueOf(10);
+Integer ival3 = Integer.valueOf(10); //static method
 Integer ival4 = Integer.valueOf(10);
 boolean cond = ival3 == ival4; //true; just like new String("a") == new String("a")
 
-/*unboxing*/
+/*Unboxing*/
 ival = new Integer(ival.intValue() + 10) 
 ival++;
 ival2 += 10;
 int n = ival;
 int n2 = ival + ival2;
 ```
-Wrapper class instance value cannot be changed just like String class. New instances can be created and referenced.
 
 ## Wrapper instance creation
 ```java
-/*1. new Wrapper(data)*/
-Integer n1 = new Integer(10);
-Integer n2 = new Integer(10);
+/*1. new Wrapper()*/
+Integer n1 = new Integer(10); //instance creation 1
+Integer n2 = new Integer(10); //instance creation 2
 boolean b = n1==n2; //false;
 
-/*2. static method*/
-Integer n1 = Integer.valueOf(10);
-Integer n2 = Integer.valueOf(10);
+/*2. static method: Wrapper class instance value cannot be changed just like String class.
+New instances can be created and referenced.*/
+Integer n1 = Integer.valueOf(10); //instance creation 1
+Integer n2 = Integer.valueOf(10); //no instance creation, simply reference first instance
 boolean b = n1==n2; //true;
 ```
 
@@ -1717,8 +1718,9 @@ boolean b = n1==n2; //true;
 BigInteger and BigDecimal are immutable, arbitrary-precision numbers.
 
 ```java
-BigInteger bigval1 = new BigInteger("1000000000000000000000");
-BigDecimal bigval2 = new BigDecimal("3.1415"); 
+BigInteger bigInt1 = new BigInteger("1000000000000000000000");
+BigInteger bigInt2 = new BigInteger("-999999999999999999999"); 
+BigInteger sum = bigInt1.add(bigInt2);
 
 BigDecimal e1 = new BigDecimal("1.6");
 BigDecimal e2 = new BigDecimal(".1");
@@ -1735,13 +1737,13 @@ public class AbsoluteNumber {
 	public static void main(String[] args){
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.print("type real num1: ");
+		System.out.print("type real num1 >> ");
 		BigDecimal n1 = sc.nextBigDecimal();
-		System.out.print("type real num2: ");
+		System.out.print("type real num2 >> ");
 		BigDecimal n2 = sc.nextBigDecimal();
 		
 		BigDecimal sub = n1.subtract(n2);
-		System.out.println("absolute difference: " + sub.abs());
+		System.out.printf("distance = %f\n", dist.doubleValue());
 	}
 }
 ```
@@ -1759,52 +1761,84 @@ Math.log(25);
 Math.pow(2,4)
 ```
 
-## Rand
+## Random
 ```java
-Random rand = new Random();
-
-public boolean nextBoolean()
-public int nextInt()
-public long nextLong()
-public int nextInt(int n)  // [0, n) int
-public float nextFloat() // [0.0, 1.0) float
-public double nextDouble() // [0.0, 1.0) double
-public double nextGaussian()
+class Random{
+	public Random(){ this(System.currentTimeMillis());} //changes seed each time
+	
+	public boolean nextBoolean(){}
+	public int nextInt(){}
+	public long nextLong(){}
+	public int nextInt(int n){}  // [0, n) int
+	public float nextFloat(){} // [0.0, 1.0) float
+	public double nextDouble(){} // [0.0, 1.0) double
+	public double nextGaussian(){}
+}
 ```
 
-```java
-Math math = new Math();
-public static double random() // [0.0, 1.0) double
-```
-<br/>
-
-PseudoRandom.java
 ```java
 import java.util.Random;
-/*Random(long seed)
-Random rand = new Random();*/
-Random rand = new Random(System.currentTimeMillis()); //same as above
-//Random rand = new Random((long)Math.random());
-//Random rand = new Random(Double.valueOf(Math.random()).longValue());
-
-for(int i =0; i<100; i++)
-	System.out.println(rand.nextInt(1000));
+public class RandomNumberGenerator {
+	public static void main(String[] args) {
+		Random rand = new Random();
+		for(int i =0; i<10; i++)
+			System.out.println(rand.nextInt(1000));
+	}
+}
 ```
-<br/>
 
-RandomAtoB.java
+### Random(long seed);
 ```java
-Random rand = new Random();
-int a =1, b =10;
-for(int i =0; i<10; i++)
-	System.out.println(Math.min(a, b) + rand.nextInt(Math.abs(a-b)));
+Random rand = new Random(long seed);
 ```
-<br/>
+If two instances of Random are created with the same seed, and the same sequence of method calls is made for each, they will generate and return identical sequences of numbers. [read more] (https://docs.oracle.com/javase/7/docs/api/java/util/Random.html)
 
-Random0to10.java
 ```java
-for(int i =0; i<5; i++)
-	System.out.println((int)(Math.random()*10));
+import java.util.Random;
+public class RandomNumberGenerator {
+	public static void main(String[] args) {
+		Random rand = new Random(12);
+		for(int i =0; i<10; i++)
+			System.out.println(rand.nextInt(1000));
+	}
+}
+```
+
+### Random()
+Creates a new random number generator. This constructor sets the seed of the random number generator to a value very likely to be distinct from any other invocation of this constructor.
+ 
+```java
+Random rand = new Random(); //this(System.currentTimeMillis()); changes seed each time
+//rand.setSeed(System.currentTimeMillis());
+//rand.setSeed((long)seed);
+```
+
+```java
+import java.util.Random;
+import java.util.Scanner;
+public class RandomAtoB {
+	public static void main(String[] args) {
+		Random rand = new Random();
+		int a =-5;
+		int b =10;
+		for(int i =0; i<10; i++)
+			System.out.println(Math.min(a, b) + rand.nextInt(Math.abs(a-b) + 1));
+	}
+```
+
+### Math.random()
+```java
+Math math = new Math();
+public static double random(){} //[0.0, 1.0) double
+```
+
+```java
+public class Random0to10 {
+	public static void main(String[] args) {
+		for(int i =0; i<5; i++)
+			System.out.println((int)(Math.random()*10));
+	}
+}
 ```
 
 ## Tokenizer
@@ -1812,22 +1846,52 @@ for(int i =0; i<5; i++)
 import java.util.StringTokenizer;
 public class TokenizeString2 {
 	public static void main(String[] args){
-		String phone = "TEL 1-333#333@3333";
+		String time = "12:30:50";
+		String phone1 = "TEL 1-333-333";
+		String phone2 = "TEL 1-333#333@3333";
 		String code = "num+=1";
 		
-		StringTokenizer tk1 = new StringTokenizer(phone, " -#@");
-		StringTokenizer tk2 = new StringTokenizer(code, "+=", true);
+		StringTokenizer tk1 = new StringTokenizer(time, ":");
+		StringTokenizer tk2 = new StringTokenizer(phone1); //separated by empty space; /t /n /r
+		StringTokenizer tk3 = new StringTokenizer(phone2, " -#@");
+		StringTokenizer tk4 = new StringTokenizer(code, "+=", true);
 		
 		while(tk1.hasMoreTokens())
 			System.out.println(tk1.nextToken());
-		
-		while(tk2.hasMoreTokens())
-			System.out.println(tk2.nextToken());
 	}
 }
 ```
 
 # Generic
+
+## Object Based Class
+```java
+class Orange{
+	int sugar;
+	public Orange(int sugar){this.sugar = sugar;}
+	public void showSugar(){System.out.println("sugar: " + sugar + "mg");}
+}
+class FruitBox{
+	Object item;
+	public void store(Object item){this.item = item;}
+	public Object pullOut(){return item;}
+}
+public class ObjectBasedFruitBox {
+	public static void main(String[] args) {
+		FruitBox box1 = new FruitBox();
+		box1.store(new Orange(10));
+		Orange org1 = (Orange)box1.pullOut();
+		org1.showSugar();
+		
+		FruitBox box2 = new FruitBox();
+		box2.store("orange2");
+		Orange org2 = (Orange)box2.pullOut(); //Error!
+		org2.showSugar();
+	}
+}
+```
+
+If Object is changed to Orange in the above, it's easier to find the error. However, it only handles Orange class, not Apple, Mango and Banana Classes.
 
 ## Generic class
 ```java
@@ -1902,42 +1966,37 @@ public class GenericBaseFruitBox {
 IntroGenericMethod.java
 ```java
 class AAA{
-	public String toString(){return "class AAA";}
+	public String toString(){return "Class AAA";}
 }
 class BBB{
-	public String toString(){return "class BBB";}
+	public String toString(){return "Class BBB";}
 }
 
 class InstTypeShower{
 	public <T> void showInstType(T inst){
 		System.out.println(inst);
 	}
-	
 	public <T,U> void showInstType(T inst1, U inst2){
 		System.out.println(inst1);
 		System.out.println(inst2);
 	}
 }
-
 public class IntroGenericMethod {
 	public static void main(String[] args){
 		AAA aaa = new AAA();
 		BBB bbb = new BBB();
-		
 		InstTypeShower shower = new InstTypeShower();
 		
 		shower.<AAA>showInstType(aaa); //shower.showInstType(aaa);
 		shower.<BBB>showInstType(bbb); //shower.showInstType(bbb);
-		shower.<AAA, BBB>showInstType(aaa, bbb);
+		shower.<AAA, BBB>showInstType(aaa, bbb); //shower.showInstType(aaa, bbb);
 	}
 }
 ```
-<br/>
 
-## Bounded Type param
-Inside 'showInstType' method, inst1 and 2 can only be used with Object defined method<br/>
-i.e. println() can be used since toString method is defined in Object class<br/>
-To use other method it needs explicit type conversion or restricts generic param type :<br/>
+## Bounded Type parameter
+Inside 'showInstType' method, inst1 and 2 can only be used with Object defined method. i.e. println() can be used since toString method is defined in Object class. To use other method it needs explicit type conversion or restricts generic param type:
+
 ```java
 interface SimpleInterface{
 	public void showYourName();
