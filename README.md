@@ -1791,7 +1791,7 @@ public class RandomNumberGenerator {
 ```java
 Random rand = new Random(long seed);
 ```
-If two instances of Random are created with the same seed, and the same sequence of method calls is made for each, they will generate and return identical sequences of numbers. [read more] (https://docs.oracle.com/javase/7/docs/api/java/util/Random.html)
+If two instances of Random are created with the same seed, and the same sequence of method calls is made for each, they will generate and return identical sequences of numbers. [read more](https://docs.oracle.com/javase/7/docs/api/java/util/Random.html)
 
 ```java
 import java.util.Random;
@@ -2244,7 +2244,7 @@ public class SimpleLinkedListImpl {
 }
 ```
 
-Also check [leet] (https://github.com/fggo/leet/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
+Also check [leet](https://github.com/fggo/leet/blob/master/README.md#2-add-two-numbers) for singly linked list implementation.
 
 ## Iterator
 iterator is useful since it can reference data regardless of types of collection class
@@ -2461,8 +2461,8 @@ public class RunnableThread {
 ```
 
 ## Thread priority
-* [sleep] (https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
-* [join] (https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
+* [sleep](https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
+* [join](https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
 in the example, without join(), smaller sum will be printed <br/>
 since method thread might execute print line before t1 and t2 threads ends.
 ```java
