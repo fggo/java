@@ -1457,7 +1457,7 @@ public class PrintStackTrace {
 ## Exception class Hierarchy
 Exception → Throwable ← Error (e.g. VirtualMachineError)<br>
 
-![alt tag] (http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
+![alt tag](http://images.techhive.com/images/idge/imported/article/jvw/1998/07/exceptfig1-100158195-orig.gif)
 
 ## RuntimeException
 although it is a subclass of Exception, it is similar to Error subclasses
