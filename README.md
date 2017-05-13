@@ -1929,7 +1929,7 @@ class Orange extends Fruit{
 
 class FruitBox <T>{
 	T item;
-	public FruitBox(T item){this.item = item;}
+	/*public FruitBox(T item){this.item = item;}*/
 	public void store(T item){this.item = item;}
 	public T pullOut(){return item;}
 }
@@ -1937,25 +1937,26 @@ class FruitBox <T>{
 class MultiFruitBox <T, U>{
 	T item1;
 	U item2;
-	
-	public MultiFruitBox(T item1, U item2){
+	/*public MultiFruitBox(T item1, U item2){
 		this.item1 = item1;
 		this.item2 = item2;
-	}
-	
+	}*/
 	public void storeItem1(T item1){this.item1 = item1;}
 	public void storeItem2(U item2){this.item2 = item2;}
 	
-	/*public T pullOut(){return item;}*/
+	public T pullOutItem1(){return item1;}
+	public U pullOutItem2(){return item2;}
 }
 
 public class GenericBaseFruitBox {
 	public static void main(String[] args){
-		FruitBox<Orange> orgBox = new FruitBox<Orange>(new Orange(10));
+		FruitBox<Orange> orgBox = new FruitBox<Orange>();
+		orgBox.store(new Orange(10));
 		Orange org = (Orange)orgBox.pullOut();
 		org.showFruitInfo();
 		
-		FruitBox<Apple> aplBox = new FruitBox<Apple>(new Apple(300));
+		FruitBox<Apple> aplBox = new FruitBox<Apple>();
+		aplBox.store(new Apple(300));
 		Apple apl = (Apple)aplBox.pullOut();
 		apl.showFruitInfo();
 	}
@@ -1963,7 +1964,6 @@ public class GenericBaseFruitBox {
 ```
 
 ## Generic method
-IntroGenericMethod.java
 ```java
 class AAA{
 	public String toString(){return "Class AAA";}
@@ -2045,72 +2045,76 @@ public class BoundedTypeParam {
 ## Generic Array method
 ```java
 public class IntroGenericArray {
-	public static <T> void showArrayData(T[] arr){
-		for(int i = 0; i<arr.length; i++)
-			System.out.println(arr[i]);
+	public static <T> void showArray(T[] arr){
+		for(T item: arr)
+			System.out.println(item);
 	}
-	
-	public static void main(String[] args){
-		String[] arr = new String[]{"a", "b", "c"};
-		showArrayData(arr);
+	public static void main(String[] args) {
+		String[] arr = {"first", "second", "thrid"};
+		showArray(arr);
 	}
 }
 ```
 
 ## Generic Wildcard
-param ```FruitBox<Apple>``` or ```FruitBox<Orange>```is not allowed for
 ```java
-public void method(FruitBox<Fruit> param){/*code*/}
+/*FruitBox<Apple> FruitBox<Orange> parameters cannot be used*/
+public void method(FruitBox<Fruit> box){}
 ```
+
 Use WildCard method:
 ```java
 public class IntroWildCard {
 	/*extends*/
-	public static void openAndShowFruitBox(FruitBox<? extends Fruit> box){
+	public static void openAndShowFruitBox1(FruitBox<? extends Fruit> box){
 		Fruit fruit = box.pullOut();
 		fruit.showFruitInfo();
 		System.out.println();
 	}
-	
 	/*super*/
 	public static void openAndShowFruitBox2(FruitBox<? super Apple> box){
 		Fruit fruit = box.pullOut();
 		fruit.showFruitInfo();
 		System.out.println();
 	}
+	public static void openAndShowFruitBox3(FruitBox<?> box){ //(FruitBox<? extends Object> box)
+		Fruit fruit = box.pullOut();
+		fruit.showFruitInfo();
+		System.out.println();
+	}
 	
-	public static void main(String[] args){
-		FruitBox<Fruit> box = new FruitBox<Fruit>();
-		box.store(new Fruit("Unidentified Fruit"));
-		
+	public static void main(String[] args){		
 		FruitBox<Apple> aplBox = new FruitBox<Apple>();
 		aplBox.store(new Apple(100));
 		
 		FruitBox<Orange> orgBox = new FruitBox<Orange>();
 		orgBox.store(new Orange(300));
 		
-		openAndShowFruitBox(box);
-		openAndShowFruitBox(aplBox);
-		openAndShowFruitBox(orgBox);
+		FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
+		box.store(new Fruit("Unidentified Fruit"));
+		
+		openAndShowFruitBox1(aplBox);
+		openAndShowFruitBox1(orgBox);
+		openAndShowFruitBox2(fruitBox);
 	}
 }
 ```
 
 ## Generic Inheritance
 ```java
-class AAA<T>{
+class AAA<T>{  //one variable, T, decides the variable type of two classes
 	T itemAAA;
 }
 class BBB<T> extends AAA<T>{
 	T itemBBB;
-}
-class CCC extends AAA<T>{
+} 
+class CCC extends AAA<T>{ //class CCC doesn't have to be in generic type
 	int itemCCC;
 }
 
-/*you can also choose T for AAA<T>*/
-class AAA<String>{
-	String itemAAA;
+/*one can also choose T for class AAA<T>{} */
+class AAA<T>{
+	T itemAAA;
 }
 class BBB extends AAA<String>{
 	int itemBBB;
@@ -2118,7 +2122,6 @@ class BBB extends AAA<String>{
 class BBB<T> extends AAA<String>{
 	T itemBBB;
 }
-
 ```
 
 ## Generic interface
@@ -2133,8 +2136,8 @@ class MyImplement<T> implements MyInterface<T>{
 }
 
 /*choose T */
-interface MyInterface<String>{
-	public String func(String item);
+interface MyInterface<T>{
+	public T func(T item);
 }
 class MyImplement implements MyInterface<String>{
 	public String func(String item){
@@ -2143,8 +2146,16 @@ class MyImplement implements MyInterface<String>{
 }
 ```
 
+## Generic restriction
+Since primitive data types for T are Not Allowed for generic, use wrapper classes
+```java
+FruitBox<int> box1 = new FruitBox<int>(); //Error!
+FruitBox<double> box2 = new FruitBox<double>(); //Error!
+FruitBox<Integer> box3 = new FruitBox<Integer>(); //OK!
+```
+
 # Collection
-Collection interfaces:<br/>
+Collection framework interface structures:
 
 * Collection\<E\>
   * Set\<E\>
@@ -2152,86 +2163,79 @@ Collection interfaces:<br/>
   * Queue\<E\>
 * Map\<K,E\>
 
-## ArrayList
-list size increases as data is added<br/>
-to improve performace it can ensure capacity in advance
+## List
+1. allows duplicate instance storages
+2. instances are stored in order
+
+### ArrayList
 ```java
 public class IntroArrayList {
 	public static void main(String[] args){
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.ensureCapacity(500);
 		
-		for(int i : new int[]{11,22,33})
-			list.add(i);
+		list.ensureCapacity(500);  //improve performance by ensuring capacity in advance
+		
+		list.add(new Integer(11));
+		list.add(22);
+		list.add(22);
 		
 		list.ensureCapacity(list.size()*2);
 		
-		for(int i = 0; i < list.size(); i++)
-			System.out.println(list.get(i));
+		for(Integer i : list)
+			System.out.println(i);
 		
 		list.remove(0);
-		for(Integer i : list) 
-			System.out.println(i);
+		
+		for(int i = 0; i < list.size(); i++)
+			System.out.println(list.get(i));
 	}
 }
 ```
 
-## LinkedList
+### LinkedList
 ```java
 class IntroLinkedList {
 	public static void main(String[] args){
 		LinkedList<Integer> list = new LinkedList<Integer>();
-		for(int i : new int[]{11,22,33})
-			list.add(i);
 		
-		for(int i = 0; i<list.size(); i++)
-			System.out.println(list.get(i));
-		
-		list.remove(0);
+		list.add(new Integer(11));
+		list.add(22);
+		list.add(22);
 		
 		for(Integer i : list)
 			System.out.println(i);
+		
+		list.remove(0);
+		
+		for(int i = 0; i<list.size(); i++)
+			System.out.println(list.get(i));
 	}
 }
 ```
 
-## ArrayList vs LinkedList
-ArrayList
+### ArrayList vs LinkedList
+* insert : ArrayList < LinkedList
+* remove : ArrayList < LinkedList
+* reference : ArrayList (index) > LinkedList (iterator)
 
-* data insert : slow
-* data remove : slow
-* data reference : fast (use index)
-* useful when data size determined
-<br/>
+ArrayList is useful when data size determined, whereas LinkedList is useful when data size is not determined.
 
-LinkedList
-
-* data insert : fast
-* data remove : fast
-* data reference : slow (use iterator)
-* useful when data size is not determined
-<br/>
-
-implementing LinkedList: 
 ```java
+/*implement LinkedList*/
 class Box<T>{
 	public Box<T> nextBox;
 	T item;
-	
 	public Box(){}
 	public Box(T item){this.item = item;}
-	
 	public void store(T item){this.item = item;}
 	public T pullOut(){return item;}
 }
-
 public class SimpleLinkedListImpl {
 	public static void main(String[] args){
 		Box<String> boxHead = new Box<String>();
 		boxHead.store("First String");
 		
 		boxHead.nextBox = new Box<String>("Second String");
-		
 		boxHead.nextBox.nextBox = new Box<String>("Third String");
 		
 		Box<String> tempRef;
@@ -2249,17 +2253,37 @@ Also check [leet](https://github.com/fggo/leet/blob/master/README.md#2-add-two-n
 ## Iterator
 iterator is useful since it can reference data regardless of types of collection class
 ```java
-LinkedList<Integer> list = new ListList<Integer>();
-for(int i : new int[]{1,2,3})
-	list.add(i);
-Iterator<Integer> itr = list.iterator();
-while(itr.hasnext()) System.out.println(itr.next());
+import java.util.Iterator;
+import java.util.LinkedList;
+public class IteratorUsage {
+	public static void main(String[] args) {
+		LinkedList<String> list = new LinkedList<String>();
+		list.add("First");
+		list.add("Second");
+		list.add("Third");
+		
+		Iterator<String> itr = list.iterator();
+		while(itr.hasNext()){
+			String cmp = itr.next();
+			if(cmp.compareTo("Second") == 0)
+				itr.remove();
+		}
+		
+		itr = list.iterator(); /*using iterator*/
+		while(itr.hasNext())
+			System.out.println(itr.next());
+			
+		for(String str : list) /*without using iterator*/
+			System.out.println(str);
+	}
+}
 ```
 
-* Collection\<int\> Collection\<double\> Collection\<long\> is not allowed
+### Collection restriction
+As was the case for generic, primitive data types for T are Not Allowed for collection: Use wrapper classes.
 
 ## HashSet
-No specific order data is stored
+No specific order that data is stored, No duplicate data.
 ```java
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2276,9 +2300,11 @@ public class SetInterfaceFeature {
 }
 ```
 
-## hashcode & equality
-1. search group with hashCode() val
-2. compare with equals(Object obj)
+### Hashcode & Equality
+Hash Algorithm:
+
+1. search for a group with hashCode() value
+2. compare with equals(Object obj) inside the group
 
 override two methods to implement your own class :
 ```java
@@ -2296,8 +2322,7 @@ class Person{
 	
 	public boolean equals(Object obj){
 		Person cmp = (Person)obj;
-		
-		if(name.equals(cmp.name) && age == cmp.age)
+		if(name.compareTo(cmp.name) == 0 && age == cmp.age)
 			return true;
 		else
 			return false;
@@ -2336,26 +2361,96 @@ public class SortTreeSet {
 		tree.add(3);
 		tree.add(2);
 		
-		System.out.println("tree data size: " + tree.size());
+		System.out.println("tree data size: " + tree.size()); //4
 		
 		Iterator<Integer> itr = tree.iterator();
-		
-		//tree stores data in ascending order
 		while(itr.hasNext())
-			System.out.println(itr.next());
-		
+			System.out.println(itr.next()); //tree stores data in ascending order: {1, 2, 3, 4}
 	}
 ```
 
-## TreeSet Comparable
-Set rules for data ordering in TreeSet
+### TreeSet Comparable
+Set rules for comparing data in TreeSet to order in ascending/descending
 ```java
+/* inst.compareTo(param); returns +1 0 -1 when inst >=< param */
 interface Comparable<T>{
 	int compareTo(T obj);
 }
 ```
 
-## TreeSet Comparator
+```java
+import java.util.Iterator;
+import java.util.TreeSet;
+
+class Person implements Comparable<Person>{
+	String name;
+	int age;
+	public Person(String name, int age){
+		this.name = name;
+		this.age = age;
+	}
+	public void showData(){
+		System.out.printf("%s %d\n", name, age);
+	}
+	public int compareTo(Person obj){
+		if(age > obj.age) 
+			return +1;
+		else if(age < obj.age)
+			return -1;
+		else
+			return 0;
+	}
+	public String toString(){
+		return name + " " + age;
+	}
+}
+public class ComparablePerson {
+	public static void main(String[] args) {
+		TreeSet<Person> tree = new TreeSet<Person>();
+		tree.add(new Person("b", 5));
+		tree.add(new Person("a", 10));
+		tree.add(new Person("c", 7));
+		
+		Iterator<Person> itr = tree.iterator();
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
+```java
+import java.util.Iterator;
+import java.util.TreeSet;
+
+class MyString implements Comparable<MyString>{
+	String str;
+	public MyString(String str){this.str = str;}
+	public int getLength(){return str.length();}
+	public int compareTo(MyString obj){
+		if(str.length() > obj.getLength())
+			return +1;
+		else if(str.length() < obj.getLength())
+			return -1;
+		else
+			return 0;
+	}
+	public String toString(){return str;}
+}
+public class ComparableMyString {
+	public static void main(String[] args) {
+		TreeSet<MyString> sTree = new TreeSet<MyString>();
+		sTree.add(new MyString("Orange"));
+		sTree.add(new MyString("Melon"));
+		sTree.add(new MyString("Blueberry"));
+		
+		Iterator<MyString> itr = sTree.iterator();
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
+### TreeSet Comparator
 ```java
 interface Comparator<T>{
 	int compare(T obj1, T obj2);
@@ -2363,7 +2458,48 @@ interface Comparator<T>{
 }
 ```
 
+```java
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.TreeSet;
+
+class StrLenComparator implements Comparator<String>{
+	public int compare(String s1, String s2){
+		return s1.length() - s2.length();
+	}
+}
+
+public class IntroComparator {
+	public static void main(String[] args) {
+		TreeSet<String> sTree = new TreeSet<String>(new StrLenComparator());
+		sTree.add("Orange");
+		sTree.add("Apple");
+		sTree.add("Kiwi");
+		sTree.add("GrapeFruit");
+		
+		Iterator<String> itr = sTree.iterator();
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
+### Descending Iterator
+```java
+public class IntroComparator {
+	public static void main(String[] args) {
+		Iterator<String> itr = sTree.descendingIterator();
+		while(itr.hasNext())
+			System.out.println(itr.next());
+	}
+}
+```
+
 ## HashMap
+1. No duplicate key
+2. Different values for a key
+3. Hash algorithm applies
+
 ```java
 import java.util.HashMap;
 public class IntroHashMap {
@@ -2397,6 +2533,7 @@ public class IntroTreeMap {
 		tmap.put(3, "data3");
 		
 		NavigableSet<Integer> navi = tmap.navigableKeySet();
+		
 		Iterator<Integer> itr = navi.iterator();
 		System.out.println("Ascending order...");
 		while(itr.hasNext())
@@ -2463,8 +2600,9 @@ public class RunnableThread {
 ## Thread priority
 * [sleep](https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
 * [join](https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
-in the example, without join(), smaller sum will be printed <br/>
-since method thread might execute print line before t1 and t2 threads ends.
+
+In the example, without join(), smaller sum will be printed, since method thread might execute print line before t1 and t2 threads ends.
+
 ```java
 class MessageSendingThread extends Thread{
 	String message;
