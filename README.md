@@ -23,7 +23,7 @@
 * [abstract](#abstract)
 * [interface](#interface)
 * [Exception](#exception)
-* [Memory model](#memory-model)
+* [JVM Memory model](#jvm-memory-model)
 * [Wrapper](#wrapper)
 * [Generic](#generic)
 * [Collection](#collection)
@@ -77,7 +77,6 @@ sudo apt-get install default-jdk
   </tr>
   <tr>
 		<td>byte</td>
-		<td rowspan="4">integer number</td>
 		<td>1</td>
 		<td>-128 ~ 127</td>
 	 </tr>
@@ -1497,8 +1496,8 @@ public class RuntimeExceptionCase {
 }
 ```
 
-# Memory model
-JVM memory:
+# JVM Memory model
+OS allocate memories to applications (JVM as one of them). JVM memory:
 
 * METHOD: method bytecode, static variable
 * STACK: local, reference variable, parameter
@@ -2548,10 +2547,43 @@ public class IntroTreeMap {
 ```
 
 # Thread
-* start() assign memory to thread and run()
-* thread shares CPU
+Process: a running program with allocated memory. e.g. main method process.
 
-multi-thread in one process :
+* start() allocate memory to thread and run()
+* thread shares CPU; multi-thread in one process
+
+```java
+class ShowThread extends Thread{
+	public ShowThread(String name){setName(name);}
+	public void run(){
+		for(int i=0; i<100; i++){
+			System.out.println("Thread " + getName());
+			try{
+				sleep(100); //pause .001*100
+			} catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}
+	}
+}
+public class ThreadUnderstand {
+	public static void main(String[] args) {
+		ShowThread t1 = new ShowThread("Th-0");
+		ShowThread t2 = new ShowThread("Th-1");
+		t1.start();
+		t2.start();
+		try{
+			t1.join();
+			t2.join();
+		} catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		System.out.println("main thread ends");
+	}
+}
+```
+
+## ThreadClass extends AnotherClass implements Runnable
 ```java
 class Sum{
 	int num;
@@ -2559,93 +2591,102 @@ class Sum{
 	public void addNum(int n){num+=n;}
 	public int getNum(){return num;}
 }
-
 class AdderThread extends Sum implements Runnable{
 	int start, end;
-	
 	public AdderThread(int s, int e){
 		start = s;
 		end = e;
 	}
-	
 	public void run(){
 		for(int i =start; i<=end; i++)
 			addNum(i);
 	}
 }
-
 public class RunnableThread {
 	public static void main(String[] args) {
 		AdderThread at1 = new AdderThread(1, 50);
 		AdderThread at2 = new AdderThread(51, 100);
-		
 		Thread t1 = new Thread(at1);
 		Thread t2 = new Thread(at2);
 		t1.start();
 		t2.start();
-		
 		try{
-			t1.join();
+			t1.join(); //pause until t1 thread terminates
 			t2.join();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
 		}
-		
 		System.out.println("1~100 sum: " + (at1.getNum() +at2.getNum()));
 	}
 }
 ```
 
-## Thread priority
+Using Thread Class:
+```java
+class SumThread extends Thread{
+	int sum;
+	int start, end;
+	public SumThread(int s, int e){
+		sum = 0;
+		start =s;
+		end =e;
+	}
+	public void run(){
+		for(int i=start; i<= end; i++)
+			addNum(i);
+	}
+	public void addNum(int n){sum+=n;}
+	public int getSum(){return sum;}
+}
+public class Sum1To100 {
+	public static void main(String[] args){
+		SumThread t1 = new SumThread(1, 50);
+		SumThread t2 = new SumThread(51, 100);
+		t1.start();
+		t2.start();
+		try{
+			t1.join();
+			t2.join();
+		} catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		System.out.println("1~100 Sum = " + (t1.getSum() + t2.getSum()));
+	}
+}
+```
+
+Without join(), main thread will execute println() before t1 and t2 threads ends, resulting in a smaller sum.
+
 * [sleep](https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html)
 * [join](https://docs.oracle.com/javase/tutorial/essential/concurrency/join.html)
 
-In the example, without join(), smaller sum will be printed, since method thread might execute print line before t1 and t2 threads ends.
-
+## Thread priority
 ```java
 class MessageSendingThread extends Thread{
 	String message;
-	public MessageSendingThread(String message, int newPriority){
+	public MessageSendingThread(String message, int prio){
 		this.message = message;
-		setPriority(newPriority);
+		setPriority(prio);
 	}
-	
 	public void run(){
 		for(int i =0; i<1000000;i ++){
 			System.out.println(message + "(" + getPriority()+")");
-			
 			try{
-				//causes the current thread to suspend execution for a specified period
-				//make CPU available to lower priority threads
-				sleep(1);
-			}
-			catch(InterruptedException e){
+				sleep(1); //suspend executing current thread, make CPU available to lower priority threads
+			} catch(InterruptedException e){
 				e.printStackTrace();
 			}
 		}
-			
 	}
 }
-
 public class PriorityTest {
 	public static void main(String[] args) {
 		MessageSendingThread t1 = new MessageSendingThread("AAA",Thread.MAX_PRIORITY);
 		MessageSendingThread t2 = new MessageSendingThread("BBB",Thread.NORM_PRIORITY);
 		MessageSendingThread t3 = new MessageSendingThread("CCC",Thread.MIN_PRIORITY);
-
 		t1.start();
 		t2.start();
 		t3.start();
-		
-		try{
-			t1.join();
-			t2.join();
-			t3.join(); //pause execution until thread ends
-		}
-		catch(InterruptedException e){
-			e.printStackTrace();
-		}
 	}
 }
 ```
@@ -2660,56 +2701,164 @@ public class PriorityTest {
 * Method: method (bytecode), static var
 * Stack: local var, ref var, param
 * Heap: inst, gc
-Threads share 'method' and 'heap' area (inst address) in JVM memory.<br/>
-multi-thread approaching same inst var in Heap.
+
+New threads with new stack, share method and heap(instance address) in JVM memory. Multiple threads can approach the same instance variable, using instance address in Heap area.
+
 ```java
+class Sum{
+	int num;
+	public Sum(){num = 0;}
+	public void addNum(int n){num += n;}
+	public int getNum(){return num;}
+}
 class AdderThread extends Thread{
 	Sum sumInst;
 	int start, end;
-	
-	public AdderThread(Sum sumInst, int s, int e){
-		this.sumInst = sumInst;
-		start = s;
-		end = e;
+	public AdderThread(Sum sum, int s, int e){
+		sumInst = sum;
+		start =s;
+		end =e;
 	}
-	
 	public void run(){
 		for(int i =start; i<=end; i++)
 			sumInst.addNum(i);
 	}
 }
-
-public class RunnableThread {
+public class ThreadHeapMultiAccess {
 	public static void main(String[] args) {
-		Sum sumInst = new Sum();
-		AdderThread t1 = new AdderThread(sumInst, 1, 50);
-		AdderThread t2 = new AdderThread(sumInst, 51, 100);
-		
+		Sum sInst = new Sum();
+		AdderThread t1 = new AdderThread(sInst, 1, 50);
+		AdderThread t2 = new AdderThread(sInst, 51, 100);
 		t1.start();
 		t2.start();
-		
 		try{
 			t1.join();
 			t2.join();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
 		}
-		
-		System.out.println("1~100 sum: " + sumInst.getNum());
+		System.out.println("1~100 Sum = " + sInst.getNum());
+	}
+}
+```
+
+## Synchronization
+When multiple threads approach one instance (or variable), synchronization is required to prevent thread interference. Check if a class is thread-safe(sync) before using it. e.g. StringBuffer is thread-safe. 
+
+### Sync Error
+```java
+class Increment{
+	int num;
+	public void increment(){num++;} //sync is required
+	public int getNum(){return num;}
+}
+class IncThread extends Thread{
+	Increment inc;
+	public IncThread(Increment inc){this.inc = inc;}
+	public void run(){
+		for(int i=0; i<10000; i++)
+			for(int j =0; j<10000; j++)
+				inc.increment();
+	}
+}
+public class ThreadSyncError {
+	public static void main(String[] args) {
+		Increment inc = new Increment();
+		IncThread t1 = new IncThread(inc);
+		IncThread t2 = new IncThread(inc);
+		IncThread t3 = new IncThread(inc);
+		t1.start();
+		t2.start();
+		t3.start();
+		try{
+			t1.join();
+			t2.join();
+			t3.join();
+		} catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		System.out.println(inc.getNum()); //result is less than 300 million
+	}
+}
+
+```java
+class Calculator{
+	int opCnt = 0;
+	public int add(int n1, int n2){
+		opCnt++; //sync is required
+		return n1+n2;
+	}
+	public int min(int n1, int n2){
+		opCnt++; //sync is required
+		return n1-n2;
+	}
+	public void showOpCnt(){
+		System.out.println("operation count: " + opCnt);
+	}
+}
+class AddThread extends Thread{
+	Calculator cal;
+	public AddThread(Calculator cal){this.cal = cal;}
+	public void run(){
+		System.out.println("1+2 = " + cal.add(1, 2));
+		System.out.println("2+4 = " + cal.add(2, 4));
+	}
+}
+class MinThread extends Thread{
+	Calculator cal;
+	public MinThread(Calculator cal){this.cal = cal;}
+	public void run(){
+		System.out.println("2-1 = " + cal.min(2, 1));
+		System.out.println("4-2 = " + cal.min(4, 2));
+	}
+}
+public class ThreadSyncMethod {
+	public static void main(String[] args) {
+		Calculator cal = new Calculator();
+		AddThread t1 = new AddThread(cal);
+		MinThread t2 = new MinThread(cal);
+		t1.start();
+		t2.start();
+		try{
+			t1.join();
+			t2.join();
+		} catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		cal.showOpCnt(); //opCnt varies every time it compiles since it was not synchronized
 	}
 }
 ```
 
 ## Sync prevents thread interference
-check thread-safe(sync) e.g. StringBuffer is thread-safe.
+
+### Sync method 1
+```java
+public synchronized int add(int n1, int n2){
+	opCnt++;
+	return n1+n2;
+}
+```
+
+### Sync method 2
+```java
+public int add(int n1, int n2){
+	synchronized(this){
+		opCnt++;
+	}
+	return n1+n2;
+}
+```
+
+### Sync method 3
 ```java
 class IHaveTwoNum{
 	int num1 = 0, num2 = 0;
-	
-	//create key. IHaveTwoNum also has a key.
+	//Create key. IHaveTwoNum instance (this) also has a key.
 	Object key = new Object();
 	
+	/*num1 is synchronized with default key, while num2 is synchronized with new 'key' Object.
+		One can also create two keys, e.g. key1, key2 Objects*/
 	public void addOneNum1(){
 		synchronized(this){
 			num1+=1;
@@ -2730,17 +2879,15 @@ class IHaveTwoNum{
 			num2+=2;
 		}
 	}
-	
 	public void showAllNums(){
 		System.out.printf("[num1, num2] = [%d, %d]\n", num1, num2);
 	}
 }
-
 class AccessThread extends Thread{
 	IHaveTwoNum twoNumInst;
-	
-	public AccessThread(IHaveTwoNum twoNumInst){this.twoNumInst = twoNumInst;}
-	
+	public AccessThread(IHaveTwoNum twoNumInst){
+		this.twoNumInst = twoNumInst;
+	}
 	public void run(){
 		twoNumInst.addOneNum1();
 		twoNumInst.addTwoNum1();
@@ -2748,21 +2895,17 @@ class AccessThread extends Thread{
 		twoNumInst.addTwoNum2();
 	}
 }
-
 public class SyncObjectKey {
 	public static void main(String[] args) {
 		IHaveTwoNum twoNumInst = new IHaveTwoNum();
-		
 		AccessThread t1 = new AccessThread(twoNumInst);
 		AccessThread t2 = new AccessThread(twoNumInst);
 		t1.start();
 		t2.start();
-		
 		try{
 			t1.join();
 			t2.join();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
 		}
 		twoNumInst.showAllNums();
@@ -2771,11 +2914,9 @@ public class SyncObjectKey {
 ```
 
 ## Sync controls thread order
-the result shows 'null' since reader was prior to writer<br/>
 ```java
 class NewsPaper{
 	String todayNews;
-	
 	public void setTodayNews(String todayNews){
 		this.todayNews = todayNews;
 	}
@@ -2783,41 +2924,34 @@ class NewsPaper{
 		return todayNews;
 	}
 }
-
 class NewsWriter extends Thread{
 	NewsPaper paper;
-	
 	public NewsWriter(NewsPaper paper){
 		this.paper = paper;
 	}
-	
 	public void run(){
-		paper.setTodayNews("Introducing Java 101 series!");
+		paper.setTodayNews("Java News!");
 	}
 }
-
 class NewsReader extends Thread{
 	NewsPaper paper;
-	
 	public NewsReader(NewsPaper paper){
 		this.paper = paper;
 	}
-	
 	public void run(){
-		System.out.println("Today's News: \"" + paper.getTodayNews() + "\"");
+		System.out.println("Today's News: " + paper.getTodayNews());
 	}
 }
 
 public class NewsPaperStory {
 	public static void main(String[] args) {
 		NewsPaper paper = new NewsPaper();
-		
 		NewsWriter writer = new NewsWriter(paper);
 		NewsReader reader1 = new NewsReader(paper);
 		NewsReader reader2 = new NewsReader(paper);
 		
-		reader1.start();
-		reader2.start();
+		reader1.start(); // error since 'null' newspaper is calling getTodayNews()
+		reader2.start(); // error
 		writer.start();
 		
 		try{
@@ -2832,26 +2966,23 @@ public class NewsPaperStory {
 }
 ```
 
-
 ## wait notify notifyAll
-sync can control order of threads(writer, reader) regardless of the code line order,<br/>
-using wait notify notifyAll
+Sync can control order of threads(writer, reader) regardless of the code line order
 ```java
 public final void wait() throws InterruptedException  /*a thread wait until another thread notify*/
 public final void notify() /*wake a thread*/
 public final void notifyAll() /*wake all thread*/ 
 ```
-wait() notify() notifyAll() also need sync. <br/>
-Modified Example: init of NewsPaper inst should be ordered.
+
+wait() notify() notifyAll() also need sync
+
 ```java
 class NewsPaper{
 	String todayNews;
 	boolean isTodayNews = false;
-	
 	public void setTodayNews(String todayNews){
 		this.todayNews = todayNews;
 		isTodayNews = true;
-		
 		synchronized(this){
 			notifyAll(); 
 		}
@@ -2878,41 +3009,36 @@ public class NewsPaperStory {
 	}
 }
 ```
-note: thread is able to execute wait() even if another thread executed wait()<br/>
-because wait() unlocks even sync block.<br/>
-Another Example:
+Both reader1 and reader2 threads execute wait() in order. One thread can execute wait() while another thread has already executed wait() because wait() unlocks even sync block.
+
+## wait notify notifyAll - Example
 ```java
 import java.util.Scanner;
 
 class IntegerComm{
 	int num = 0;
 	boolean isNewNum = false;
-	
-	public void setNum(int num){
-		
-		synchronized(this){
-			if (isNewNum == true){
+	public void setNum(int n){
+		synchronized (this) {
+			if(isNewNum == true){
 				try{
 					wait();
-				}
-				catch(InterruptedException e){
+				} catch(InterruptedException e){
 					e.printStackTrace();
 				}
 			}
-			this.num = num;
+			this.num = n;
 			isNewNum = true;
 			notify();
 		}
 	}
-	
 	public int getNum(){
 		int retNum = 0;
-		synchronized (this){
-			if (isNewNum == false){
+		synchronized (this) {
+			if(isNewNum == false){
 				try{
 					wait();
-				}
-				catch(InterruptedException e){
+				} catch(InterruptedException e){
 					e.printStackTrace();
 				}
 			}
@@ -2923,50 +3049,44 @@ class IntegerComm{
 		return retNum;
 	}
 }
-
 class IntegerSum extends Thread{
-	IntegerComm comm = new IntegerComm();
 	int sum = 0;
-	
+	IntegerComm comm = new IntegerComm();
 	public IntegerSum(IntegerComm comm){
 		this.comm = comm;
 	}
-	
+	public int getSum(){
+		return sum;
+	}
 	public void run(){
-		for(int i =0; i<5; i++)
+		for(int i =0;i <5; i++){
 			sum += comm.getNum();
-		System.out.println("sum : " + sum);
+		}
 	}
 }
-
-public class SumFiveNum {
+public class SumThreadTest{
+	public static final Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		IntegerComm comm = new IntegerComm();
 		IntegerSum sum = new IntegerSum(comm);
-		
 		sum.start();
-		Scanner sc = new Scanner(System.in);
-		
-		for(int i = 0; i <5; i++){
-			System.out.print("Integer num " + (i+1) + " >> ");
+		for(int i =0;i<5; i++){
+			System.out.printf("Type integer %d > ", (i+1));
 			comm.setNum(sc.nextInt());
 		}
-		
 		try{
 			sum.join();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
 		}
+		System.out.println("Sum of five integers = " + sum.getSum());
 	}
 }
 ```
 
-## ReentrantLock
-another way to sync
+## ReentrantLock - another way of sync
 ```java
 private final ReentrantLock key = new ReentrantLock();
-
 key.lock();
 try{
 	/*code*/
@@ -2975,22 +3095,17 @@ finally{
 	key.unlock();
 }
 ```
-Example:
-```java
 
+```java
 import java.util.concurrent.locks.ReentrantLock;
 
 class IHaveTwoNum{
-	int num1 = 0, num2 = 0;
-	
-	/* key lock and unlock prevents another thread from entering */
-	private final ReentrantLock key1 = new ReentrantLock();
-	private final ReentrantLock key2 = new ReentrantLock();
-	
+	int num1 = 0;
+	int num2 = 0;
 	public void addOneNum1(){
 		key1.lock();
 		try{
-			num1+=1;
+			num1 += 1;
 		}
 		finally{
 			key1.unlock();
@@ -3013,7 +3128,6 @@ class IHaveTwoNum{
 		finally{
 			key2.unlock();
 		}
-		
 	}
 	public void addTwoNum2(){
 		key2.lock();
@@ -3027,14 +3141,43 @@ class IHaveTwoNum{
 	public void showAllNums(){
 		System.out.printf("[num1, num2] = [%d, %d]\n", num1, num2);
 	}
+	/* key lock and unlock prevents another thread from entering */
+	private final ReentrantLock key1 = new ReentrantLock();
+	private final ReentrantLock key2 = new ReentrantLock();
+}
+class AccessThread extends Thread{
+	IHaveTwoNum twoNumInst;
+	public AccessThread(IHaveTwoNum inst){
+		twoNumInst = inst;
+	}
+	public void run(){
+		twoNumInst.addOneNum1();
+		twoNumInst.addTwoNum1();
+		twoNumInst.addOneNum2();
+		twoNumInst.addTwoNum2();
+	}
+}
+public class UseReentrantLock {
+	public static void main(String[] args) {
+		IHaveTwoNum twoNumInst = new IHaveTwoNum();
+		AccessThread t1 = new AccessThread(twoNumInst);
+		AccessThread t2 = new AccessThread(twoNumInst);
+		t1.start();
+		t2.start();
+		try{
+			t1.join();
+			t2.join();
+		} catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		twoNumInst.showAllNums();
+	}
 }
 ```
 
-
 ## await signal signalAll
-ReentrantLock inst calls newCondition() to return Condition inst, which has following method<br/>
-await() signal() signalAll() <br/>
-They are similar to wait() notify() notifyAll() except they are for ReentrantLock impl
+ReentrantLock instance calls newCondition() to return Condition instance, which has methods await() signal() signalAll() They are similar to wait() notify() notifyAll(). 
+Example: A thread gets string input, while another thread outputs the string. Also create a class where two threads exchange string.
 ```java
 import java.util.Scanner;
 import java.util.concurrent.locks.Condition;
@@ -3043,103 +3186,79 @@ import java.util.concurrent.locks.ReentrantLock;
 class StringComm{
 	String newString;
 	boolean isNewString = false;
-	
 	private final ReentrantLock entLock = new ReentrantLock();
 	private final Condition readCond = entLock.newCondition();
 	private final Condition writeCond = entLock.newCondition();
-	
-	public void setNewString(String newString){
+	public void setNewString(String newStr){
 		entLock.lock();
 		try{
 			if(isNewString == true)
 				writeCond.await();
-			
-			this.newString = newString;
+			newString = newStr;
 			isNewString = true;
 			readCond.signal();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
-		}
-		finally{
+		} finally{
 			entLock.unlock();
 		}
 	}
-	
 	public String getNewString(){
 		String retString = null;
-		
 		entLock.lock();
 		try{
 			if(isNewString == false)
 				readCond.await();
-			
 			retString = newString;
 			isNewString = false;
 			writeCond.signal();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
-		}
-		finally{
+		} finally{
 			entLock.unlock();
 		}
-		
 		return retString;
 	}
 }
-
 class StringReader extends Thread{
 	StringComm comm;
-	
 	public StringReader(StringComm comm){
 		this.comm = comm;
 	}
-	
 	public void run(){
 		for(int i =0;i<5; i++)
-			System.out.println("string" + (i+1) + " = " + comm.getNewString());
+			System.out.printf("Output > %s\n",comm.getNewString());
 	}
 }
-
 class StringWriter extends Thread{
 	StringComm comm;
-	
 	public StringWriter(StringComm comm){
 		this.comm = comm;
 	}
-	
 	public void run(){
 		Scanner sc = new Scanner(System.in);
-		String str;
-		
-		for(int i =0;i<5; i++)
-		{
-			str = sc.nextLine();
-			comm.setNewString(str);
+		String userInput = null;
+		for(int i =0;i<5; i++){
+			userInput = sc.nextLine();
+			comm.setNewString(userInput);
 		}
 	}
 }
-
 public class ConditionSyncStringReadWrite {
 	public static void main(String[] args) {
 		StringComm comm = new StringComm();
-		
-		StringWriter writer = new StringWriter(comm);
 		StringReader reader = new StringReader(comm);
-		
-		System.out.println("Input/Output Thread Start! Type 5 strings");
-		
+		StringWriter writer = new StringWriter(comm);
+		System.out.println("Input Five Strings...");
 		reader.start();
 		writer.start();
-		
 		try{
 			reader.join();
 			writer.join();
-		}
-		catch(InterruptedException e){
+		} catch(InterruptedException e){
 			e.printStackTrace();
 		}
+		System.out.println("Done.");
 	}
 }
 ```
@@ -3147,7 +3266,7 @@ public class ConditionSyncStringReadWrite {
 # File IO
 
 ## InputStream
-create Stream using InputStream inst<br/>
+Create Stream using InputStream instance
 ```java
 InputStream in = new FileInputStream("run.exe");
 
